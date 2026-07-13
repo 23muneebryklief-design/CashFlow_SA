@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "GRdAHBCSRlQ=",
+  "dgSpecHash": "EK0eGde81y0=",
   "success": true,
   "projectFilePath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\laeeq\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.9\\microsoft.aspnetcore.openapi.10.0.9.nupkg.sha512",
+    "C:\\Users\\laeeq\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.9\\microsoft.entityframeworkcore.10.0.9.nupkg.sha512",
+    "C:\\Users\\laeeq\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.9\\microsoft.entityframeworkcore.abstractions.10.0.9.nupkg.sha512",
+    "C:\\Users\\laeeq\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.9\\microsoft.entityframeworkcore.analyzers.10.0.9.nupkg.sha512",
     "C:\\Users\\laeeq\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
   ],
   "logs": [

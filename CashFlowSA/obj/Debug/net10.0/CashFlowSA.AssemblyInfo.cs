@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CashFlowSA")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c20101dd0d1cfa50e5ca901f4132ee327618ac0c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a663758fe262fcb255919f44ab2da927624062cf")]
 [assembly: System.Reflection.AssemblyProductAttribute("CashFlowSA")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CashFlowSA")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

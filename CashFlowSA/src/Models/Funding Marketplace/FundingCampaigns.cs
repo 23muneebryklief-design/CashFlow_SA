@@ -1,0 +1,43 @@
+using CashFlowSA.Models.enums;
+
+namespace CashFlowSA.Models.FundingMarketplace
+{
+    public class FundingCampaign
+    {
+        public Guid CampaignId { get; set; }
+
+        public Guid FundingRequestId { get; set; }
+
+        public Guid InvoiceId { get; set; }
+
+        public Guid SMEId { get; set; }
+
+        public FundingModel FundingModel { get; set; }
+
+        public decimal TargetAmount { get; set; }
+
+        // Running total of committed investor funds; must never exceed TargetAmount,
+        // even under concurrent commitments (SRS 5.5 AC - needs row-locking/concurrency
+        // control at the repository/service layer, e.g. a concurrency token column).
+        public decimal FundedAmount { get; set; } = 0;
+
+        public int TenorDays { get; set; }
+
+        public CampaignStatus Status { get; set; } = CampaignStatus.Draft;
+
+        public DateTime? ListedAt { get; set; }
+
+        public DateTime? FundingDeadline { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        // EF Core concurrency token to prevent over-funding races on FundedAmount
+        [System.ComponentModel.DataAnnotations.Timestamp]
+        public byte[]? RowVersion { get; set; }
+    }
+}
+
+//Purpose:
+
+//The core funding lifecycle entity: Draft -> Listed -> Funding -> Funded -> Settled
+//(SRS 3.1 AC / section 4). Investments reference this, not the MarketplaceListing.

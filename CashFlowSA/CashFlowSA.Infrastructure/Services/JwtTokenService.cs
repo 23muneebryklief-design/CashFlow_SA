@@ -50,3 +50,8 @@ namespace CashFlowSA.Infrastructure.Services
         }
     }
 }
+
+// This service implements ITokenService by generating JWT access tokens and secure
+// refresh tokens. The access token contains the user's identity and role as claims,
+// while the refresh token is a cryptographically secure random string used to issue
+// a new access token when the current one expires.

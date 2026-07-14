@@ -1,7 +1,7 @@
-using CashFlowSA.Models.enums;
-namespace CashFlowSA.Models.UserAccess
+using CashFlowSA.Domain.Models.Enums;
+namespace CashFlowSA.Domain.Models
 {
-    public class User
+    public class User : BaseEntity
     {
         public Guid UserId { get; set; }
         public string FirstName { get; set; }=string.Empty;
@@ -13,6 +13,12 @@ namespace CashFlowSA.Models.UserAccess
         public UsersRoles Role { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? LastLogin { get; set; }
+        
+
+        public ICollection<UserSession> UserSessions { get; set; }
+        = new List<UserSession>();
+        public ICollection<SME> SMEs { get; set; }
+        = new List<SME>();
     }
 }
 

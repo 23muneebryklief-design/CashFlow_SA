@@ -1,7 +1,7 @@
-using CashFlowSA.Models.enums;
-namespace CashFlowSA.Models.SmeManagement
+using CashFlowSA.Domain.Models.Enums;
+namespace CashFlowSA.Domain.Models
 {
-    public class SME
+    public class SME : BaseEntity
     {
         public Guid SMEId { get; set; }
         public Guid UserId { get; set; }
@@ -14,6 +14,10 @@ namespace CashFlowSA.Models.SmeManagement
         public IndustryType Industry { get; set; } = IndustryType.Other;
         public string Address { get; set; }= string.Empty;
         public string TaxNumber { get; set; } = string.Empty;
+
+        public User User { get; set; } = null!;
+        public ICollection<KYCApplication> KYCApplications { get; set; }
+        = new List<KYCApplication>();
     }
 }
 

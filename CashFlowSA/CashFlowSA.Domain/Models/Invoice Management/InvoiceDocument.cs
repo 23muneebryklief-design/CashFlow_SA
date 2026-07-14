@@ -1,8 +1,9 @@
-using CashFlowSA.Models.enums;
+using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Models.InvoiceManagement
+namespace CashFlowSA.Domain.Models
+
 {
-    public class InvoiceDocument
+    public class InvoiceDocument : BaseEntity
     {
         public Guid InvoiceDocumentId { get; set; }
 

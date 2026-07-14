@@ -1,8 +1,8 @@
-using CashFlowSA.Models.enums;
+using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Models.FundingMarketplace
+namespace CashFlowSA.Domain.Models
 {
-    public class FundingCampaign
+    public class FundingCampaign : BaseEntity
     {
         public Guid CampaignId { get; set; }
 

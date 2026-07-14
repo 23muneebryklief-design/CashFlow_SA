@@ -1,4 +1,4 @@
-namespace CashFlowSA.Models.enums
+namespace CashFlowSA.Domain.Models.Enums
 {
     // Matches SRS 5.3: Draft, Submitted, Under Review, Approved, Rejected, Listed
     public enum InvoiceStatus

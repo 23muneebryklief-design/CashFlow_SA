@@ -1,6 +1,6 @@
-namespace CashFlowSA.Models.InvestmentManagement
+namespace CashFlowSA.Domain.Models
 {
-    public class InvestorPortfolio
+    public class InvestorPortfolio : BaseEntity
     {
         public Guid PortfolioId { get; set; }
 

@@ -1,4 +1,4 @@
-namespace CashFlowSA.Models.enums
+namespace CashFlowSA.Domain.Models.Enums
 {
     // SRS 3.3 / 3.1: a funding request must be analyst-approved before it becomes a listing
     public enum FundingRequestStatus

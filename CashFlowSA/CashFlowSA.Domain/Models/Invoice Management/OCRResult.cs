@@ -1,6 +1,6 @@
-namespace CashFlowSA.Models.InvoiceManagement
+namespace CashFlowSA.Domain.Models
 {
-    public class OCRResult
+    public class OCRResult : BaseEntity
     {
         public Guid OCRResultId { get; set; }
 

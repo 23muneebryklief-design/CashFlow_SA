@@ -1,4 +1,4 @@
-namespace CashFlowSA.Models.enums
+namespace CashFlowSA.Domain.Models.Enums
 {
     // SRS 5.11: rules-based engine produces a numeric score AND a letter grade
     public enum RiskGrade

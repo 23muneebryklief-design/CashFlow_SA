@@ -1,8 +1,8 @@
-using CashFlowSA.Models.enums;
+using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Models.InvestorManagement
+namespace CashFlowSA.Domain.Models
 {
-    public class Investor
+    public class Investor : BaseEntity
     {
         public Guid InvestorId { get; set; }
 

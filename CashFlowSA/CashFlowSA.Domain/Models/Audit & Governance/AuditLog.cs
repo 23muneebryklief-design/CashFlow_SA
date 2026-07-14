@@ -1,8 +1,8 @@
-using CashFlowSA.Models.enums;
+using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Models.AuditGovernance
+namespace CashFlowSA.Domain.Models
 {
-    public class AuditLog
+    public class AuditLog : BaseEntity
     {
         public Guid AuditLogId { get; set; }
 

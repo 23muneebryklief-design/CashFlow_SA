@@ -1,6 +1,6 @@
-namespace CashFlowSA.Models.RiskAssessment
+namespace CashFlowSA.Domain.Models
 {
-    public class AIExplanation
+    public class AIExplanation : BaseEntity
     {
         public Guid AIExplanationId { get; set; }
 

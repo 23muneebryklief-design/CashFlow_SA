@@ -1,8 +1,8 @@
-using CashFlowSA.Models.enums;
+using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Models.DocumentManagement
+namespace CashFlowSA.Domain.Models
 {
-    public class Notification
+    public class Notification : BaseEntity
     {
         public Guid NotificationId { get; set; }
 

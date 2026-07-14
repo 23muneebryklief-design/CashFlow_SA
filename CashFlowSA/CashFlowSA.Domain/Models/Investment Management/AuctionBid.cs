@@ -1,8 +1,8 @@
-using CashFlowSA.Models.enums;
+using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Models.InvestmentManagement
+namespace CashFlowSA.Domain.Models
 {
-    public class AuctionBid
+    public class AuctionBid : BaseEntity
     {
         public Guid BidId { get; set; }
 

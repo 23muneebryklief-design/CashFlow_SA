@@ -1,8 +1,8 @@
-using CashFlowSA.Models.enums;
+using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Models.RiskAssessment
+namespace CashFlowSA.Domain.Models
 {
-    public class RiskScoreHistory
+    public class RiskScoreHistory : BaseEntity
     {
         public Guid RiskScoreHistoryId { get; set; }
 

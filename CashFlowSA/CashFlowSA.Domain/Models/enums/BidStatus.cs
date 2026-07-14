@@ -1,4 +1,4 @@
-namespace CashFlowSA.Models.enums
+namespace CashFlowSA.Domain.Models.Enums
 {
     // SRS 5.5 Auction Funding: only the highest valid bid at close wins; late bids are rejected
     public enum BidStatus

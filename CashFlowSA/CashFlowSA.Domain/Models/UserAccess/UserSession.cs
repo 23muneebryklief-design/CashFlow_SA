@@ -1,6 +1,6 @@
-namespace CashFlowSA.Models.UserAccess
+namespace CashFlowSA.Domain.Models
 {
-    public class UserSession
+    public class UserSession : BaseEntity
     {
         public Guid SessionId { get; set; }
         public Guid UserId { get; set; }
@@ -10,6 +10,7 @@ namespace CashFlowSA.Models.UserAccess
         public string IPAddress { get; set; } = string.Empty;
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiry { get; set; }
+        public User User { get; set; } = null!;    
     }
 }
 

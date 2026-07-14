@@ -1,6 +1,6 @@
-namespace CashFlowSA.Models.WalletFinancialSimulation
+namespace CashFlowSA.Domain.Models
 {
-    public class ReturnDistribution
+    public class ReturnDistribution : BaseEntity
     {
         public Guid ReturnDistributionId { get; set; }
 

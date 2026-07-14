@@ -1,6 +1,6 @@
-namespace CashFlowSA.Models.WalletFinancialSimulation
+namespace CashFlowSA.Domain.Models
 {
-    public class Wallet
+    public class Wallet : BaseEntity
     {
         public Guid WalletId { get; set; }
 

@@ -1,8 +1,8 @@
-using CashFlowSA.Models.enums;
+using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Models.WalletFinancialSimulation
+namespace CashFlowSA.Domain.Models
 {
-    public class WalletTransaction
+    public class WalletTransaction : BaseEntity
     {
         public Guid TransactionId { get; set; }
 

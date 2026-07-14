@@ -1,4 +1,4 @@
-namespace CashFlowSA.Models.enums
+namespace CashFlowSA.Domain.Models.Enums
 {
     public enum InvestmentStatus
     {

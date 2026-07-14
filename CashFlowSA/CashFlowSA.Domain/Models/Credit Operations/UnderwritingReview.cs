@@ -1,8 +1,8 @@
-using CashFlowSA.Models.enums;
+using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Models.CreditOperations
+namespace CashFlowSA.Domain.Models
 {
-    public class UnderwritingReview
+    public class UnderwritingReview : BaseEntity
     {
         public Guid ReviewId { get; set; }
 

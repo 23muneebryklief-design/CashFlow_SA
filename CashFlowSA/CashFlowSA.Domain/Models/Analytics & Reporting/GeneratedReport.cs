@@ -1,7 +1,7 @@
-using CashFlowSA.Models.enums;
-namespace CashFlowSA.Models.AnalyticsReporting
+using CashFlowSA.Domain.Models.Enums;
+namespace CashFlowSA.Domain.Models
 {
-    public class GeneratedReport
+    public class GeneratedReport : BaseEntity
     {
         public Guid ReportId { get; set; }
 

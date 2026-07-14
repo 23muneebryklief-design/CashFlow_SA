@@ -1,5 +1,5 @@
-using CashFlowSA.Models.enums;
-namespace CashFlowSA.Models.KYCCompliance
+using CashFlowSA.Domain.Models.Enums;
+namespace CashFlowSA.Domain.Models
 {
     public class KYCDocuments
     {

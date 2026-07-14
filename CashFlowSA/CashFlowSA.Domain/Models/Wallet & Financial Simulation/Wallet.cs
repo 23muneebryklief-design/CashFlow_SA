@@ -9,10 +9,6 @@ namespace CashFlowSA.Domain.Models
         public decimal Balance { get; set; } = 0;
 
         public string Currency { get; set; } = "ZAR";
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime? UpdatedAt { get; set; }
     }
 }
 

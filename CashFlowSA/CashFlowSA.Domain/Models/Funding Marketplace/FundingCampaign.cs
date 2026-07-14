@@ -29,8 +29,6 @@ namespace CashFlowSA.Domain.Models
 
         public DateTime? FundingDeadline { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
         // EF Core concurrency token to prevent over-funding races on FundedAmount
         [System.ComponentModel.DataAnnotations.Timestamp]
         public byte[]? RowVersion { get; set; }

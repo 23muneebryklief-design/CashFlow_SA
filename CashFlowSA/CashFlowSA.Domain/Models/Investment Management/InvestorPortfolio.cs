@@ -13,8 +13,6 @@ namespace CashFlowSA.Domain.Models
         public decimal TotalReturned { get; set; } = 0;
 
         public int ActiveInvestmentsCount { get; set; } = 0;
-
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }
 

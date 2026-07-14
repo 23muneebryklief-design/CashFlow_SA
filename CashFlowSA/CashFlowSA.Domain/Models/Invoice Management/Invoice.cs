@@ -24,10 +24,6 @@ namespace CashFlowSA.Domain.Models
 
         // True once OCR + risk scoring + AI explanation have all completed for this invoice
         public bool ProcessingComplete { get; set; } = false;
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime? UpdatedAt { get; set; }
     }
 }
 

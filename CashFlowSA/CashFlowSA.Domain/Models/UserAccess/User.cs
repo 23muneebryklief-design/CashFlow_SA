@@ -11,7 +11,6 @@ namespace CashFlowSA.Domain.Models
         public string PasswordHash { get; set; } = string.Empty;       
         public AccountStatus Status { get; set; }= AccountStatus.PendingVerification;
         public UsersRoles Role { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? LastLogin { get; set; }
         
 

@@ -11,10 +11,6 @@ namespace CashFlowSA.Domain.Models
         public string Address { get; set; } = string.Empty;
 
         public RiskAppetite RiskAppetite { get; set; } = RiskAppetite.Low;
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime? UpdatedAt { get; set; }
     }
 }
 

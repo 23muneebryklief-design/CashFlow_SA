@@ -32,11 +32,7 @@
           "net10.0": {
             "framework": "net10.0",
             "targetAlias": "net10.0",
-            "projectReferences": {
-              "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj": {
-                "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {
@@ -56,6 +52,10 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[12.0.1, )"

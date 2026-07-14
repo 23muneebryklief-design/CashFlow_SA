@@ -8,8 +8,8 @@
     ".NETCoreApp,Version=v10.0": {
       "CashFlowSA.Application/1.0.0": {
         "dependencies": {
+          "AutoMapper": "13.0.1",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.1",
-          "CashFlowSA.Domain": "1.0.0",
           "FluentValidation": "12.1.1",
           "MediatR": "14.2.0",
           "Microsoft.EntityFrameworkCore": "10.0.9"
@@ -18,17 +18,20 @@
           "CashFlowSA.Application.dll": {}
         }
       },
-      "AutoMapper/12.0.1": {
+      "AutoMapper/13.0.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Options": "10.0.9"
+        },
         "runtime": {
-          "lib/netstandard2.1/AutoMapper.dll": {
-            "assemblyVersion": "12.0.0.0",
-            "fileVersion": "12.0.1.0"
+          "lib/net6.0/AutoMapper.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.0"
           }
         }
       },
       "AutoMapper.Extensions.Microsoft.DependencyInjection/12.0.1": {
         "dependencies": {
-          "AutoMapper": "12.0.1",
+          "AutoMapper": "13.0.1",
           "Microsoft.Extensions.Options": "10.0.9"
         },
         "runtime": {
@@ -219,14 +222,6 @@
             "fileVersion": "8.14.0.60815"
           }
         }
-      },
-      "CashFlowSA.Domain/1.0.0": {
-        "runtime": {
-          "CashFlowSA.Domain.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
       }
     }
   },
@@ -236,12 +231,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AutoMapper/12.0.1": {
+    "AutoMapper/13.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-hvV62vl6Hp/WfQ24yzo3Co9+OPl8wH8hApwVtgWpiAynVJkUcs7xvehnSftawL8Pe8FrPffBRM3hwzLQqWDNjA==",
-      "path": "automapper/12.0.1",
-      "hashPath": "automapper.12.0.1.nupkg.sha512"
+      "sha512": "sha512-/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
+      "path": "automapper/13.0.1",
+      "hashPath": "automapper.13.0.1.nupkg.sha512"
     },
     "AutoMapper.Extensions.Microsoft.DependencyInjection/12.0.1": {
       "type": "package",
@@ -368,11 +363,6 @@
       "sha512": "sha512-lKIZiBiGd36k02TCdMHp1KlNWisyIvQxcYJvIkz7P4gSQ9zi8dgh6S5Grj8NNG7HWYIPfQymGyoZ6JB5d1Lo1g==",
       "path": "microsoft.identitymodel.tokens/8.14.0",
       "hashPath": "microsoft.identitymodel.tokens.8.14.0.nupkg.sha512"
-    },
-    "CashFlowSA.Domain/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }

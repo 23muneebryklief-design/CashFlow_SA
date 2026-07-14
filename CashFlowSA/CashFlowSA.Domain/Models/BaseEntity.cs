@@ -11,3 +11,7 @@ namespace CashFlowSA.Domain.Models
         public Guid? UpdatedByUserId { get; set; }
     }
 }
+// Provides common audit properties that are shared by all entities.
+// Classes that inherit from BaseEntity automatically include information
+// about when a record was created or updated and which user performed
+// those actions, promoting consistency and reducing duplicate code.

@@ -7,7 +7,6 @@ C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debu
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\CashFlowSA.API.dll
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\CashFlowSA.API.pdb
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\AutoMapper.dll
-C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\Azure.Core.dll
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\Azure.Identity.dll
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\FluentValidation.dll
@@ -168,3 +167,4 @@ C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\obj\Debu
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\obj\Debug\net10.0\CashFlowSA.API.pdb
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\obj\Debug\net10.0\CashFlowSA.API.genruntimeconfig.cache
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\obj\Debug\net10.0\ref\CashFlowSA.API.dll
+C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

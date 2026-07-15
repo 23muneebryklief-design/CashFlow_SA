@@ -8,7 +8,8 @@ namespace CashFlowSA.Application.Common.Interfaces
         DbSet<User> Users { get; }
         DbSet<SME> SMEs { get; }
         DbSet<Investor> Investors { get; }
-
+        DbSet<UserSession>UserSessions{get;}
+        
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

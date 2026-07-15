@@ -1,10 +1,11 @@
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
+using CashFlowSA.Application.Common.Interfaces;
 
 namespace CashFlowSA.Infrastructure.Data
 {
-    public class CashFlowDbContext : DbContext 
+    public class CashFlowDbContext : DbContext, IApplicationDbContext
     {
         public CashFlowDbContext(DbContextOptions<CashFlowDbContext> options)
             : base(options)

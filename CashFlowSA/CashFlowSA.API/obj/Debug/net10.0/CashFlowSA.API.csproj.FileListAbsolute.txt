@@ -168,3 +168,4 @@ C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\obj\Debu
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\obj\Debug\net10.0\CashFlowSA.API.genruntimeconfig.cache
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\obj\Debug\net10.0\ref\CashFlowSA.API.dll
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.API\bin\Debug\net10.0\FluentValidation.DependencyInjectionExtensions.dll

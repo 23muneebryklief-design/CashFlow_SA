@@ -1,4 +1,5 @@
 using CashFlowSA.Application.Common.Interfaces;
+using CashFlowSA.Application.Common.Exceptions;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using MediatR;
@@ -25,17 +26,17 @@ namespace CashFlowSA.Application.Features.Auth.Commands.RegisterSme
             var emailInUse = await _context.Users
                 .AnyAsync(u => u.Email == request.Email, cancellationToken);
             if (emailInUse)
-                throw new InvalidOperationException("A user with this email already exists.");
+                throw new ConflictException("A user with this email already exists.");
 
             var companyEmailInUse = await _context.SMEs
                 .AnyAsync(s => s.CompanyEmail == request.CompanyEmail, cancellationToken);
             if (companyEmailInUse)
-                throw new InvalidOperationException("A company with this email is already registered.");
+                throw new ConflictException("A company with this email is already registered.");
 
             var registrationNumberInUse = await _context.SMEs
                 .AnyAsync(s => s.RegistrationNumber == request.RegistrationNumber, cancellationToken);
             if (registrationNumberInUse)
-                throw new InvalidOperationException("A company with this registration number is already registered.");
+                throw new ConflictException("A company with this registration number is already registered.");
 
             // Create the User first — SME depends on its UserId
             var user = new User

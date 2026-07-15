@@ -1,4 +1,5 @@
 using CashFlowSA.Application.Common.Interfaces;
+using CashFlowSA.Application.Common.Exceptions;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using MediatR;
@@ -20,13 +21,13 @@ namespace CashFlowSA.Application.Features.Auth.Commands.RegisterInvestor
 
         public async Task<Guid> Handle(RegisterInvestorCommand request, CancellationToken cancellationToken)
         {
-            //Uniqueness Checks 
+            // Uniqueness Checks
             var emailInUse = await _context.Users
                 .AnyAsync(u => u.Email == request.Email, cancellationToken);
             if (emailInUse)
-                throw new InvalidOperationException("A user with this email already exists.");
+                throw new ConflictException("A user with this email already exists.");
 
-            //Create the user first -Investor depend in its user id 
+            // Create the user first - Investor depends on its user id
             var user = new User
             {
                 UserId = Guid.NewGuid(),
@@ -41,7 +42,7 @@ namespace CashFlowSA.Application.Features.Auth.Commands.RegisterInvestor
 
             _context.Users.Add(user);
 
-            //reate the Investor profile Linked to the new user
+            // Create the Investor profile linked to the new user
             var investor = new Investor
             {
                 InvestorId = Guid.NewGuid(),
@@ -54,6 +55,5 @@ namespace CashFlowSA.Application.Features.Auth.Commands.RegisterInvestor
             await _context.SaveChangesAsync(cancellationToken);
             return investor.InvestorId;
         }
-
     }
 }

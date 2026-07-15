@@ -1,4 +1,5 @@
 using CashFlowSA.Application.Common.Interfaces;
+using CashFlowSA.Application.Common.Exceptions;
 using CashFlowSA.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -13,17 +14,17 @@ namespace CashFlowSA.Application.Features.Auth.Commands.LoginUser
         private readonly IApplicationDbContext _context;
         private readonly ITokenService _tokenService;
         private readonly PasswordHasher<User> _passwordHasher;
-        private readonly JwtSettings _jwtSettings;              // ← add this field
+        private readonly JwtSettings _jwtSettings;
 
         public LoginUserCommandHandler(
             IApplicationDbContext context,
             ITokenService tokenService,
-            IOptions<JwtSettings> jwtSettings)                   // ← add this parameter
+            IOptions<JwtSettings> jwtSettings)
         {
             _context = context;
             _tokenService = tokenService;
             _passwordHasher = new PasswordHasher<User>();
-            _jwtSettings = jwtSettings.Value;                    // ← add this line
+            _jwtSettings = jwtSettings.Value;
         }
 
         public async Task<LoginUserResult> Handle(LoginUserCommand request, CancellationToken cancellationToken)
@@ -32,13 +33,13 @@ namespace CashFlowSA.Application.Features.Auth.Commands.LoginUser
                 .FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
 
             if (user == null)
-                throw new InvalidOperationException("Invalid email or password.");
+                throw new AuthenticationFailedException("Invalid email or password.");
 
             var verificationResult = _passwordHasher.VerifyHashedPassword(
                 user, user.PasswordHash, request.Password);
 
             if (verificationResult == PasswordVerificationResult.Failed)
-                throw new InvalidOperationException("Invalid email or password.");
+                throw new AuthenticationFailedException("Invalid email or password.");
 
             var accessToken = _tokenService.GenerateAccessToken(user);
             var refreshToken = _tokenService.GenerateRefreshToken();

@@ -1,7 +1,8 @@
-using CashFlowSA.Application.Features.Auth.Commands.RegisterSme;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Auth.Commands.LoginUser;
+using CashFlowSA.Application.Features.Auth.Commands.RegisterInvestor;
+using CashFlowSA.Application.Features.Auth.Commands.RegisterSme;
 
 namespace CashFlowSA.API.Controllers
 {
@@ -31,6 +32,15 @@ namespace CashFlowSA.API.Controllers
         {
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(result);
+        }
+
+        [HttpPost ("register/investor")]
+        public async Task <IActionResult> RegisterInvestor(
+            [FromBody] RegisterInvestorCommand command,
+            CancellationToken cancellationToken)
+        {
+            var investorId = await _mediator.Send(command, cancellationToken);
+            return Ok(new {InvestorId =investorId});
         }
     }
 }

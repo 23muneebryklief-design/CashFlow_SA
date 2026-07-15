@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using FluentValidation;
 using CashFlowSA.Application.Common.Behaviors;
 using MediatR;
+using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ---- Configuration binding ----
@@ -73,8 +75,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
-
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

@@ -1,10 +1,10 @@
-using CashFlowSA.Domain.Models.InvestorManagement;
+using CashFlowSA.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CashFlowSA.Infrastructure.Data.Configurations
 {
- public class IndividualInvestorProfileConfiguration : IEntityTypeConfiguration<IndividualInvestorProfile>
+    public class IndividualInvestorProfileConfiguration : IEntityTypeConfiguration<IndividualInvestorProfile>
     {
         public void Configure(EntityTypeBuilder<IndividualInvestorProfile> builder)
         {
@@ -12,12 +12,10 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
 
             builder.Property(p => p.IdNumber)
                 .HasMaxLength(13)
-                .HasMinLength(13)
                 .IsRequired();
 
             builder.Property(p => p.TaxNumber)
                 .HasMaxLength(10)
-                .HasMinLength(10)
                 .IsRequired();
 
             builder.Property(p => p.SalaryRange)
@@ -25,7 +23,8 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
                 .HasMaxLength(30);
         }
     }
- public class CorporateInvestorProfileConfiguration : IEntityTypeConfiguration<CorporateInvestorProfile>
+
+    public class CorporateInvestorProfileConfiguration : IEntityTypeConfiguration<CorporateInvestorProfile>
     {
         public void Configure(EntityTypeBuilder<CorporateInvestorProfile> builder)
         {
@@ -37,12 +36,10 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
 
             builder.Property(p => p.CompanyRegistrationNumber)
                 .HasMaxLength(12)
-                .HasMinLength(12)
                 .IsRequired();
 
             builder.Property(p => p.TaxNumber)
                 .HasMaxLength(10)
-                .HasMinLength(10)
                 .IsRequired();
 
             builder.Property(p => p.AuthorizedRepresentativeName)
@@ -51,7 +48,6 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
 
             builder.Property(p => p.AuthorizedRepresentativeIdNumber)
                 .HasMaxLength(10)
-                .HasMinLength(10)
                 .IsRequired();
 
             builder.Property(p => p.UltimateBeneficialOwnerName)
@@ -59,7 +55,8 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
                 .IsRequired();
         }
     }
- public class InstitutionalInvestorProfileConfiguration : IEntityTypeConfiguration<InstitutionalInvestorProfile>
+
+    public class InstitutionalInvestorProfileConfiguration : IEntityTypeConfiguration<InstitutionalInvestorProfile>
     {
         public void Configure(EntityTypeBuilder<InstitutionalInvestorProfile> builder)
         {
@@ -71,12 +68,10 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
 
             builder.Property(p => p.RegistrationNumber)
                 .HasMaxLength(13)
-                .HasMinLength(13)
                 .IsRequired();
 
             builder.Property(p => p.FSCALicenseNumber)
                 .HasMaxLength(5)
-                .HasMinLength(4)
                 .IsRequired();
 
             builder.Property(p => p.AuthorizedSignatoryName)
@@ -85,8 +80,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
 
             builder.Property(p => p.AuthorizedSignatoryIdNumber)
                 .HasMaxLength(10)
-                .HasMinLength(10)
                 .IsRequired();
         }
-    }    
+    }
 }

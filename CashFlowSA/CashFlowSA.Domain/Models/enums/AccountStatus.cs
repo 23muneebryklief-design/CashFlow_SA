@@ -1,9 +1,10 @@
-namespace CashFlowSA.Domain.Models.Enums;
-
-public enum AccountStatus
+namespace CashFlowSA.Domain.Models.Enums
 {
-    Active=0,
-    Suspended=1,
-    PendingVerification=2,
-    Deactivated=3
+    public enum AccountStatus
+    {
+        Active=0,
+        Suspended=1,
+        PendingVerification=2,
+        Deactivated=3
+    }
 }

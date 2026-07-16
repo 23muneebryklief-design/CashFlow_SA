@@ -62,9 +62,9 @@ namespace CashFlowSA.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new UserSessionConfiguration());
             modelBuilder.ApplyConfiguration(new SMEConfiguration());
             modelBuilder.ApplyConfiguration(new InvestorConfiguration());
-            modelBuilder.ApplyConfiguration(new IndividualInvestorProfilesConfiguration());
-            modelBuilder.ApplyConfiguration(new InstitutionalInvestorProfilesConfiguration());
-            modelBuilder.ApplyConfiguration(new CorporateInvestorProfilesConfiguration());
+            modelBuilder.ApplyConfiguration(new IndividualInvestorProfileConfiguration());
+            modelBuilder.ApplyConfiguration(new InstitutionalInvestorProfileConfiguration());
+            modelBuilder.ApplyConfiguration(new CorporateInvestorProfileConfiguration());
             modelBuilder.ApplyConfiguration(new InvestorPortfolioConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceDocumentConfiguration());

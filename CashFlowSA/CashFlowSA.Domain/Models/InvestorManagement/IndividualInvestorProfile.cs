@@ -1,4 +1,6 @@
-namespace CashFlowSA.Domain.Models.InvestorManagement
+using CashFlowSA.Domain.Models.Enums;
+
+namespace CashFlowSA.Domain.Models
 {
     public class IndividualInvestorProfile : BaseEntity
     {

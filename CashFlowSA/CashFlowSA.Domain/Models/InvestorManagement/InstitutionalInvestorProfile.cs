@@ -1,6 +1,6 @@
 using CashFlowSA.Domain.Models;
 
-namespace CashFlowSA.Domain.Models.InvestorManagement
+namespace CashFlowSA.Domain.Models
 {
     public class InstitutionalInvestorProfile : BaseEntity
     {

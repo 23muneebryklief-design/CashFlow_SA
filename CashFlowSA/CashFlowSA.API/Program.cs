@@ -1,11 +1,11 @@
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Application.Common.Settings;
 using CashFlowSA.Infrastructure.Data;
 using CashFlowSA.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using FluentValidation;
 using CashFlowSA.Application.Common.Behaviors;
 using MediatR;
@@ -77,6 +77,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+app.UseMiddleware<CashFlowSA.API.Middleware.ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

@@ -11,6 +11,7 @@ namespace CashFlowSA.Domain.Models
         public string Address { get; set; } = string.Empty;
 
         public RiskAppetite RiskAppetite { get; set; } = RiskAppetite.Low;
+        public InvestorType? InvestorType{get;set;}
     }
 }
 

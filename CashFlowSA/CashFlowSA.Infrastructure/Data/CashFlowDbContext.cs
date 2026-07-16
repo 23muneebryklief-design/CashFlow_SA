@@ -17,6 +17,11 @@ namespace CashFlowSA.Infrastructure.Data
         public DbSet<SME> SMEs => Set<SME>();
         public DbSet<Investor> Investors => Set<Investor>();
         public DbSet<InvestorPortfolio> InvestorPortfolios => Set<InvestorPortfolio>();
+        
+        public DbSet<IndividualInvestorProfile> IndividualInvestorProfiles { get; set; }
+        public DbSet<InstitutionalInvestorProfile> InstitutionalInvestorProfiles { get; set; }
+        public DbSet<CorporateInvestorProfile> CorporateInvestorProfiles { get; set; }
+
 
         public DbSet<Invoice> Invoices => Set<Invoice>();
         public DbSet<InvoiceDocument> InvoiceDocuments => Set<InvoiceDocument>();
@@ -57,6 +62,9 @@ namespace CashFlowSA.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new UserSessionConfiguration());
             modelBuilder.ApplyConfiguration(new SMEConfiguration());
             modelBuilder.ApplyConfiguration(new InvestorConfiguration());
+            modelBuilder.ApplyConfiguration(new IndividualInvestorProfilesConfiguration());
+            modelBuilder.ApplyConfiguration(new InstitutionalInvestorProfilesConfiguration());
+            modelBuilder.ApplyConfiguration(new CorporateInvestorProfilesConfiguration());
             modelBuilder.ApplyConfiguration(new InvestorPortfolioConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceDocumentConfiguration());

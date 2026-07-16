@@ -8,6 +8,6 @@ namespace CashFlowSA.Domain.Models.InvestorManagement
         public string IdNumber { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
         public string TaxNumber { get; set; } = string.Empty;
-        public  SourceOfFunds SourceOfFunds { get; set; }
+        public SalaryRange SalaryRange { get; set; }
     }
 }

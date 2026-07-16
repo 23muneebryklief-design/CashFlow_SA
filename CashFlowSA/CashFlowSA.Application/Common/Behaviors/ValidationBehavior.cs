@@ -12,7 +12,6 @@ namespace CashFlowSA.Application.Common.Behaviors
         {
             _validators = validators;
         }
-
         public async Task<TResponse> Handle(
             TRequest request,
             RequestHandlerDelegate<TResponse> next,

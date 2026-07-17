@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using CashFlowSA.Application.Common.Settings;
 
-namespace CashFlowSA.Application.Features.Auth.Commands.LoginUser
+namespace CashFlowSA.Application.Features.Auth.LoginUser
 {
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginUserResult>
     {

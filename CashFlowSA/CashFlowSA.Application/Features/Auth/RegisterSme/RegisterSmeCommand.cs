@@ -1,7 +1,7 @@
 using MediatR;
 using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Application.Features.Auth.Commands.RegisterSme
+namespace CashFlowSA.Application.Features.Auth.RegisterSme
 {
     public class RegisterSmeCommand : IRequest<Guid>
     {

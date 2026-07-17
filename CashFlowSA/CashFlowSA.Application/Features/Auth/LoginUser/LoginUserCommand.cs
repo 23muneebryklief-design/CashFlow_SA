@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace CashFlowSA.Application.Features.Auth.Commands.LoginUser
+namespace CashFlowSA.Application.Features.Auth.LoginUser
 {
     public class LoginUserCommand : IRequest<LoginUserResult>
     {

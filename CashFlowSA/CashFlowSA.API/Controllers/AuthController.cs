@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using CashFlowSA.Application.Features.Auth.Commands.LoginUser;
-using CashFlowSA.Application.Features.Auth.Commands.RegisterInvestor;
-using CashFlowSA.Application.Features.Auth.Commands.RegisterSme;
+using CashFlowSA.Application.Features.Auth.LoginUser;
+using CashFlowSA.Application.Features.Auth.RegisterInvestor;
+using CashFlowSA.Application.Features.Auth.RegisterSme;
 
 namespace CashFlowSA.API.Controllers
 {

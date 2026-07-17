@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CashFlowSA.Application.Features.Auth.Commands.RegisterSme
+namespace CashFlowSA.Application.Features.Auth.RegisterSme
 {
     public class RegisterSmeCommandHandler : IRequestHandler<RegisterSmeCommand, Guid>
     {

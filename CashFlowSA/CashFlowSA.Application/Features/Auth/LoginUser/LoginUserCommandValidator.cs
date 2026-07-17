@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace CashFlowSA.Application.Features.Auth.Commands.LoginUser
+namespace CashFlowSA.Application.Features.Auth.LoginUser
 {
     public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
     {

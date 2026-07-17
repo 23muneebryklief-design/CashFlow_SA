@@ -1,7 +1,7 @@
 using MediatR;
 using CashFlowSA.Domain.Models.Enums;
 
-namespace CashFlowSA.Application.Features.Auth.Commands.RegisterInvestor
+namespace CashFlowSA.Application.Features.Auth.RegisterInvestor
 {
     public class RegisterInvestorCommand : IRequest <Guid>
     {

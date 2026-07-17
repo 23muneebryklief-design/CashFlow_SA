@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CashFlowSA.Application.Features.Auth.Commands.RegisterInvestor
+namespace CashFlowSA.Application.Features.Auth.RegisterInvestor
 {
     public class RegisterInvestorCommandHandler : IRequestHandler<RegisterInvestorCommand, Guid>
     {

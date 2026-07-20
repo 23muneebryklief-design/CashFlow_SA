@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Invoice.UploadInvoice;
-using CashFlowSA.Application.Features.Invoice;
+using CashFlowSA.Application.Features.Invoice.GetInvoice;
 
 namespace CashFlowSA.API.Controllers
 {
@@ -23,6 +23,16 @@ namespace CashFlowSA.API.Controllers
         {
             var invoiceId = await _mediator.Send(command, cancellationToken);
             return Ok(new { InvoiceId = invoiceId });
+        }
+
+        [HttpGet("{invoiceId}")]
+        public async Task<IActionResult> GetInvoice(
+            Guid invoiceId,
+            CancellationToken cancellationToken)
+        {
+            var query = new GetInvoiceQuery { InvoiceId = invoiceId };
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
     }
 }

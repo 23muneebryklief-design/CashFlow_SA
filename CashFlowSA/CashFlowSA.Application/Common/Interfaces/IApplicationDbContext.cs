@@ -12,6 +12,8 @@ namespace CashFlowSA.Application.Common.Interfaces
         DbSet<KYCApplication> KYCApplications { get; }
         DbSet<KYCDocuments> KYCDocuments { get; }
         
+        DbSet<Invoice> Invoices {get;}
+        DbSet<InvoiceDocument>InvoiceDocuments {get;}
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

@@ -36,6 +36,7 @@ namespace CashFlowSA.API.Middleware
                 ValidationException => (HttpStatusCode.BadRequest, "Validation failed"),
                 NotFoundException => (HttpStatusCode.NotFound, "Resource not found"),
                 ConflictException => (HttpStatusCode.Conflict, "Conflict"),
+                ForbiddenException => (HttpStatusCode.Forbidden, "Forbidden"),
                 AuthenticationFailedException => (HttpStatusCode.Unauthorized, "Authentication failed"),
                 _ => (HttpStatusCode.InternalServerError, "An unexpected error occurred")
             };

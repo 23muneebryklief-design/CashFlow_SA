@@ -10,8 +10,8 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         {
             builder.HasKey(r => r.FundingRequestId);
             builder.Property(r => r.RequestedAmount).HasPrecision(18, 2);
-            builder.Property(r => r.FundingModel).HasConversion<int>();
-            builder.Property(r => r.Status).HasConversion<int>();
+            builder.Property(r => r.FundingModel).HasConversion<string>().HasMaxLength(20);
+            builder.Property(r => r.Status).HasConversion<string>().HasMaxLength(20);
             builder.Property(r => r.SubmittedAt).HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasIndex(r => r.InvoiceId);
@@ -35,10 +35,10 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<FundingCampaign> builder)
         {
             builder.HasKey(c => c.CampaignId);
-            builder.Property(c => c.FundingModel).HasConversion<int>();
+            builder.Property(c => c.FundingModel).HasConversion<string>().HasMaxLength(20);
             builder.Property(c => c.TargetAmount).HasPrecision(18, 2);
             builder.Property(c => c.FundedAmount).HasPrecision(18, 2);
-            builder.Property(c => c.Status).HasConversion<int>();
+            builder.Property(c => c.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(c => c.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasIndex(c => c.FundingRequestId);
@@ -68,9 +68,9 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<MarketplaceListing> builder)
         {
             builder.HasKey(l => l.ListingId);
-            builder.Property(l => l.RiskGrade).HasConversion<int>();
+            builder.Property(l => l.RiskGrade).HasConversion<string>().HasMaxLength(5);
             builder.Property(l => l.RiskScore).HasPrecision(5, 2);
-            builder.Property(l => l.Industry).HasConversion<int>();
+            builder.Property(l => l.Industry).HasConversion<string>().HasMaxLength(30);
             builder.Property(l => l.PublishedAt).HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasIndex(l => l.CampaignId).IsUnique();
@@ -90,7 +90,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.HasKey(b => b.BidId);
             builder.Property(b => b.BidAmount).HasPrecision(18, 2);
             builder.Property(b => b.ProposedReturnRate).HasPrecision(5, 2);
-            builder.Property(b => b.Status).HasConversion<int>();
+            builder.Property(b => b.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(b => b.SubmittedAt).HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasIndex(b => b.CampaignId);
@@ -114,7 +114,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         {
             builder.HasKey(i => i.InvestmentId);
             builder.Property(i => i.Amount).HasPrecision(18, 2);
-            builder.Property(i => i.Status).HasConversion<int>();
+            builder.Property(i => i.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(i => i.ReturnAmount).HasPrecision(18, 2);
             builder.Property(i => i.InvestedAt).HasDefaultValueSql("GETUTCDATE()");
 

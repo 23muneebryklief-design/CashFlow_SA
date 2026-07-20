@@ -27,7 +27,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<WalletTransaction> builder)
         {
             builder.HasKey(t => t.TransactionId);
-            builder.Property(t => t.Type).HasConversion<int>();
+            builder.Property(t => t.Type).HasConversion<string>().HasMaxLength(15);
             builder.Property(t => t.Amount).HasPrecision(18, 2);
             builder.Property(t => t.ReferenceType).HasMaxLength(100);
             builder.Property(t => t.Description).HasMaxLength(500);
@@ -48,7 +48,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         {
             builder.HasKey(s => s.SettlementId);
             builder.Property(s => s.SettledAmount).HasPrecision(18, 2);
-            builder.Property(s => s.Status).HasConversion<int>();
+            builder.Property(s => s.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(s => s.PaymentProvider).HasMaxLength(100);
             builder.Property(s => s.ReferenceNumber).HasMaxLength(100);
             builder.Property(s => s.SettlementDate).HasDefaultValueSql("GETUTCDATE()");

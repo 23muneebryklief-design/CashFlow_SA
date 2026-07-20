@@ -9,7 +9,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<UnderwritingReview> builder)
         {
             builder.HasKey(r => r.ReviewId);
-            builder.Property(r => r.Decision).HasConversion<int>();
+            builder.Property(r => r.Decision).HasConversion<string>().HasMaxLength(35);
             builder.Property(r => r.Notes).HasMaxLength(2000);
             builder.Property(r => r.RiskJustification).HasMaxLength(4000);
             builder.Property(r => r.ReviewDate).HasDefaultValueSql("GETUTCDATE()");
@@ -30,7 +30,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         {
             builder.HasKey(r => r.RiskAssessmentId);
             builder.Property(r => r.RiskScore).HasPrecision(5, 2);
-            builder.Property(r => r.RiskGrade).HasConversion<int>();
+            builder.Property(r => r.RiskGrade).HasConversion<string>().HasMaxLength(5);
             builder.Property(r => r.ScoringFactors).HasMaxLength(4000);
             builder.Property(r => r.AssessedAt).HasDefaultValueSql("GETUTCDATE()");
 
@@ -68,9 +68,9 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         {
             builder.HasKey(h => h.RiskScoreHistoryId);
             builder.Property(h => h.PreviousScore).HasPrecision(5, 2);
-            builder.Property(h => h.PreviousGrade).HasConversion<int>();
+            builder.Property(h => h.PreviousGrade).HasConversion<string>().HasMaxLength(5);
             builder.Property(h => h.NewScore).HasPrecision(5, 2);
-            builder.Property(h => h.NewGrade).HasConversion<int>();
+            builder.Property(h => h.NewGrade).HasConversion<string>().HasMaxLength(5);
             builder.Property(h => h.Reason).HasMaxLength(4000);
             builder.Property(h => h.ChangedAt).HasDefaultValueSql("GETUTCDATE()");
 

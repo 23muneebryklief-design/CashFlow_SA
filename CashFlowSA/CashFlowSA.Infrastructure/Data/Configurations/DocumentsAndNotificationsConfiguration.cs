@@ -12,7 +12,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(d => d.FileName).IsRequired().HasMaxLength(255);
             builder.Property(d => d.FileType).HasMaxLength(50);
             builder.Property(d => d.FilePath).IsRequired().HasMaxLength(1000);
-            builder.Property(d => d.Status).HasConversion<int>();
+            builder.Property(d => d.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(d => d.UploadedAt).HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasIndex(d => d.UploadedByUserId);
@@ -29,8 +29,8 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Notification> builder)
         {
             builder.HasKey(n => n.NotificationId);
-            builder.Property(n => n.Event).HasConversion<int>();
-            builder.Property(n => n.Channel).HasConversion<int>();
+            builder.Property(n => n.Event).HasConversion<string>().HasMaxLength(40);
+            builder.Property(n => n.Channel).HasConversion<string>().HasMaxLength(15);
             builder.Property(n => n.Title).IsRequired().HasMaxLength(200);
             builder.Property(n => n.Message).HasMaxLength(4000);
             builder.Property(n => n.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
@@ -50,8 +50,8 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<NotificationHistory> builder)
         {
             builder.HasKey(h => h.HistoryId);
-            builder.Property(h => h.Channel).HasConversion<int>();
-            builder.Property(h => h.DeliveryStatus).HasConversion<int>();
+            builder.Property(h => h.Channel).HasConversion<string>().HasMaxLength(15);
+            builder.Property(h => h.DeliveryStatus).HasConversion<string>().HasMaxLength(15);
             builder.Property(h => h.SentAt).HasDefaultValueSql("GETUTCDATE()");
             builder.Property(h => h.FailureReason).HasMaxLength(1000);
 

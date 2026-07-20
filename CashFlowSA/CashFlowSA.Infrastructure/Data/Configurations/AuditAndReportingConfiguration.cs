@@ -9,7 +9,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<AuditLog> builder)
         {
             builder.HasKey(a => a.AuditLogId);
-            builder.Property(a => a.Action).HasConversion<int>();
+            builder.Property(a => a.Action).HasConversion<string>().HasMaxLength(25);
             builder.Property(a => a.EntityType).IsRequired().HasMaxLength(200);
             builder.Property(a => a.IPAddress).HasMaxLength(45);
             builder.Property(a => a.Timestamp).HasDefaultValueSql("GETUTCDATE()");
@@ -30,7 +30,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         {
             builder.HasKey(r => r.ReportId);
             builder.Property(r => r.ReportName).IsRequired().HasMaxLength(200);
-            builder.Property(r => r.ReportType).HasConversion<int>();
+            builder.Property(r => r.ReportType).HasConversion<string>().HasMaxLength(25);
             builder.Property(r => r.FilePath).HasMaxLength(1000);
             builder.Property(r => r.Description).HasMaxLength(4000);
             builder.Property(r => r.GeneratedAt).HasDefaultValueSql("GETUTCDATE()");

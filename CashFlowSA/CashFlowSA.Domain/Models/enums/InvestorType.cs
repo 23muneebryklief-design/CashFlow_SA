@@ -4,6 +4,6 @@ namespace CashFlowSA.Domain.Models.Enums
     {
         Individual = 0,
         Institution = 1,
-        Corparate = 2
+        Corporate = 2
     }   
 }

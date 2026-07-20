@@ -14,7 +14,9 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(i => i.DebtorName).IsRequired().HasMaxLength(200);
             builder.Property(i => i.DebtorContactDetails).HasMaxLength(500);
             builder.Property(i => i.Amount).HasPrecision(18, 2);
-            builder.Property(i => i.Status).HasConversion<int>();
+            builder.Property(i => i.Status)
+            .HasConversion<string>()
+            .HasMaxLength(20);
             builder.Property(i => i.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasIndex(i => i.InvoiceNumber).IsUnique();
@@ -35,7 +37,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.HasKey(d => d.InvoiceDocumentId);
             builder.Property(d => d.FileName).IsRequired().HasMaxLength(255);
             builder.Property(d => d.FilePath).IsRequired().HasMaxLength(1000);
-            builder.Property(d => d.Status).HasConversion<int>();
+            builder.Property(d => d.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(d => d.UploadedAt).HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasIndex(d => d.InvoiceId);

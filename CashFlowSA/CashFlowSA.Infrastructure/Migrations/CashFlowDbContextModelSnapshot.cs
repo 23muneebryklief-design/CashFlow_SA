@@ -100,8 +100,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasPrecision(5, 2)
                         .HasColumnType("decimal(5,2)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime>("SubmittedAt")
                         .ValueGeneratedOnAdd()
@@ -129,8 +131,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Action")
-                        .HasColumnType("int");
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -180,6 +184,62 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.ToTable("AuditLogs");
                 });
 
+            modelBuilder.Entity("CashFlowSA.Domain.Models.CorporateInvestorProfile", b =>
+                {
+                    b.Property<Guid>("CorporateInvestorProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AuthorizedRepresentativeIdNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("AuthorizedRepresentativeName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("CompanyRegistrationNumber")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("InvestorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TaxNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("UltimateBeneficialOwnerName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CorporateInvestorProfileId");
+
+                    b.ToTable("CorporateInvestorProfiles");
+                });
+
             modelBuilder.Entity("CashFlowSA.Domain.Models.Document", b =>
                 {
                     b.Property<Guid>("DocumentId")
@@ -210,8 +270,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -255,8 +317,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<DateTime?>("FundingDeadline")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FundingModel")
-                        .HasColumnType("int");
+                    b.Property<string>("FundingModel")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<Guid>("FundingRequestId")
                         .HasColumnType("uniqueidentifier");
@@ -275,8 +339,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid>("SMEId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<decimal>("TargetAmount")
                         .HasPrecision(18, 2)
@@ -319,8 +385,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<DateTime?>("DecisionAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FundingModel")
-                        .HasColumnType("int");
+                    b.Property<string>("FundingModel")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<Guid>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
@@ -332,8 +400,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid>("SMEId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("SubmittedAt")
                         .ValueGeneratedOnAdd()
@@ -392,8 +462,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("ReportType")
-                        .HasColumnType("int");
+                    b.Property<string>("ReportType")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -406,6 +478,101 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.HasIndex("GeneratedByUserId");
 
                     b.ToTable("GeneratedReports");
+                });
+
+            modelBuilder.Entity("CashFlowSA.Domain.Models.IndividualInvestorProfile", b =>
+                {
+                    b.Property<Guid>("IndividualInvestorProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IdNumber")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<Guid>("InvestorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SalaryRange")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("TaxNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("IndividualInvestorProfileId");
+
+                    b.ToTable("IndividualInvestorProfiles");
+                });
+
+            modelBuilder.Entity("CashFlowSA.Domain.Models.InstitutionalInvestorProfile", b =>
+                {
+                    b.Property<Guid>("InstitutionalInvestorProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AuthorizedSignatoryIdNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("AuthorizedSignatoryName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FSCALicenseNumber")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
+                    b.Property<string>("InstitutionName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<Guid>("InvestorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RegistrationNumber")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("InstitutionalInvestorProfileId");
+
+                    b.ToTable("InstitutionalInvestorProfiles");
                 });
 
             modelBuilder.Entity("CashFlowSA.Domain.Models.Investment", b =>
@@ -439,8 +606,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -476,8 +645,14 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedByUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("RiskAppetite")
-                        .HasColumnType("int");
+                    b.Property<string>("InvestorType")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("RiskAppetite")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -587,8 +762,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid>("SMEId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -636,8 +813,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -674,8 +853,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid>("SMEId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("ApplicationId");
 
@@ -692,8 +873,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("DocumentType")
-                        .HasColumnType("int");
+                    b.Property<string>("DocumentType")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("FileName")
                         .IsRequired()
@@ -710,8 +893,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasDefaultValue(0L);
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime>("UploadedAt")
                         .ValueGeneratedOnAdd()
@@ -743,8 +928,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
 
-                    b.Property<int>("Outcome")
-                        .HasColumnType("int");
+                    b.Property<string>("Outcome")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime>("ReviewDate")
                         .ValueGeneratedOnAdd()
@@ -778,8 +965,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedByUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Industry")
-                        .HasColumnType("int");
+                    b.Property<string>("Industry")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -789,8 +978,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("RiskGrade")
-                        .HasColumnType("int");
+                    b.Property<string>("RiskGrade")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<decimal>("RiskScore")
                         .HasPrecision(5, 2)
@@ -818,8 +1009,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Channel")
-                        .HasColumnType("int");
+                    b.Property<string>("Channel")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -829,8 +1022,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedByUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Event")
-                        .HasColumnType("int");
+                    b.Property<string>("Event")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
@@ -872,8 +1067,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Channel")
-                        .HasColumnType("int");
+                    b.Property<string>("Channel")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -884,8 +1081,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<DateTime?>("DeliveredAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DeliveryStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("DeliveryStatus")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("FailureReason")
                         .HasMaxLength(1000)
@@ -1042,8 +1241,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<bool>("IsOverridden")
                         .HasColumnType("bit");
 
-                    b.Property<int>("RiskGrade")
-                        .HasColumnType("int");
+                    b.Property<string>("RiskGrade")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<decimal>("RiskScore")
                         .HasPrecision(5, 2)
@@ -1091,15 +1292,19 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("NewGrade")
-                        .HasColumnType("int");
+                    b.Property<string>("NewGrade")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<decimal>("NewScore")
                         .HasPrecision(5, 2)
                         .HasColumnType("decimal(5,2)");
 
-                    b.Property<int>("PreviousGrade")
-                        .HasColumnType("int");
+                    b.Property<string>("PreviousGrade")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<decimal>("PreviousScore")
                         .HasPrecision(5, 2)
@@ -1162,8 +1367,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedByUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Industry")
-                        .HasColumnType("int");
+                    b.Property<string>("Industry")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<DateTime>("RegistrationDate")
                         .ValueGeneratedOnAdd()
@@ -1236,8 +1443,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -1265,8 +1474,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<Guid?>("CreatedByUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Decision")
-                        .HasColumnType("int");
+                    b.Property<string>("Decision")
+                        .IsRequired()
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
 
                     b.Property<Guid>("FundingRequestId")
                         .HasColumnType("uniqueidentifier");
@@ -1349,11 +1560,15 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -1501,8 +1716,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");

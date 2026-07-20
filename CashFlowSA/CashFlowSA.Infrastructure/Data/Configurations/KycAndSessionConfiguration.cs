@@ -30,7 +30,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         {
             builder.HasKey(k => k.ApplicationId);
             builder.Property(k => k.ApplicationDate).HasDefaultValueSql("GETUTCDATE()");
-            builder.Property(k => k.Status).HasConversion<int>();
+            builder.Property(k => k.Status).HasConversion<string>().HasMaxLength(15);
 
             builder.HasIndex(k => k.SMEId);
             builder.HasIndex(k => k.Status);
@@ -47,7 +47,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<KYCReview> builder)
         {
             builder.HasKey(r => r.Id);
-            builder.Property(r => r.Outcome).HasConversion<int>();
+            builder.Property(r => r.Outcome).HasConversion<string>().HasMaxLength(15);
             builder.Property(r => r.Notes).HasMaxLength(4000);
             builder.Property(r => r.ReviewDate).HasDefaultValueSql("GETUTCDATE()");
 
@@ -66,12 +66,12 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<KYCDocuments> builder)
         {
             builder.HasKey(d => d.DocumentId);
-            builder.Property(d => d.DocumentType).HasConversion<int>();
+            builder.Property(d => d.DocumentType).HasConversion<string>().HasMaxLength(25);
             builder.Property(d => d.FileName).IsRequired().HasMaxLength(255);
             builder.Property(d => d.FilePath).IsRequired().HasMaxLength(1000);
             builder.Property(d => d.UploadedAt).HasDefaultValueSql("GETUTCDATE()");
             builder.Property(d => d.FileSize).HasDefaultValue(0);
-            builder.Property(d => d.Status).HasConversion<int>();
+            builder.Property(d => d.Status).HasConversion<string>().HasMaxLength(15);
 
             builder.HasIndex(d => d.UserId);
             builder.HasIndex(d => d.Status);

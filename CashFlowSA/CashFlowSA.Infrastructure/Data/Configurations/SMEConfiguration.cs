@@ -17,7 +17,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(s => s.RegistrationNumber).HasMaxLength(100);
             builder.Property(s => s.Address).HasMaxLength(500);
             builder.Property(s => s.TaxNumber).HasMaxLength(100);
-            builder.Property(s => s.Industry).HasConversion<int>();
+            builder.Property(s => s.Industry).HasConversion<string>().HasMaxLength(30);
             builder.Property(s => s.RegistrationDate).HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasIndex(s => s.UserId);

@@ -21,6 +21,13 @@ namespace CashFlowSA.Application.Common.Interfaces
         DbSet<AuctionBid> AuctionBids { get; }
         DbSet<Investment> Investments { get; }
 
+        DbSet<Wallet> Wallets { get; }
+        DbSet<WalletTransaction> WalletTransactions { get; }
+        DbSet<Settlement> Settlements { get; }
+        DbSet<ReturnDistribution> ReturnDistributions { get; }
+        DbSet<Notification> Notifications { get; }
+        DbSet<NotificationHistory> NotificationHistories { get; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

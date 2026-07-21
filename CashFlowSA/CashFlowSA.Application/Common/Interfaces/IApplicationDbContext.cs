@@ -14,6 +14,13 @@ namespace CashFlowSA.Application.Common.Interfaces
         
         DbSet<Invoice> Invoices {get;}
         DbSet<InvoiceDocument>InvoiceDocuments {get;}
+
+        DbSet<MarketplaceListing> MarketplaceListings { get; }
+        DbSet<FundingCampaign> FundingCampaigns { get; }
+        DbSet<FundingRequest> FundingRequests { get; }
+        DbSet<AuctionBid> AuctionBids { get; }
+        DbSet<Investment> Investments { get; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

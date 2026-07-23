@@ -2,11 +2,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Wallet.GetWalletBalance;
 using CashFlowSA.Application.Features.Wallet.GetWalletTransactions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles ="Investor,SME")]
     public class WalletController : ControllerBase
     {
         private readonly IMediator _mediator;

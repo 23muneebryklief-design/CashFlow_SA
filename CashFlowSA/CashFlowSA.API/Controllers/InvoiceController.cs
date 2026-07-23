@@ -5,11 +5,13 @@ using CashFlowSA.Application.Features.Invoice.CorrectInvoiceFields;
 using CashFlowSA.Application.Features.Invoice.SubmitInvoice;
 using CashFlowSA.Application.Features.Invoice.GetInvoice;
 using CashFlowSA.Application.Features.Invoice.GetInvoicesBySme;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles ="SME")]
     public class InvoiceController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Auth.LoginUser;
 using CashFlowSA.Application.Features.Auth.RegisterInvestor;
 using CashFlowSA.Application.Features.Auth.RegisterSme;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IMediator _mediator;

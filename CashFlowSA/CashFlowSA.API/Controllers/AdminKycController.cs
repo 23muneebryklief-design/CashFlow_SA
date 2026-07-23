@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.AdminKyc.ApproveKycApplication;
 using CashFlowSA.Application.Features.AdminKyc.RejectKycApplication;
 using CashFlowSA.Application.Features.AdminKyc.GetPendingKycApplications;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
     // Ops-portal side: Credit Analyst / Admin reviews KYC submissions.
     [ApiController]
     [Route("api/admin/kyc")]
+    [Authorize(Roles = "Admin,CreditAnalyst")]
     public class AdminKycController : ControllerBase
     {
         private readonly IMediator _mediator;

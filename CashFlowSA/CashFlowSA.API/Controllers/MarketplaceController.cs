@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Marketplace.GetListings;
 using CashFlowSA.Application.Features.Marketplace.GetListingDetail;
 using CashFlowSA.Domain.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Investor")]
     public class MarketplaceController : ControllerBase
     {
         private readonly IMediator _mediator;

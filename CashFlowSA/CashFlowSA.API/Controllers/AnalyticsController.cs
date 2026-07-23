@@ -2,12 +2,14 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Analytics.GetFundingVolume;
 using CashFlowSA.Application.Features.Analytics.GetRiskDistribution;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
     // SRS 5.12: funding volume, ROI, risk distribution -- aggregates data from other modules.
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize( Roles = "Admin ,CreditAnalyst,Auditor")]
     public class AnalyticsController : ControllerBase
     {
         private readonly IMediator _mediator;

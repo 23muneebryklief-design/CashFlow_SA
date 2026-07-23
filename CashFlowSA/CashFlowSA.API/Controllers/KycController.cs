@@ -2,11 +2,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Kyc.SubmitKycApplication;
 using CashFlowSA.Application.Features.Kyc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "SME")]
     public class KycController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -4,11 +4,13 @@ using CashFlowSA.Application.Features.Funding.CommitSingleInvestorFunding;
 using CashFlowSA.Application.Features.Funding.CommitFractionalFunding;
 using CashFlowSA.Application.Features.Funding.PlaceAuctionBid;
 using CashFlowSA.Application.Features.Funding.GetCampaignStatus;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles= "Investor")]
     public class FundingController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Settlement.GetSettlement;
 using CashFlowSA.Application.Features.Settlement.TriggerSettlement;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
@@ -16,6 +17,7 @@ namespace CashFlowSA.API.Controllers
         }
 
         [HttpGet("{settlementId}")]
+        [Authorize(Roles="Admin,CreditAnalyst")]
         public async Task<IActionResult> GetSettlement(Guid settlementId, CancellationToken cancellationToken)
         {
             var query = new GetSettlementQuery { SettlementId = settlementId };
@@ -24,6 +26,7 @@ namespace CashFlowSA.API.Controllers
         }
 
         [HttpPost("{campaignId}/trigger")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> TriggerSettlement(
             Guid campaignId,
             [FromBody] TriggerSettlementCommand command,

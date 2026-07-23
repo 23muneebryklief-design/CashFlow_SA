@@ -1,11 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Notification.GetNotificationHistory;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class NotificationController : ControllerBase
     {
         private readonly IMediator _mediator;

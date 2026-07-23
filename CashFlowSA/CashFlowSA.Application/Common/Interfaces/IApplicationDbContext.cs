@@ -11,6 +11,7 @@ namespace CashFlowSA.Application.Common.Interfaces
         DbSet<UserSession>UserSessions{get;}
         DbSet<KYCApplication> KYCApplications { get; }
         DbSet<KYCDocuments> KYCDocuments { get; }
+        DbSet<KYCReview> KYCReviews { get; }
         
         DbSet<Invoice> Invoices {get;}
         DbSet<InvoiceDocument>InvoiceDocuments {get;}
@@ -27,6 +28,9 @@ namespace CashFlowSA.Application.Common.Interfaces
         DbSet<ReturnDistribution> ReturnDistributions { get; }
         DbSet<Notification> Notifications { get; }
         DbSet<NotificationHistory> NotificationHistories { get; }
+
+        DbSet<AuditLog> AuditLogs { get; }
+        DbSet<RiskAssessment> RiskAssessments { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

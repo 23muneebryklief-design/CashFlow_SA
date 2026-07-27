@@ -318,7 +318,8 @@ Before running the project, ensure you have the following installed:
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/CashFlowSA.git
+git clone https://github.com/23muneebryklief-design/CashFlow_SA.git
+git clone 
 cd CashFlowSA
 ```
 
@@ -423,12 +424,12 @@ https://localhost:7xxx
 
 ---
 
-## Swagger
+## Scalar
 
 Once the API is running, open:
 
 ```
-https://localhost:7xxx/swagger
+https://localhost:7xxx/scalar
 ```
 
 Swagger provides interactive documentation for every endpoint.

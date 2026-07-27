@@ -1,26 +1,4 @@
-Great—I can now inspect the project.
 
-From the current codebase I can already confirm that your project has progressed well beyond what the old README describes. For example, the API now includes dedicated controllers for:
-
-* Authentication
-* KYC
-* Admin KYC Review
-* Invoice Management
-* Funding
-* Marketplace
-* Wallet
-* Settlement
-* Notifications
-* Audit
-* Analytics
-
-So the old "controller scaffolded / returns 501" status is no longer accurate.
-
-## I recommend replacing the README completely
-
-Rather than trying to edit the old one, I'd rewrite it into a cleaner, more professional README like this:
-
----
 
 # CashFlow SA (Imali Bridge)
 

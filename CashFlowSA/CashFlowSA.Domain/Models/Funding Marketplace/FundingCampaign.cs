@@ -16,6 +16,14 @@ namespace CashFlowSA.Domain.Models
 
         public decimal TargetAmount { get; set; }
 
+        // Fixed annualized/tenor return rate promised to investors on this
+        // campaign, as a percentage (e.g. 12.50 = 12.5%). Only meaningful for
+        // SingleInvestor and Fractional models -- Auction campaigns instead
+        // derive their rate per-investor from AuctionBid.ProposedReturnRate.
+        // Nullable because it's set at campaign-creation time (during
+        // underwriting), not at the moment this entity is first scaffolded.
+        public decimal? ExpectedReturnRate { get; set; }
+
         // Running total of committed investor funds; must never exceed TargetAmount,
         // even under concurrent commitments (SRS 5.5 AC - needs row-locking/concurrency
         // control at the repository/service layer, e.g. a concurrency token column).

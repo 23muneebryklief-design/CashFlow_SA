@@ -37,6 +37,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.HasKey(c => c.CampaignId);
             builder.Property(c => c.FundingModel).HasConversion<string>().HasMaxLength(20);
             builder.Property(c => c.TargetAmount).HasPrecision(18, 2);
+            builder.Property(c => c.ExpectedReturnRate).HasPrecision(5, 2);
             builder.Property(c => c.FundedAmount).HasPrecision(18, 2);
             builder.Property(c => c.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(c => c.CreatedAt).HasDefaultValueSql("GETUTCDATE()");

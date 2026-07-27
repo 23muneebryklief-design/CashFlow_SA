@@ -1,5 +1,6 @@
 using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Application.Common.Exceptions;
+using CashFlowSA.Application.Features.Funding.Common;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using MediatR;
@@ -51,6 +52,10 @@ namespace CashFlowSA.Application.Features.Funding.CommitSingleInvestorFunding
 
             campaign.FundedAmount += request.Amount;
             campaign.Status = CampaignStatus.Funded;
+
+            // Single-investor commits always fully fund the campaign in one step,
+            // so the SME can be credited immediately.
+            await SmeFundingCredit.CreditSmeWalletAsync(_context, campaign, cancellationToken);
 
             await _context.SaveChangesAsync(cancellationToken);
 

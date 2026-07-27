@@ -299,17 +299,214 @@ Developed as a portfolio project demonstrating enterprise-level backend architec
 
 ---
 
-## One suggestion
+# Getting Started
 
-Your old README was **very technical** (around 150 lines). Looking at the maturity of your project now, I would expand this into a **400–600 line GitHub README** with:
+## Prerequisites
 
-* architecture diagrams,
-* folder tree,
-* ERD,
-* request flow diagrams,
-* screenshots,
-* API examples,
-* sequence diagrams,
-* and detailed explanations of each module.
+Before running the project, ensure you have the following installed:
 
-That would make it look like documentation for a real fintech product rather than a student project and significantly strengthen your GitHub portfolio.
+| Software | Version |
+|----------|----------|
+| .NET SDK | 10.0 |
+| SQL Server | SQL Server Express or LocalDB |
+| SQL Server Management Studio (optional) | Latest |
+| Visual Studio 2022 | Latest with ASP.NET workload |
+| Git | Latest |
+
+---
+
+## Clone the Repository
+
+```bash
+git clone https://github.com/<your-username>/CashFlowSA.git
+cd CashFlowSA
+```
+
+---
+
+## Restore Packages
+
+```bash
+dotnet restore
+```
+
+---
+
+## Configure the Database
+
+The default connection string uses SQL Server LocalDB.
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=CashFlowSA;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+If you are using SQL Server Express or another SQL Server instance, update the connection string in:
+
+```
+CashFlowSA.API/appsettings.json
+```
+
+---
+
+## Configure JWT Secrets
+
+The project stores the JWT signing key using .NET User Secrets.
+
+Navigate to the API project.
+
+```bash
+cd CashFlowSA.API
+```
+
+Initialize User Secrets.
+
+```bash
+dotnet user-secrets init
+```
+
+Create a signing key.
+
+```bash
+dotnet user-secrets set "Jwt:Key" "ReplaceWithYourOwnLongRandomSecretKey"
+```
+
+You can also configure:
+
+```bash
+dotnet user-secrets set "Jwt:Issuer" "CashFlowSA"
+dotnet user-secrets set "Jwt:Audience" "CashFlowSAUsers"
+```
+
+---
+
+## Create the Database
+
+Return to the solution folder and apply migrations.
+
+```bash
+dotnet ef database update \
+--project CashFlowSA.Infrastructure \
+--startup-project CashFlowSA.API
+```
+
+This command will:
+
+- Create the CashFlowSA database
+- Apply all migrations
+- Create every table
+- Configure indexes
+- Configure foreign keys
+
+---
+
+## Build the Solution
+
+```bash
+dotnet build
+```
+
+---
+
+## Run the API
+
+```bash
+dotnet run --project CashFlowSA.API
+```
+
+The API will typically start on
+
+```
+https://localhost:7xxx
+```
+
+---
+
+## Swagger
+
+Once the API is running, open:
+
+```
+https://localhost:7xxx/swagger
+```
+
+Swagger provides interactive documentation for every endpoint.
+
+---
+
+## Default Workflow
+
+1. Register an SME account.
+2. Log in.
+3. Submit KYC documents.
+4. Verify the KYC using the Admin endpoints.
+5. Upload an invoice.
+6. Submit the invoice.
+7. Browse the Marketplace.
+8. Create funding requests.
+9. Invest in campaigns.
+10. View wallet transactions and settlements.
+
+---
+
+## Troubleshooting
+
+### Build Errors
+
+Restore packages.
+
+```bash
+dotnet restore
+```
+
+---
+
+### Database Connection Errors
+
+Verify:
+
+- SQL Server or LocalDB is installed
+- Connection string is correct
+- SQL Server service is running
+
+---
+
+### Migration Errors
+
+Delete the database and re-run:
+
+```bash
+dotnet ef database update
+```
+
+---
+
+### JWT Errors
+
+Ensure a JWT signing key has been configured:
+
+```bash
+dotnet user-secrets list
+```
+
+---
+
+### Port Already In Use
+
+Stop the existing process or update the launch profile.
+
+---
+
+## Project Structure
+
+```
+CashFlowSA.sln
+
+src/
+│
+├── CashFlowSA.API
+├── CashFlowSA.Application
+├── CashFlowSA.Domain
+└── CashFlowSA.Infrastructure
+```

@@ -77,6 +77,13 @@ dotnet run --project CashFlowSA.API
 
 Default connection string targets `(localdb)\mssqllocaldb`, database `CashFlowSA` — see `CashFlowSA.API/appsettings.json` to point elsewhere.
 
+### Running the tests
+
+```powershell
+dotnet test
+```
+Runs both `CashFlowSA.Tests` (unit tests, handler-level, EF Core InMemory) and `CashFlowSA.IntegrationTests` (real HTTP requests through the actual middleware pipeline via `WebApplicationFactory`, isolated InMemory DB per run, no User Secrets required).
+
 ### Common setup gotchas
 
 - **`dotnet ef` commands are relative to your current folder**, not the solution root. Running them from inside `CashFlowSA.API` breaks `--project`/`--startup-project` resolution unless you adjust the paths (e.g. `..\CashFlowSA.Infrastructure`).
@@ -88,14 +95,14 @@ Default connection string targets `(localdb)\mssqllocaldb`, database `CashFlowSA
 | Area | Status | Notes |
 |---|---|---|
 | Domain (entities, enums) | ✅ | All enums stored as `string`, sized per-enum |
-| Infrastructure (EF config, migrations) | ✅ | 6+ migrations applied, diff-reviewed before each apply |
+| Infrastructure (EF config, migrations) | ✅ | 5 migrations applied, diff-reviewed before each apply |
 | Authentication | ✅ | SME/Investor registration, login, JWT + refresh tokens |
 | Role-based authorization | ✅ | `[Authorize(Roles=...)]` enforced across every controller, verified via integration tests |
 | KYC | ✅ | Submit, status check, admin approve/reject, pending queue |
 | Invoice | ✅ | Upload, get, list by SME, correct fields, submit (Draft→Submitted) |
 | Marketplace | ✅ | Browse listings (filterable by risk/industry/amount), listing detail |
 | Funding — commitments | ✅ | Single-investor, fractional (concurrency-safe via `RowVersion`), auction bid, campaign status |
-| Funding — request creation | ✅ | `CreateFundingRequestCommand` — SME requests financing on an Approved invoice |
+| Funding — request creation | ⚠️ Partial | `CreateFundingRequestCommand`/Handler/Validator exist in `Application`, but **no controller endpoint exposes it yet** — nothing can actually call it over HTTP |
 | Funding — SME wallet crediting | ✅ | SME's wallet is credited the moment their campaign reaches `Funded` (both single-investor and fractional paths) |
 | Funding — auction close resolution | ✅ | Background service resolves the highest bid once `FundingDeadline` passes, credits SME, records the winning `Investment` |
 | Wallet | ✅ | Balance, transaction history |
@@ -103,6 +110,7 @@ Default connection string targets `(localdb)\mssqllocaldb`, database `CashFlowSA
 | Notification | ✅ | History |
 | Audit | ✅ | Filterable log query |
 | Analytics | ✅ | Funding volume, risk distribution |
+| Testing | ⬜ | Not currently in the codebase — no `CashFlowSA.Tests` or `CashFlowSA.IntegrationTests` project exists at present |
 
 ## 6. What's still to do
 
@@ -123,5 +131,8 @@ Default connection string targets `(localdb)\mssqllocaldb`, database `CashFlowSA
 
 ### Smaller, known items
 
+- **`FundingController` has no endpoint for `CreateFundingRequestCommand`** — the command/handler/validator exist, but nothing exposes them over HTTP yet
 - `InvestorType` enum has a typo (`Corparate`) — not yet corrected
 - No endpoint exists yet for an SME to view their own `FundingRequest` history/status
+- **No test project currently exists** in the codebase — `CashFlowSA.Tests` (unit) and `CashFlowSA.IntegrationTests` (HTTP-level) have been built before in this project's history but are not present in the current codebase and would need to be re-added
+- 

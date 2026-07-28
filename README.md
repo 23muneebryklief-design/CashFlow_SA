@@ -77,13 +77,6 @@ dotnet run --project CashFlowSA.API
 
 Default connection string targets `(localdb)\mssqllocaldb`, database `CashFlowSA` — see `CashFlowSA.API/appsettings.json` to point elsewhere.
 
-### Running the tests
-
-```powershell
-dotnet test
-```
-Runs both `CashFlowSA.Tests` (unit tests, handler-level, EF Core InMemory) and `CashFlowSA.IntegrationTests` (real HTTP requests through the actual middleware pipeline via `WebApplicationFactory`, isolated InMemory DB per run, no User Secrets required).
-
 ### Common setup gotchas
 
 - **`dotnet ef` commands are relative to your current folder**, not the solution root. Running them from inside `CashFlowSA.API` breaks `--project`/`--startup-project` resolution unless you adjust the paths (e.g. `..\CashFlowSA.Infrastructure`).

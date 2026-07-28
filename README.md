@@ -1,513 +1,135 @@
-
-
 # CashFlow SA (Imali Bridge)
 
-> **An AI-powered invoice financing marketplace for South African SMEs.**
+## 1. What this project is
 
-CashFlow SA is a full-stack fintech platform that enables South African SMEs to unlock working capital by selling unpaid invoices to investors through a secure marketplace. The platform combines automated risk assessment, KYC compliance, fractional investment funding, wallet management, settlements, notifications, and audit logging within a production-inspired Clean Architecture.
+CashFlow SA is an AI-assisted invoice financing marketplace for South African SMEs. Small businesses upload unpaid invoices to raise short-term working capital; investors fund those invoices (individually, fractionally, or via auction) in exchange for a return once the debtor pays. An automated risk-scoring layer prices each opportunity so investors can make informed decisions.
 
-Built as a portfolio project, the solution demonstrates enterprise software design patterns including CQRS, Clean Architecture, Entity Framework Core, JWT authentication, optimistic concurrency, and domain-driven modelling.
+Built as a portfolio project for redAcademy's software development bootcamp, deliberately designed to reflect production-realistic patterns — Clean Architecture, CQRS, role-based auth, audit trails, optimistic concurrency — rather than a toy CRUD app.
 
----
+The system serves **two portals** sharing one backend:
+- **Business Portal** — SMEs (upload invoices, request financing) and Investors (browse listings, fund campaigns)
+- **Ops Portal** — Credit Analysts (review KYC and underwriting), Admins (trigger settlements), Auditors (read-only compliance access)
 
-# Architecture
+## 2. Stack
 
-The solution follows **Clean Architecture**.
+| Layer | Technology |
+|---|---|
+| Backend framework | ASP.NET Core (.NET 10) |
+| Architecture | Clean Architecture — Domain / Application / Infrastructure / API |
+| Data access | Entity Framework Core, SQL Server |
+| CQRS / mediator | MediatR |
+| Validation | FluentValidation (auto-run via a MediatR pipeline behavior) |
+| Object mapping | AutoMapper |
+| Authentication | Custom JWT (access + refresh tokens), `PasswordHasher<T>` for hashing — not ASP.NET Identity |
+| Authorization | Role-based, `[Authorize(Roles = "...")]` per controller/action |
+| Background processing | `BackgroundService` (auction close resolution) |
+| Testing | xUnit — unit tests (EF Core InMemory) + integration tests (`WebApplicationFactory`) |
+| Frontend | React / TypeScript / Vite (separate repo path, in progress) |
+
+## 3. Architecture at a glance
 
 ```
-CashFlowSA.API
-        │
-        ▼
-CashFlowSA.Application
-        │
-        ▼
-CashFlowSA.Domain
-        ▲
-        │
-CashFlowSA.Infrastructure
+CashFlowSA.API            → HTTP, controllers, JWT middleware, background services
+    ↓ depends on
+CashFlowSA.Infrastructure → EF Core, SQL Server, the real DbContext
+    ↓ depends on
+CashFlowSA.Application    → business logic (CQRS commands/queries) — does NOT know
+                             how data is stored or how requests arrive
+    ↓ depends on
+CashFlowSA.Domain         → entities, enums — zero external dependencies
 ```
 
-Each layer has a single responsibility.
+`Application` depends only on interfaces (`IApplicationDbContext`, `ITokenService`) that `Infrastructure` implements — the dependency arrow always points inward. Every enum in the schema is stored as `string`, not `int`, sized per-enum (e.g. `RiskGrade` at 5 chars, `NotificationEvent` at 40) — a deliberate trade-off favoring reordering-safety and human-readable audit logs over the negligible performance cost at this project's scale.
 
-### Domain
+## 4. Running it on a new device
 
-Contains
+### Prerequisites
+- .NET 10 SDK
+- SQL Server / SQL Server LocalDB
+- `dotnet-ef` global tool: `dotnet tool install --global dotnet-ef` (skip if already installed)
 
-* Entities
-* Enums
-* Business Rules
-* Aggregate Models
+### Steps
 
-The Domain layer has no external dependencies.
-
-### Application
-
-Contains
-
-* CQRS Commands
-* CQRS Queries
-* DTOs
-* Validation
-* Interfaces
-* Mapping Profiles
-* Business Logic
-
-The Application layer depends only on the Domain.
-
-### Infrastructure
-
-Contains
-
-* Entity Framework Core
-* SQL Server
-* Repository implementations
-* JWT services
-* Database configurations
-* External integrations
-
-### API
-
-Provides
-
-* REST endpoints
-* Authentication
-* Authorization
-* Middleware
-* Dependency Injection
-* Swagger
-
----
-
-# Technology Stack
-
-| Layer             | Technology             |
-| ----------------- | ---------------------- |
-| Backend           | ASP.NET Core (.NET 10) |
-| ORM               | Entity Framework Core  |
-| Database          | SQL Server             |
-| Architecture      | Clean Architecture     |
-| Pattern           | CQRS (MediatR)         |
-| Validation        | FluentValidation       |
-| Mapping           | AutoMapper             |
-| Authentication    | JWT                    |
-| Password Security | PasswordHasher         |
-| API Documentation | Swagger                |
-| Frontend          | React + TypeScript     |
-
----
-
-# Features
-
-## Authentication
-
-* User Registration
-* Login
-* JWT Authentication
-* Refresh Tokens
-* Password Hashing
-* Role Claims
-
----
-
-## SME Portal
-
-* Company Registration
-* KYC Submission
-* Invoice Upload
-* Invoice Correction
-* Invoice Submission
-* Invoice Status Tracking
-
----
-
-## Investor Portal
-
-* Marketplace Listings
-* Funding Campaigns
-* Fractional Investments
-* Auction Bidding
-* Portfolio Management
-
----
-
-## Marketplace
-
-* Browse Listings
-* Listing Details
-* Funding Progress
-* Investment Tracking
-
----
-
-## Funding
-
-* Campaign Creation
-* Fractional Funding
-* Auction Bids
-* Optimistic Concurrency
-* Campaign Status Management
-
----
-
-## Wallet
-
-* Wallet Management
-* Wallet Transactions
-* Balance Tracking
-
----
-
-## Settlement
-
-* Settlement Processing
-* Distribution Records
-
----
-
-## Notifications
-
-* User Notifications
-* Notification History
-
----
-
-## Operations Portal
-
-Administrative functionality includes:
-
-* KYC Reviews
-* Audit Logs
-* Analytics
-* Reporting
-
----
-
-# Security
-
-The application includes several security measures:
-
-* JWT Authentication
-* Password Hashing
-* Claims-based Authorization
-* FluentValidation
-* Optimistic Concurrency
-* Audit Trail
-* String-based Enum Storage
-* Restricted Delete Behaviors
-
----
-
-# Database
-
-The project uses Entity Framework Core with SQL Server.
-
-The schema includes approximately thirty business entities covering:
-
-* Users
-* SMEs
-* Investors
-* KYC
-* Invoices
-* Funding Campaigns
-* Investments
-* Wallets
-* Settlements
-* Notifications
-* Audit Logs
-* Analytics
-
-Database design includes
-
-* Entity configurations per entity
-* Decimal precision for financial values
-* Unique indexes
-* Optimistic concurrency
-* Enum-to-string conversion
-* Explicit foreign key behaviour
-
----
-
-# Current API Modules
-
-| Module             | Status     |
-| ------------------ | ---------- |
-| Authentication     | ✅ Complete |
-| KYC                | ✅ Complete |
-| Admin KYC Review   | ✅ Complete |
-| Invoice Management | ✅ Complete |
-| Marketplace        | ✅ Complete |
-| Funding            | ✅ Complete |
-| Wallet             | ✅ Complete |
-| Settlement         | ✅ Complete |
-| Notifications      | ✅ Complete |
-| Audit              | ✅ Complete |
-| Analytics          | ✅ Complete |
-
----
-
-# Running the Project
-
-```bash
+```powershell
+# 1. Clone and restore
+git clone <repo-url>
+cd CashFlowSA
 dotnet restore
 
+# 2. Build (from the solution root, not a subfolder)
 dotnet build
 
+# 3. Set the JWT signing key (one-time, per machine)
+#    The real key is never committed -- it lives in .NET User Secrets locally.
+cd CashFlowSA.API
+dotnet user-secrets init
+dotnet user-secrets set "Jwt:Key" "<a long random base64 string>"
+cd ..
+
+# 4. Apply database migrations (creates the LocalDB database if it doesn't exist)
+#    Run this from the solution root -- dotnet ef paths are relative to your
+#    current directory, not the solution root, so this exact form matters.
 dotnet ef database update --project CashFlowSA.Infrastructure --startup-project CashFlowSA.API
 
+# 5. Run the API
 dotnet run --project CashFlowSA.API
 ```
 
-Configure the JWT signing key using .NET User Secrets before running the application.
+Default connection string targets `(localdb)\mssqllocaldb`, database `CashFlowSA` — see `CashFlowSA.API/appsettings.json` to point elsewhere.
 
----
+### Running the tests
 
-# Design Principles
-
-The project was designed around enterprise software development practices including:
-
-* Clean Architecture
-* CQRS
-* SOLID Principles
-* Dependency Injection
-* Domain-Driven Design concepts
-* Validation Pipeline
-* Optimistic Concurrency
-* Secure Authentication
-* Financial Data Integrity
-
----
-
-# Future Improvements
-
-Potential future enhancements include:
-
-* OCR-powered invoice extraction
-* Azure Blob Storage
-* RabbitMQ background processing
-* Scheduled auction resolution jobs
-* Email/SMS notifications
-* Real payment gateway integration
-* AI-powered risk scoring
-* Docker deployment
-* CI/CD pipeline
-
----
-
-# Author
-
-Developed as a portfolio project demonstrating enterprise-level backend architecture, financial domain modelling, and modern ASP.NET Core development practices.
-
----
-
-# Getting Started
-
-## Prerequisites
-
-Before running the project, ensure you have the following installed:
-
-| Software | Version |
-|----------|----------|
-| .NET SDK | 10.0 |
-| SQL Server | SQL Server Express or LocalDB |
-| SQL Server Management Studio (optional) | Latest |
-| Visual Studio 2022 | Latest with ASP.NET workload |
-| Git | Latest |
-
----
-
-## Clone the Repository
-
-```bash
-git clone https://github.com/23muneebryklief-design/CashFlow_SA.git
-git clone 
-cd CashFlowSA
+```powershell
+dotnet test
 ```
-
----
-
-## Restore Packages
-
-```bash
-dotnet restore
-```
-
----
-
-## Configure the Database
-
-The default connection string uses SQL Server LocalDB.
-
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=CashFlowSA;Trusted_Connection=True;TrustServerCertificate=True;"
-}
-```
-
-If you are using SQL Server Express or another SQL Server instance, update the connection string in:
-
-```
-CashFlowSA.API/appsettings.json
-```
-
----
-
-## Configure JWT Secrets
-
-The project stores the JWT signing key using .NET User Secrets.
-
-Navigate to the API project.
-
-```bash
-cd CashFlowSA.API
-```
-
-Initialize User Secrets.
-
-```bash
-dotnet user-secrets init
-```
-
-Create a signing key.
-
-```bash
-dotnet user-secrets set "Jwt:Key" "ReplaceWithYourOwnLongRandomSecretKey"
-```
-
-You can also configure:
-
-```bash
-dotnet user-secrets set "Jwt:Issuer" "CashFlowSA"
-dotnet user-secrets set "Jwt:Audience" "CashFlowSAUsers"
-```
-
----
-
-## Create the Database
-
-Return to the solution folder and apply migrations.
-
-```bash
-dotnet ef database update \
---project CashFlowSA.Infrastructure \
---startup-project CashFlowSA.API
-```
-
-This command will:
-
-- Create the CashFlowSA database
-- Apply all migrations
-- Create every table
-- Configure indexes
-- Configure foreign keys
-
----
-
-## Build the Solution
-
-```bash
-dotnet build
-```
-
----
-
-## Run the API
-
-```bash
-dotnet run --project CashFlowSA.API
-```
-
-The API will typically start on
-
-```
-https://localhost:7xxx
-```
-
----
-
-## Scalar
-
-Once the API is running, open:
-
-```
-https://localhost:7xxx/scalar
-```
-
-Swagger provides interactive documentation for every endpoint.
-
----
-
-## Default Workflow
-
-1. Register an SME account.
-2. Log in.
-3. Submit KYC documents.
-4. Verify the KYC using the Admin endpoints.
-5. Upload an invoice.
-6. Submit the invoice.
-7. Browse the Marketplace.
-8. Create funding requests.
-9. Invest in campaigns.
-10. View wallet transactions and settlements.
-
----
-
-## Troubleshooting
-
-### Build Errors
-
-Restore packages.
-
-```bash
-dotnet restore
-```
-
----
-
-### Database Connection Errors
-
-Verify:
-
-- SQL Server or LocalDB is installed
-- Connection string is correct
-- SQL Server service is running
-
----
-
-### Migration Errors
-
-Delete the database and re-run:
-
-```bash
-dotnet ef database update
-```
-
----
-
-### JWT Errors
-
-Ensure a JWT signing key has been configured:
-
-```bash
-dotnet user-secrets list
-```
-
----
-
-### Port Already In Use
-
-Stop the existing process or update the launch profile.
-
----
-
-## Project Structure
-
-```
-CashFlowSA.sln
-
-src/
-│
-├── CashFlowSA.API
-├── CashFlowSA.Application
-├── CashFlowSA.Domain
-└── CashFlowSA.Infrastructure
-```
+Runs both `CashFlowSA.Tests` (unit tests, handler-level, EF Core InMemory) and `CashFlowSA.IntegrationTests` (real HTTP requests through the actual middleware pipeline via `WebApplicationFactory`, isolated InMemory DB per run, no User Secrets required).
+
+### Common setup gotchas
+
+- **`dotnet ef` commands are relative to your current folder**, not the solution root. Running them from inside `CashFlowSA.API` breaks `--project`/`--startup-project` resolution unless you adjust the paths (e.g. `..\CashFlowSA.Infrastructure`).
+- **`app.MapControllers()` must come after `UseAuthentication()`/`UseAuthorization()`** in the pipeline, or you'll get confusing 404s instead of clean 401s.
+- **If `dotnet run` reports the app is already running / files locked**, stop the previous running instance before rebuilding — Windows locks the DLLs of a running process.
+
+## 5. What's completed
+
+| Area | Status | Notes |
+|---|---|---|
+| Domain (entities, enums) | ✅ | All enums stored as `string`, sized per-enum |
+| Infrastructure (EF config, migrations) | ✅ | 6+ migrations applied, diff-reviewed before each apply |
+| Authentication | ✅ | SME/Investor registration, login, JWT + refresh tokens |
+| Role-based authorization | ✅ | `[Authorize(Roles=...)]` enforced across every controller, verified via integration tests |
+| KYC | ✅ | Submit, status check, admin approve/reject, pending queue |
+| Invoice | ✅ | Upload, get, list by SME, correct fields, submit (Draft→Submitted) |
+| Marketplace | ✅ | Browse listings (filterable by risk/industry/amount), listing detail |
+| Funding — commitments | ✅ | Single-investor, fractional (concurrency-safe via `RowVersion`), auction bid, campaign status |
+| Funding — request creation | ✅ | `CreateFundingRequestCommand` — SME requests financing on an Approved invoice |
+| Funding — SME wallet crediting | ✅ | SME's wallet is credited the moment their campaign reaches `Funded` (both single-investor and fractional paths) |
+| Funding — auction close resolution | ✅ | Background service resolves the highest bid once `FundingDeadline` passes, credits SME, records the winning `Investment` |
+| Wallet | ✅ | Balance, transaction history |
+| Settlement | ✅ | Get, trigger — see open items below re: return-rate calculation |
+| Notification | ✅ | History |
+| Audit | ✅ | Filterable log query |
+| Analytics | ✅ | Funding volume, risk distribution |
+| Testing | ✅ | Unit tests (handler-level) + integration tests (real HTTP, real auth pipeline) |
+
+## 6. What's still to do
+
+### Real gaps — need a design decision, not just more code
+
+- **Underwriting decision (Phase 3 of the funding pipeline).** `CreateFundingRequestCommand` creates a `Pending` `FundingRequest`, but nothing yet lets a Credit Analyst approve/reject it — and approval is where a `FundingCampaign` + `MarketplaceListing` are actually supposed to get created. Right now nothing in the whole project creates those two entities at all.
+- **`FundingCampaign.ExpectedReturnRate` exists on the model but nothing sets it yet.** It needs to be populated during the (not-yet-built) underwriting approval step, and `TriggerSettlementCommandHandler` still needs updating to read it instead of guessing a return from `SettledAmount - FundedAmount`.
+- **Auction winning-bid rule is an assumption, not a confirmed spec.** Currently the winning bid does **not** need to fully cover `TargetAmount` — it just has to be the highest active bid. If auctions should behave like single-investor funding (must cover the full target), this needs revisiting.
+
+### Not started
+
+- OCR extraction pipeline for uploaded invoices (fields are currently only filled in manually via `CorrectInvoiceFieldsCommand`)
+- RabbitMQ async messaging (OCR + notification fan-out currently run synchronously, if at all)
+- SignalR real-time notification push
+- Azure Blob Storage for actual file storage (uploads currently just accept a `FilePath` string; no real storage integration)
+- OpenAI integration (`AIExplanation` entity exists in Domain, nothing populates it)
+- `RiskAssessment` creation flow — nothing currently creates a `RiskAssessment` for a submitted invoice, which is the missing link between Invoice approval and Marketplace risk-grade filtering
+
+### Smaller, known items
+
+- `InvestorType` enum has a typo (`Corparate`) — not yet corrected
+- No endpoint exists yet for an SME to view their own `FundingRequest` history/status

@@ -103,7 +103,6 @@ Default connection string targets `(localdb)\mssqllocaldb`, database `CashFlowSA
 | Notification | ✅ | History |
 | Audit | ✅ | Filterable log query |
 | Analytics | ✅ | Funding volume, risk distribution |
-| Testing | ✅ | Unit tests (handler-level) + integration tests (real HTTP, real auth pipeline) |
 
 ## 6. What's still to do
 

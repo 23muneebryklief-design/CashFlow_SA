@@ -1,0 +1,57 @@
+.container {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 3rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.card {
+  width: 100%;
+  max-width: 900px;
+
+  background: white;
+
+  border-radius: 16px;
+
+  padding: 2rem;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+.card h1 {
+  margin-bottom: .5rem;
+}
+
+.info {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #f1f5f9;
+}
+
+.info p {
+  margin-bottom: .75rem;
+}
+
+.placeholder {
+  padding: 2rem;
+  border-radius: 12px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.placeholder h2 {
+  margin-bottom: 1rem;
+}
+
+.placeholder ul {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+}
+
+.placeholder li {
+  margin-bottom: .5rem;
+}

@@ -1,0 +1,48 @@
+.glow {
+  position: fixed;
+
+  border-radius: 50%;
+
+  filter: blur(140px);
+
+  pointer-events: none;
+
+  transition: transform 0.5s ease-out;
+
+  z-index: -2;
+
+  animation: float 12s ease-in-out infinite;
+}
+
+.emerald {
+  width: 450px;
+  height: 450px;
+
+  left: 5%;
+  top: 10%;
+
+  background: rgba(14, 124, 94, 0.22);
+}
+
+.gold {
+  width: 380px;
+  height: 380px;
+
+  right: 5%;
+  bottom: 10%;
+
+  background: rgba(184, 144, 46, 0.16);
+
+  animation-delay: -6s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    filter: blur(140px);
+  }
+
+  50% {
+    filter: blur(165px);
+  }
+}

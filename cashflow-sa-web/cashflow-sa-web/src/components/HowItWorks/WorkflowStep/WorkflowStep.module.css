@@ -1,0 +1,47 @@
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-paper-deep);
+}
+
+.step:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.number {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.sme {
+  background: var(--color-ink-soft);
+}
+
+.investor {
+  background: var(--color-gold);
+}
+
+.content h4 {
+  font-size: 15px;
+  color: var(--color-ink);
+  margin-bottom: 4px;
+}
+
+.content p {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}

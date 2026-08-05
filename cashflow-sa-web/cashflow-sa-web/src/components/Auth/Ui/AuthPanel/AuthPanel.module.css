@@ -1,0 +1,101 @@
+.panel {
+  height: 100%;
+  background: var(--color-ink);
+  padding: var(--space-xl) var(--space-lg);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--color-white);
+  letter-spacing: -0.01em;
+
+  margin-bottom: var(--space-lg);
+}
+
+.logoMark {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.logoMark::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 7px;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+.logoMark::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  right: 10px;
+  top: 13px;
+  height: 2px;
+  background: var(--color-gold);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+
+  margin-bottom: var(--space-md);
+  padding: 6px 12px;
+
+  border-radius: 20px;
+  background: rgba(14, 124, 94, 0.15);
+  border: 1px solid rgba(14, 124, 94, 0.3);
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #4BA98C;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-white);
+  margin-bottom: var(--space-sm);
+}
+
+.title em {
+  color: #4BA98C;
+  font-style: italic;
+}
+
+.subtitle {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 320px;
+}
+
+.extra {
+  margin-top: var(--space-lg);
+}
+
+@media (max-width: 860px) {
+  .panel {
+    display: none;
+  }
+}

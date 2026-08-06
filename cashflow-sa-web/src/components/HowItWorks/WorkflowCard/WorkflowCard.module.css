@@ -1,0 +1,45 @@
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 32px 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header h3 {
+  font-family: var(--font-display);
+  font-size: 21px;
+  color: var(--color-ink);
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: .05em;
+
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.green {
+  background: rgba(14,124,94,.1);
+  color: var(--color-accent-deep);
+}
+
+.gold {
+  background: rgba(184,144,46,.12);
+  color: var(--color-gold);
+}

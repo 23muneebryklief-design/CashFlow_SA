@@ -1,0 +1,52 @@
+.fade {
+  opacity: 0;
+
+  animation: fadeUp 700ms ease forwards;
+}
+
+/* Quicker, subtler entrance for elements stacked in a stagger sequence */
+.fadeFast {
+  opacity: 0;
+
+  animation: fadeUpFast 450ms ease forwards;
+}
+
+@keyframes fadeUp {
+
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+@keyframes fadeUpFast {
+
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+/* Respect OS-level reduced motion: show content immediately, no slide/fade */
+@media (prefers-reduced-motion: reduce) {
+
+  .fade,
+  .fadeFast {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+}

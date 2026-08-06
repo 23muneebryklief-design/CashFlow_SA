@@ -1,0 +1,147 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+
+  letter-spacing: 0.02em;
+}
+
+.label span {
+  color: #dc2626;
+}
+
+.inputWrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  border-radius: 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  background: rgba(255, 255, 255, 0.55);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  overflow: hidden;
+
+  transition:
+    border-color .25s ease,
+    box-shadow .25s ease,
+    background .25s ease,
+    transform .25s ease;
+}
+
+.inputWrapper:hover {
+  background: rgba(255, 255, 255, 0.68);
+
+  transform: translateY(-1px);
+}
+
+.inputWrapper:focus-within {
+  border-color: rgba(14, 124, 94, 0.9);
+
+  background: rgba(255, 255, 255, 0.82);
+
+  box-shadow:
+    0 0 0 4px rgba(14, 124, 94, 0.12),
+    0 10px 25px rgba(14, 124, 94, 0.15);
+}
+
+.inputWrapper.errorBorder {
+  border-color: #dc2626;
+
+  box-shadow:
+    0 0 0 4px rgba(220, 38, 38, 0.10);
+}
+
+.inputWrapper input {
+  flex: 1;
+
+  width: 100%;
+  min-width: 0;
+
+  height: 52px;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  padding: 0 18px;
+
+  font-size: 15px;
+  font-family: var(--font-body);
+
+  color: var(--color-text);
+
+  box-sizing: border-box;
+}
+
+.inputWrapper input::placeholder {
+  color: rgba(80, 88, 100, 0.75);
+
+  transition: color .25s ease;
+}
+
+.inputWrapper:focus-within input::placeholder {
+  color: rgba(80, 88, 100, 0.45);
+}
+
+.toggle {
+  height: 52px;
+
+  padding: 0 18px;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: var(--color-accent);
+
+  cursor: pointer;
+
+  transition:
+    color .25s ease,
+    background .25s ease;
+}
+
+.toggle:hover {
+  background: rgba(14, 124, 94, 0.08);
+
+  color: var(--color-accent-deep);
+}
+
+.toggle:focus-visible {
+  outline: none;
+
+  background: rgba(14, 124, 94, 0.12);
+}
+
+.container small {
+  margin-left: 4px;
+
+  font-size: 12px;
+
+  color: #dc2626;
+}

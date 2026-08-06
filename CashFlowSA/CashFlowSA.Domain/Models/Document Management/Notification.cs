@@ -1,0 +1,22 @@
+using CashFlowSA.Domain.Models.Enums;
+
+namespace CashFlowSA.Domain.Models
+{
+    public class Notification : BaseEntity
+    {
+        public Guid NotificationId { get; set; }
+
+        public Guid UserId { get; set; }
+
+        public NotificationEvent Event { get; set; }
+        public NotificationChannel Channel { get; set; }
+
+        public string Title { get; set; } = string.Empty;
+
+        public string Message { get; set; } = string.Empty;
+
+        public bool IsRead { get; set; } = false;
+
+        public DateTime? ReadAt { get; set; }
+    }
+}

@@ -1,0 +1,287 @@
+.panel {
+  position: relative;
+
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: var(--space-xl) var(--space-lg);
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(14, 124, 94, 0.18),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(184, 144, 46, 0.16),
+      transparent 50%
+    ),
+    linear-gradient(
+      145deg,
+      #07131F 0%,
+      #0B1B2B 45%,
+      #102638 100%
+    );
+}
+
+/* Soft animated glow */
+
+.panel::before {
+  content: "";
+
+  position: absolute;
+
+  width: 520px;
+  height: 520px;
+
+  top: -180px;
+  left: -180px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(14,124,94,.25),
+      transparent 70%
+    );
+
+  filter: blur(70px);
+
+  animation: floatGlow 12s ease-in-out infinite;
+
+  pointer-events: none;
+}
+
+.panel::after {
+  content: "";
+
+  position: absolute;
+
+  right: -180px;
+  bottom: -180px;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(184,144,46,.18),
+      transparent 70%
+    );
+
+  filter: blur(70px);
+
+  animation: floatGlowReverse 15s ease-in-out infinite;
+
+  pointer-events: none;
+}
+
+.logoMark {
+  position: relative;
+
+  width: 54px;
+  height: 54px;
+
+  margin-bottom: 2rem;
+
+  border-radius: 16px;
+
+  background: rgba(255,255,255,.08);
+
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.10),
+    0 10px 30px rgba(0,0,0,.25);
+
+  flex-shrink: 0;
+}
+
+.logoLineEmerald,
+.logoLineGold {
+  position: absolute;
+
+  left: 12px;
+
+  height: 3px;
+
+  border-radius: 999px;
+}
+
+.logoLineEmerald {
+  right: 12px;
+  top: 16px;
+
+  background: #22C58B;
+}
+
+.logoLineGold {
+  right: 18px;
+  top: 28px;
+
+  background: #D8B14A;
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+
+  margin: 0 0 1rem;
+
+  color: white;
+
+  font-family: var(--font-display);
+
+  font-size: clamp(2rem, 4vw, 2.6rem);
+
+  line-height: 1.15;
+
+  font-weight: 600;
+
+  letter-spacing: -0.03em;
+}
+
+.title em {
+  color: #36D39A;
+
+  font-style: normal;
+}
+
+.subtitle {
+  position: relative;
+  z-index: 1;
+
+  margin: 0 0 2rem;
+
+  max-width: 360px;
+
+  font-size: 15px;
+
+  line-height: 1.8;
+
+  color: rgba(255,255,255,.72);
+}
+
+.bulletList {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+
+  margin: 0 0 2rem;
+
+  padding: 0;
+
+  list-style: none;
+}
+
+.bulletList li {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  color: rgba(255,255,255,.82);
+
+  font-size: 14px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  flex-shrink: 0;
+}
+
+.dotEmerald {
+  background: #22C58B;
+
+  box-shadow: 0 0 12px rgba(34,197,139,.6);
+}
+
+.dotGold {
+  background: #D8B14A;
+
+  box-shadow: 0 0 12px rgba(216,177,74,.6);
+}
+
+.badge {
+  position: relative;
+  z-index: 1;
+
+  display: inline-flex;
+  align-items: center;
+
+  width: fit-content;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.08);
+
+  border: 1px solid rgba(255,255,255,.12);
+
+  backdrop-filter: blur(10px);
+}
+
+.badge span {
+  color: #36D39A;
+
+  font-size: 12px;
+
+  font-family: var(--font-mono);
+
+  letter-spacing: .08em;
+}
+
+@keyframes floatGlow {
+
+  0%,100%{
+    transform:translate(0,0);
+  }
+
+  50%{
+    transform:translate(40px,30px);
+  }
+
+}
+
+@keyframes floatGlowReverse {
+
+  0%,100%{
+    transform:translate(0,0);
+  }
+
+  50%{
+    transform:translate(-30px,-20px);
+  }
+
+}
+
+@media (max-width: 900px) {
+
+  .panel{
+    display:none;
+  }
+
+}

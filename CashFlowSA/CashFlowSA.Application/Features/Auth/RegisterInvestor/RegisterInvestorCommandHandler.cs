@@ -1,0 +1,70 @@
+using CashFlowSA.Application.Common.Interfaces;
+using CashFlowSA.Application.Common.Exceptions;
+using CashFlowSA.Domain.Models;
+using CashFlowSA.Domain.Models.Enums;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
+namespace CashFlowSA.Application.Features.Auth.RegisterInvestor
+{
+    public class RegisterInvestorCommandHandler : IRequestHandler<RegisterInvestorCommand, Guid>
+    {
+        private readonly IApplicationDbContext _context;
+        private readonly PasswordHasher<User> _passwordHasher;
+
+        public RegisterInvestorCommandHandler(IApplicationDbContext context)
+        {
+            _context = context;
+            _passwordHasher = new PasswordHasher<User>();
+        }
+
+        public async Task<Guid> Handle(RegisterInvestorCommand request, CancellationToken cancellationToken)
+        {
+            // Uniqueness Checks
+            var emailInUse = await _context.Users
+                .AnyAsync(u => u.Email == request.Email, cancellationToken);
+            if (emailInUse)
+                throw new ConflictException("A user with this email already exists.");
+
+            // Create the user first - Investor depends on its user id
+            var user = new User
+            {
+                UserId = Guid.NewGuid(),
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                PhoneNumber = request.PhoneNumber,
+                Role = UsersRoles.Investor,
+                Status = AccountStatus.PendingVerification
+            };
+            user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
+
+            _context.Users.Add(user);
+
+            // Create the Investor profile linked to the new user
+            var investor = new Investor
+            {
+                InvestorId = Guid.NewGuid(),
+                UserId = user.UserId,
+                Address = request.Address,
+                RiskAppetite = request.RiskAppetite
+            };
+
+            _context.Investors.Add(investor);
+
+            // Every Investor gets exactly one wallet, created here rather than lazily --
+            // GetWalletBalanceQuery expects one to already exist and 404s otherwise.
+            _context.Wallets.Add(new CashFlowSA.Domain.Models.Wallet
+            {
+                WalletId = Guid.NewGuid(),
+                UserId = user.UserId,
+                Balance = 0,
+                Currency = "ZAR"
+            });
+
+            await _context.SaveChangesAsync(cancellationToken);
+            return investor.InvestorId;
+        }
+    }
+}

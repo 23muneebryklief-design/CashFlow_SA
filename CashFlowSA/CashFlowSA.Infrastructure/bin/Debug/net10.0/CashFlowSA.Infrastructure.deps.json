@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v10.0": {
       "CashFlowSA.Infrastructure/1.0.0": {
         "dependencies": {
+          "AWSSDK.S3": "4.0.102",
           "CashFlowSA.Application": "1.0.0",
           "CashFlowSA.Domain": "1.0.0",
           "Microsoft.EntityFrameworkCore.Design": "10.0.9",
@@ -27,6 +28,25 @@
           "lib/net10.0/AutoMapper.dll": {
             "assemblyVersion": "16.0.0.0",
             "fileVersion": "16.1.1.0"
+          }
+        }
+      },
+      "AWSSDK.Core/4.0.100.9": {
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.100.9"
+          }
+        }
+      },
+      "AWSSDK.S3/4.0.102": {
+        "dependencies": {
+          "AWSSDK.Core": "4.0.100.9"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.102.0"
           }
         }
       },
@@ -1085,6 +1105,20 @@
       "sha512": "sha512-VNEky8JA15ci+oIDRGHITOGOpV4dILsf8pnn24QhDl2urtqgJ2IXiS/V2EtGU17P/+f6OeFQPJETaZXV9QOIZg==",
       "path": "automapper/16.1.1",
       "hashPath": "automapper.16.1.1.nupkg.sha512"
+    },
+    "AWSSDK.Core/4.0.100.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OPYy41jZjXwxxcYRotaq24HDrwUnVtBB/mvg1IwB9D1ICXAtHqMa1sp2hpmlVJCZwjlcrPcTCJIejInvV1vp5g==",
+      "path": "awssdk.core/4.0.100.9",
+      "hashPath": "awssdk.core.4.0.100.9.nupkg.sha512"
+    },
+    "AWSSDK.S3/4.0.102": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+5ToRNfpNnu1/oEbb1P+4AnHpknda1+eybYkhT6viFC4v772ZONeFYGR1pHgm7Zum0nvLDpSEJl/4y+wggpIpg==",
+      "path": "awssdk.s3/4.0.102",
+      "hashPath": "awssdk.s3.4.0.102.nupkg.sha512"
     },
     "Azure.Core/1.47.1": {
       "type": "package",

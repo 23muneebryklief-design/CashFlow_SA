@@ -1,0 +1,30 @@
+ .page { max-width: var(--content-max); margin: 0 auto; padding: var(--space-xl) var(--space-lg); }
+.header { margin-bottom: var(--space-lg); }
+.eyebrow, .cardEyebrow { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-accent-deep); margin-bottom: 6px; }
+.header h1 { font-family: var(--font-display); font-size: 30px; font-weight: 500; color: var(--color-ink); }
+.subhead { color: var(--color-text-muted); margin-top: 8px; }
+.uploadCard, .listSection, .lockedCard { background: var(--color-paper-deep); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-lg); }
+.uploadCard h2, .listSection h2, .lockedCard h2 { font-family: var(--font-display); font-size: 20px; font-weight: 500; color: var(--color-ink); }
+.muted { color: var(--color-text-muted); margin-top: 8px; }
+.fileInput { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.primaryButton { margin-top: var(--space-md); height: 44px; padding: 0 22px; border: 0; border-radius: var(--radius-sm); background: var(--color-ink); color: var(--color-white); font-weight: 600; cursor: pointer; }
+.primaryButton:disabled { opacity: .6; cursor: wait; }
+.error, .success { margin-top: 12px; font-size: 14px; }
+.error { color: #a33; }
+.success { color: #286b42; }
+.listSection { background: transparent; padding: 0; border: 0; }
+.sectionHeader { display: flex; justify-content: space-between; align-items: end; margin-bottom: 12px; }
+.count { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; border-radius: 999px; background: var(--color-paper-deep); border: 1px solid var(--color-border); font-family: var(--font-mono); font-size: 12px; }
+.invoiceList { display: grid; gap: 10px; }
+.invoiceRow { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 18px; align-items: center; background: var(--color-paper-deep); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 16px; }
+.invoiceMain { display: grid; gap: 5px; }
+.invoiceMain strong { color: var(--color-ink); }
+.invoiceMain span, .invoiceAmount { color: var(--color-text-muted); font-size: 14px; }
+.invoiceAmount { font-family: var(--font-mono); color: var(--color-ink); }
+.statusPill { padding: 6px 10px; border-radius: 999px; background: rgba(0,0,0,.06); font-size: 12px; font-weight: 600; white-space: nowrap; }
+.empty { padding: 28px; text-align: center; border: 1px dashed var(--color-border); border-radius: var(--radius-md); color: var(--color-text-muted); }
+.empty h3 { color: var(--color-ink); margin-bottom: 5px; }
+.lockedCard { display: flex; gap: 16px; align-items: center; }
+.lockIcon { font-size: 24px; }
+.status { color: var(--color-text-muted); text-align: center; padding: var(--space-xl) 0; }
+@media (max-width: 700px) { .invoiceRow { grid-template-columns: 1fr; gap: 10px; } .statusPill { justify-self: start; } }

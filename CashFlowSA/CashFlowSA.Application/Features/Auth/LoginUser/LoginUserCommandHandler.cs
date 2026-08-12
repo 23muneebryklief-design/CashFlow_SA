@@ -1,6 +1,7 @@
 using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Application.Common.Exceptions;
 using CashFlowSA.Domain.Models;
+using CashFlowSA.Domain.Models.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +42,24 @@ namespace CashFlowSA.Application.Features.Auth.LoginUser
             if (verificationResult == PasswordVerificationResult.Failed)
                 throw new AuthenticationFailedException("Invalid email or password.");
 
-            var accessToken = _tokenService.GenerateAccessToken(user);
+            // The JWT's "sub" claim is the User id, but SME/Investor-scoped
+            // endpoints (e.g. KYC status, invoice listing) key off the SME/
+            // Investor id instead. Resolve it once here so the frontend gets
+            // it for free in the token rather than needing a follow-up call.
+            Guid? profileId = user.Role switch
+            {
+                UsersRoles.SME => await _context.SMEs
+                    .Where(s => s.UserId == user.UserId)
+                    .Select(s => (Guid?)s.SMEId)
+                    .FirstOrDefaultAsync(cancellationToken),
+                UsersRoles.Investor => await _context.Investors
+                    .Where(i => i.UserId == user.UserId)
+                    .Select(i => (Guid?)i.InvestorId)
+                    .FirstOrDefaultAsync(cancellationToken),
+                _ => null
+            };
+
+            var accessToken = _tokenService.GenerateAccessToken(user, profileId);
             var refreshToken = _tokenService.GenerateRefreshToken();
             var expiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpiryMinutes);
             var session = new UserSession

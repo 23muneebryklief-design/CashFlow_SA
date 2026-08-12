@@ -5,5 +5,6 @@ namespace CashFlowSA.Application.Features.Invoice.GetInvoice
     public class GetInvoiceQuery : IRequest<InvoiceDto>
     {
         public Guid InvoiceId { get; set; }
+        public Guid SMEId { get; set; }
     }
 }

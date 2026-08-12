@@ -18,7 +18,9 @@ namespace CashFlowSA.Application.Features.Invoice.CorrectInvoiceFields
         public async Task<Unit> Handle(CorrectInvoiceFieldsCommand request, CancellationToken cancellationToken)
         {
             var invoice = await _context.Invoices
-                .FirstOrDefaultAsync(i => i.InvoiceId == request.InvoiceId, cancellationToken);
+                .FirstOrDefaultAsync(
+                    i => i.InvoiceId == request.InvoiceId && i.SMEId == request.SMEId,
+                    cancellationToken);
 
             if (invoice is null)
                 throw new NotFoundException("Invoice not found.");

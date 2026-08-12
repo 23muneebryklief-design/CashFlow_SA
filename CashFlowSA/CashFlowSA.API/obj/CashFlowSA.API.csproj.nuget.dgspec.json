@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\CashFlowSA.API.csproj": {}
+    "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\CashFlowSA.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\CashFlowSA.API.csproj": {
+    "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\CashFlowSA.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\CashFlowSA.API.csproj",
+        "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\CashFlowSA.API.csproj",
         "projectName": "CashFlowSA.API",
-        "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\CashFlowSA.API.csproj",
+        "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\CashFlowSA.API.csproj",
         "packagesPath": "C:\\Users\\laeeq\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\obj\\",
+        "outputPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,11 +33,11 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj": {
-                "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj"
+              "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj": {
+                "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj"
               },
-              "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj"
+              "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj"
               }
             }
           }
@@ -59,6 +59,10 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "AWSSDK.S3": {
+              "target": "Package",
+              "version": "[4.0.102, )"
+            },
             "FluentValidation.DependencyInjectionExtensions": {
               "target": "Package",
               "version": "[12.1.1, )"
@@ -519,14 +523,14 @@
         }
       }
     },
-    "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj": {
+    "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj",
+        "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj",
         "projectName": "CashFlowSA.Application",
-        "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj",
+        "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj",
         "packagesPath": "C:\\Users\\laeeq\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\obj\\",
+        "outputPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -548,8 +552,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj": {
-                "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj"
+              "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj": {
+                "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj"
               }
             }
           }
@@ -886,14 +890,14 @@
         }
       }
     },
-    "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj": {
+    "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj",
         "projectName": "CashFlowSA.Domain",
-        "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj",
+        "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj",
         "packagesPath": "C:\\Users\\laeeq\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\obj\\",
+        "outputPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1227,14 +1231,14 @@
         }
       }
     },
-    "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj": {
+    "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
         "projectName": "CashFlowSA.Infrastructure",
-        "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\laeeq\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1256,11 +1260,11 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj": {
-                "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj"
+              "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj": {
+                "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj"
               },
-              "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj": {
-                "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj"
+              "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj": {
+                "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj"
               }
             }
           }
@@ -1282,6 +1286,10 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "AWSSDK.S3": {
+              "target": "Package",
+              "version": "[4.0.102, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",

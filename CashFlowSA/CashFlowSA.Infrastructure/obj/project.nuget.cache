@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "NiSQZqnBU0Q=",
+  "dgSpecHash": "EUECUhqwwtk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\laeeq\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
+    "C:\\Users\\laeeq\\.nuget\\packages\\awssdk.core\\4.0.100.9\\awssdk.core.4.0.100.9.nupkg.sha512",
+    "C:\\Users\\laeeq\\.nuget\\packages\\awssdk.s3\\4.0.102\\awssdk.s3.4.0.102.nupkg.sha512",
     "C:\\Users\\laeeq\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\laeeq\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
     "C:\\Users\\laeeq\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",

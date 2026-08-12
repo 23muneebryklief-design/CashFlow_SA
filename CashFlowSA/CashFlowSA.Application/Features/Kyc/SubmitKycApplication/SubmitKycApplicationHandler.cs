@@ -54,6 +54,7 @@ namespace CashFlowSA.Application.Features.Kyc.SubmitKycApplication
                 {
                     DocumentId = Guid.NewGuid(),
                     UserId = sme.UserId,
+                    KYCApplicationId = application.ApplicationId,
                     DocumentType = doc.DocumentType,
                     FileName = doc.FileName,
                     FilePath = doc.FilePath,

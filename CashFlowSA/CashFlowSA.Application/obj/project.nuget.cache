@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fm8p+OhyzdU=",
+  "dgSpecHash": "2hGavPjOqFU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj",
+  "projectFilePath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\laeeq\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
     "C:\\Users\\laeeq\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",

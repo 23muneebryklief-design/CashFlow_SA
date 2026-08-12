@@ -7,9 +7,13 @@ import Register from "./pages/Register/Register";
 import InvestorMarketplace from "./pages/InvestorMarketplace/InvestorMarketplace";
 import InvestorDashboard from "./pages/InvestorDashboard/InvestorDashboard";
 import SMEDashboard from "./pages/SMEDashboard/SMEDashboard";
+import FicaVerification from "./pages/FicaVerification/FicaVerification";
+import Profile from "./pages/Profile/Profile";
+import Invoices from "./pages/Invoices/Invoices";
 
 import AdminLogin from "./pages/AdminLogin/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
+import AuditorDashboard from "./pages/AuditorDashboard/AuditorDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import AppShell from "./components/layout/AppShell/AppShell";
@@ -61,14 +65,58 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/invoices"
+          element={
+            <ProtectedRoute requiredRole="SME">
+              <AppShell>
+                <Invoices />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/fica-verification"
+          element={
+            <ProtectedRoute requiredRole="SME">
+              <AppShell>
+                <FicaVerification />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute requiredRole={["SME", "Investor", "Admin", "SuperAdmin", "CreditAnalyst", "Auditor"]}>
+              <AppShell>
+                <Profile />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+
 
         {/* Admin Routes */}
         <Route
           path="/admin-dashboard"
           element={
-            <ProtectedRoute requiredRole={["Admin", "SuperAdmin"]}>
+            <ProtectedRoute requiredRole={["Admin", "SuperAdmin", "CreditAnalyst"]}>
               <AppShell>
                 <AdminDashboard />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Auditor Routes */}
+        <Route
+          path="/auditor-kyc"
+          element={
+            <ProtectedRoute requiredRole={["Auditor", "Admin", "SuperAdmin"]}>
+              <AppShell>
+                <AuditorDashboard />
               </AppShell>
             </ProtectedRoute>
           }

@@ -1,0 +1,151 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.balanceHint {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  overflow: hidden;
+
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(14, 124, 94, 0.12);
+}
+
+.currency {
+  padding: 0 12px;
+
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+
+  border-right: 1px solid var(--color-border);
+
+  height: 46px;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper input {
+  flex: 1;
+  min-width: 0;
+
+  height: 46px;
+
+  border: none;
+  outline: none;
+
+  padding: 0 14px;
+
+  font-size: 16px;
+  font-family: var(--font-body);
+  color: var(--color-text);
+
+  background: transparent;
+}
+
+.inputWrapper input::-webkit-outer-spin-button,
+.inputWrapper input::-webkit-inner-spin-button {
+  margin: 0;
+}
+
+.plainInput {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  height: 46px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  outline: none;
+
+  padding: 0 14px;
+
+  font-size: 15px;
+  font-family: var(--font-body);
+  color: var(--color-text);
+
+  background: transparent;
+
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.plainInput:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(14, 124, 94, 0.12);
+}
+
+.cardRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.cardField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  /* Without this, a grid item's default min-width:auto falls back to its
+     content's intrinsic width (a bare <input> defaults to roughly
+     size="20", ~180px) instead of respecting the 1fr track -- which is
+     what was pushing the CVV column outside the modal. */
+  min-width: 0;
+}
+
+.error {
+  font-size: 13px;
+  color: #dc2626;
+}
+
+.submit {
+  height: 48px;
+
+  border: none;
+  border-radius: var(--radius-md);
+
+  background: var(--color-accent);
+  color: var(--color-white);
+
+  font-size: 14.5px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--color-accent-deep);
+}
+
+.submit:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}

@@ -11,25 +11,19 @@
 
   padding: var(--space-lg);
 
-  background:
-    radial-gradient(circle at 20% 20%, rgba(14,124,94,.16), transparent 45%),
-    radial-gradient(circle at 80% 30%, rgba(184,144,46,.12), transparent 40%),
-    radial-gradient(circle at 50% 90%, rgba(11,27,43,.20), transparent 45%),
-    linear-gradient(
-      135deg,
-      #06121E,
-      #0B1B2B,
-      #0E2233
-    );
+  /* Background now lives on MoneyRainBackground's wrapper so it sits
+     behind the falling notes instead of covering them. */
+}
 
-  background-size: 220% 220%;
+.floatWrapper {
+  width: 100%;
+  max-width: 960px;
 
-  animation: backgroundFlow 22s ease infinite;
+  animation: floatingCard 8s ease-in-out infinite;
 }
 
 .splitCard {
   width: 100%;
-  max-width: 960px;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -49,8 +43,6 @@
       0 30px 70px rgba(0,0,0,.25),
       inset 0 1px rgba(255,255,255,.18);
 
-  animation: floatingCard 8s ease-in-out infinite;
-
   transition:
       transform .25s ease,
       box-shadow .25s ease;
@@ -69,6 +61,9 @@
 @media (max-width: 900px) {
   .splitCard {
     grid-template-columns: 1fr;
+  }
+
+  .floatWrapper {
     max-width: 560px;
   }
 }
@@ -105,18 +100,9 @@
     }
 
 }
-@keyframes backgroundFlow {
 
-  0% {
-    background-position: 0% 50%;
+@media (prefers-reduced-motion: reduce) {
+  .floatWrapper {
+    animation: none;
   }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-
 }

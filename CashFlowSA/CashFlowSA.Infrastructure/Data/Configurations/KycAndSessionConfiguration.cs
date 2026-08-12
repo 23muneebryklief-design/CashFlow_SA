@@ -72,9 +72,17 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(d => d.UploadedAt).HasDefaultValueSql("GETUTCDATE()");
             builder.Property(d => d.FileSize).HasDefaultValue(0);
             builder.Property(d => d.Status).HasConversion<string>().HasMaxLength(15);
+            builder.Property(d => d.ReviewNotes).HasMaxLength(4000);
 
             builder.HasIndex(d => d.UserId);
             builder.HasIndex(d => d.Status);
+            builder.HasIndex(d => d.ReviewedByUserId);
+            builder.HasIndex(d => d.KYCApplicationId);
+
+            builder.HasOne<KYCApplication>()
+                .WithMany()
+                .HasForeignKey(d => d.KYCApplicationId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

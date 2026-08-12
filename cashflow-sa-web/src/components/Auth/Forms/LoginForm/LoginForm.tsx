@@ -42,6 +42,8 @@ export default function LoginForm() {
         navigate("/sme-dashboard");
       } else if (user.role === "Investor") {
         navigate("/investor-marketplace");
+      } else if (user.role === "Auditor") {
+        navigate("/auditor-kyc");
       } else {
         navigate("/");
       }

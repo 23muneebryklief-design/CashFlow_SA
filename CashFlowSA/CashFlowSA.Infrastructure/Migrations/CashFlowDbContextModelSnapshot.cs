@@ -897,6 +897,19 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasDefaultValue(0L);
 
+                    b.Property<Guid?>("KYCApplicationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ReviewNotes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ReviewedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(15)
@@ -911,6 +924,10 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("DocumentId");
+
+                    b.HasIndex("KYCApplicationId");
+
+                    b.HasIndex("ReviewedByUserId");
 
                     b.HasIndex("Status");
 
@@ -1879,6 +1896,14 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("SME");
+                });
+
+            modelBuilder.Entity("CashFlowSA.Domain.Models.KYCDocuments", b =>
+                {
+                    b.HasOne("CashFlowSA.Domain.Models.KYCApplication", null)
+                        .WithMany()
+                        .HasForeignKey("KYCApplicationId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("CashFlowSA.Domain.Models.KYCReview", b =>

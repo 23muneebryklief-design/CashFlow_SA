@@ -54,6 +54,54 @@
   opacity: 0.7;
 }
 
+.walletActions {
+  display: flex;
+  gap: 12px;
+
+  margin-top: var(--space-md);
+}
+
+.walletActionPrimary,
+.walletActionSecondary {
+  height: 42px;
+  padding: 0 20px;
+
+  border-radius: var(--radius-sm);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.walletActionPrimary {
+  border: none;
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.walletActionPrimary:hover {
+  background: var(--color-accent-deep);
+}
+
+.walletActionSecondary {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: var(--color-white);
+}
+
+.walletActionSecondary:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.walletActionPrimary:active,
+.walletActionSecondary:active {
+  transform: scale(0.98);
+}
+
 .sectionTitle {
   font-family: var(--font-display);
   font-size: 20px;

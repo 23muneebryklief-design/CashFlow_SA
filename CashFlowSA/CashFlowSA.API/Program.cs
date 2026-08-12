@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ---- Configuration binding ----
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<SupabaseStorageSettings>(builder.Configuration.GetSection("SupabaseStorage"));
 
 // ---- Database ----
 builder.Services.AddDbContext<CashFlowDbContext>(options =>
@@ -28,6 +29,7 @@ builder.Services.AddAutoMapper(cfg => { }, typeof(ITokenService).Assembly);
 
 // ---- Application services ----
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
+builder.Services.AddScoped<IFileStorage, SupabaseFileStorage>();
 
 // ---- Background services ----
 builder.Services.AddHostedService<CashFlowSA.API.Services.AuctionCloseBackgroundService>();

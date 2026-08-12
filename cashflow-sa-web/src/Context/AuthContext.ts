@@ -9,6 +9,8 @@ interface DecodedToken {
   sub: string;
   email: string;
   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
+  // SME/Investor id -- only present for roles that have one (SME, Investor).
+  profileId?: string;
   exp: number;
 }
 
@@ -16,6 +18,9 @@ interface AuthUser {
   userId: string;
   email: string;
   role: string;
+  // The SME id for an SME user, the Investor id for an Investor user,
+  // undefined for roles without a profile (Admin, CreditAnalyst, Auditor).
+  profileId?: string;
 }
 
 interface AuthContextType {
@@ -33,6 +38,7 @@ function decodeUser(token: string): AuthUser {
     userId: decoded.sub,
     email: decoded.email,
     role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+    profileId: decoded.profileId,
   };
 }
 

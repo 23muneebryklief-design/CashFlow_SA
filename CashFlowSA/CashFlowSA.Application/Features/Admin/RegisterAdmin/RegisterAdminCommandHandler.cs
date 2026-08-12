@@ -26,9 +26,10 @@ namespace CashFlowSA.Application.Features.Admin.RegisterAdmin
             if (emailInUse)
                 throw new ConflictException("A user with this email already exists.");
 
-            // Only ever creates plain Admins -- SuperAdmin is reserved for the
-            // single seeded account (see AdminSeeder) and is never assignable
-            // through this endpoint.
+            // Only ever creates Admin/CreditAnalyst/Auditor accounts -- SuperAdmin is
+            // reserved for the single seeded account (see AdminSeeder) and is never
+            // assignable through this endpoint. The validator already restricts
+            // request.Role to the three allowed values, so Enum.Parse is safe here.
             var admin = new User
             {
                 UserId = Guid.NewGuid(),
@@ -36,7 +37,7 @@ namespace CashFlowSA.Application.Features.Admin.RegisterAdmin
                 LastName = request.LastName,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
-                Role = UsersRoles.Admin,
+                Role = Enum.Parse<UsersRoles>(request.Role),
                 Status = AccountStatus.Active
             };
             admin.PasswordHash = _passwordHasher.HashPassword(admin, request.Password);

@@ -18,26 +18,32 @@ export default function Register() {
       <AmbientGlow />
 
       <main className={styles.page}>
-        <div
-          ref={ref}
-          className={styles.splitCard}
-        >
-          <FadeIn delay={100}>
-            <AuthBrandPanel
-              title="Join the"
-              highlight="marketplace."
-              subtitle="Whether you're raising capital or looking to invest, verification takes minutes."
-              bullets={[
-                { text: "Verified SMEs only", accent: "emerald" },
-                { text: "Bank-level encryption", accent: "emerald" },
-                { text: "R2.4M+ funded to date", accent: "gold" },
-              ]}
-            />
-          </FadeIn>
+        {/* floatWrapper: gentle bob (CSS keyframe).
+            splitCard (ref'd): mouse tilt (JS inline transform).
+            Kept on separate elements so the two transforms don't fight
+            on the same property. */}
+        <div className={styles.floatWrapper}>
+          <div
+            ref={ref}
+            className={styles.splitCard}
+          >
+            <FadeIn delay={100}>
+              <AuthBrandPanel
+                title="Join the"
+                highlight="marketplace."
+                subtitle="Whether you're raising capital or looking to invest, verification takes minutes."
+                bullets={[
+                  { text: "Verified SMEs only", accent: "emerald" },
+                  { text: "Bank-level encryption", accent: "emerald" },
+                  { text: "R2.4M+ funded to date", accent: "gold" },
+                ]}
+              />
+            </FadeIn>
 
-          <div className={styles.formSide}>
-            {/* RegisterForm stages its own entrance (Phase 3.5) */}
-            <RegisterForm />
+            <div className={styles.formSide}>
+              {/* RegisterForm stages its own entrance (Phase 3.5) */}
+              <RegisterForm />
+            </div>
           </div>
         </div>
       </main>

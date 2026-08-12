@@ -30,6 +30,19 @@ namespace CashFlowSA.Application.Features.AdminKyc.RejectKycApplication
             application.Status = KycStatus.Rejected;
             application.ReviewedAt = DateTime.UtcNow;
 
+            var sme = await _context.SMEs
+                .FirstOrDefaultAsync(s => s.SMEId == application.SMEId, cancellationToken);
+
+            if (sme is null)
+                throw new NotFoundException("SME not found.");
+
+            var applicationDocuments = await _context.KYCDocuments
+                .Where(d => d.KYCApplicationId == application.ApplicationId)
+                .ToListAsync(cancellationToken);
+
+            foreach (var document in applicationDocuments)
+                document.Status = DocumentStatus.Rejected;
+
             _context.KYCReviews.Add(new KYCReview
             {
                 Id = Guid.NewGuid(),

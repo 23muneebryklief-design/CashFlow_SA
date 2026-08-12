@@ -42,13 +42,18 @@ export default function AdminLogin() {
 
       const user = await login({ email, password });
 
-      if (user.role !== "Admin" && user.role !== "SuperAdmin") {
+      const allowedRoles = ["Admin", "SuperAdmin", "Auditor", "CreditAnalyst"];
+      if (!allowedRoles.includes(user.role)) {
         logout();
-        setError("This portal is for administrators only.");
+        setError("This portal is for ops staff only.");
         return;
       }
 
-      navigate("/admin-dashboard");
+      if (user.role === "Auditor") {
+        navigate("/auditor-kyc");
+      } else {
+        navigate("/admin-dashboard");
+      }
     } catch {
       setError("Invalid email or password.");
     } finally {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Wallet.GetWalletBalance;
 using CashFlowSA.Application.Features.Wallet.GetWalletTransactions;
 using CashFlowSA.Application.Features.Wallet.DepositFunds;
+using CashFlowSA.Application.Features.Wallet.WithdrawFunds;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
@@ -42,6 +43,13 @@ namespace CashFlowSA.API.Controllers
 
         [HttpPost("deposit")]
         public async Task<IActionResult> Deposit([FromBody] DepositFundsCommand command, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpPost("withdraw")]
+        public async Task<IActionResult> Withdraw([FromBody] WithdrawFundsCommand command, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(result);

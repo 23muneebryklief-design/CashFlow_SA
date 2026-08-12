@@ -20,6 +20,35 @@
           }
         }
       },
+      "AWSSDK.Core/4.0.100.9": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "AWSSDK.S3/4.0.102": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[4.0.100.9, 5.0.0)"
+        },
+        "compile": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Azure.Core/1.47.1": {
         "type": "package",
         "dependencies": {
@@ -1509,6 +1538,53 @@
         "lib/net9.0/AutoMapper.xml",
         "lib/netstandard2.0/AutoMapper.dll",
         "lib/netstandard2.0/AutoMapper.xml"
+      ]
+    },
+    "AWSSDK.Core/4.0.100.9": {
+      "sha512": "OPYy41jZjXwxxcYRotaq24HDrwUnVtBB/mvg1IwB9D1ICXAtHqMa1sp2hpmlVJCZwjlcrPcTCJIejInvV1vp5g==",
+      "type": "package",
+      "path": "awssdk.core/4.0.100.9",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "awssdk.core.4.0.100.9.nupkg.sha512",
+        "awssdk.core.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.Core.dll",
+        "lib/net472/AWSSDK.Core.xml",
+        "lib/net8.0/AWSSDK.Core.dll",
+        "lib/net8.0/AWSSDK.Core.xml",
+        "lib/netcoreapp3.1/AWSSDK.Core.dll",
+        "lib/netcoreapp3.1/AWSSDK.Core.xml",
+        "lib/netstandard2.0/AWSSDK.Core.dll",
+        "lib/netstandard2.0/AWSSDK.Core.xml",
+        "tools/account-management.ps1"
+      ]
+    },
+    "AWSSDK.S3/4.0.102": {
+      "sha512": "+5ToRNfpNnu1/oEbb1P+4AnHpknda1+eybYkhT6viFC4v772ZONeFYGR1pHgm7Zum0nvLDpSEJl/4y+wggpIpg==",
+      "type": "package",
+      "path": "awssdk.s3/4.0.102",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/AWSSDK.S3.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/SharedAnalysisCode.dll",
+        "awssdk.s3.4.0.102.nupkg.sha512",
+        "awssdk.s3.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.S3.dll",
+        "lib/net472/AWSSDK.S3.xml",
+        "lib/net8.0/AWSSDK.S3.dll",
+        "lib/net8.0/AWSSDK.S3.xml",
+        "lib/netcoreapp3.1/AWSSDK.S3.dll",
+        "lib/netcoreapp3.1/AWSSDK.S3.xml",
+        "lib/netstandard2.0/AWSSDK.S3.dll",
+        "lib/netstandard2.0/AWSSDK.S3.xml",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
       ]
     },
     "Azure.Core/1.47.1": {
@@ -4168,6 +4244,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "AWSSDK.S3 >= 4.0.102",
       "CashFlowSA.Application >= 1.0.0",
       "CashFlowSA.Domain >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.9",
@@ -4181,11 +4258,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
       "projectName": "CashFlowSA.Infrastructure",
-      "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
+      "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\CashFlowSA.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\laeeq\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\obj\\",
+      "outputPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4207,11 +4284,11 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj": {
-              "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj"
+            "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj": {
+              "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Application\\CashFlowSA.Application.csproj"
             },
-            "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj": {
-              "projectPath": "C:\\Users\\laeeq\\Desktop\\CashFlowSA\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj"
+            "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj": {
+              "projectPath": "C:\\Users\\laeeq\\Desktop\\New folder (2)\\CashFlow_SA\\CashFlowSA\\CashFlowSA.Domain\\CashFlowSA.Domain.csproj"
             }
           }
         }
@@ -4233,6 +4310,10 @@
         "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
+          "AWSSDK.S3": {
+            "target": "Package",
+            "version": "[4.0.102, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",

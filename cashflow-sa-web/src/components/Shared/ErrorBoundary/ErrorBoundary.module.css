@@ -1,0 +1,78 @@
+.container {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: var(--space-lg);
+
+  background: var(--color-paper);
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+
+  padding: var(--space-lg);
+
+  text-align: center;
+}
+
+.card h1 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-ink);
+
+  margin-bottom: var(--space-sm);
+}
+
+.card p {
+  color: var(--color-text-muted);
+  font-size: 14px;
+
+  margin-bottom: var(--space-md);
+}
+
+.details {
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #b3261e;
+
+  background: var(--color-paper-deep);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+
+  margin-bottom: var(--space-md);
+}
+
+.button {
+  height: 44px;
+  padding: 0 24px;
+
+  border: none;
+  border-radius: var(--radius-sm);
+
+  background: var(--color-ink);
+  color: var(--color-white);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+}
+
+.button:hover {
+  background: var(--color-accent-deep);
+}

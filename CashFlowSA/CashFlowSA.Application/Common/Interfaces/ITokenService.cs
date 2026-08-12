@@ -4,7 +4,11 @@ namespace CashFlowSA.Application.Common.Interfaces
 {
     public interface ITokenService
     {
-        string GenerateAccessToken(User user);
+        // profileId is the SME/Investor id (not the User id) -- included as a
+        // "profileId" claim so the frontend can call SME/Investor-scoped
+        // endpoints (e.g. KYC status) right after login without an extra
+        // lookup round-trip. Null for roles with no such profile (Admin, etc).
+        string GenerateAccessToken(User user, Guid? profileId = null);
         string GenerateRefreshToken();
 
     }

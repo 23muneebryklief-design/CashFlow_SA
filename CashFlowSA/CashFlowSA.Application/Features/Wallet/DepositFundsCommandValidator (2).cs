@@ -49,3 +49,5 @@ namespace CashFlowSA.Application.Features.Wallet.DepositFunds
             return expiry >= DateTime.UtcNow.Date;
     }
 }
+}
+

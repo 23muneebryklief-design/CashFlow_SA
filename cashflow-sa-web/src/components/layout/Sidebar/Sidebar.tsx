@@ -5,25 +5,36 @@ import styles from "./Sidebar.module.css";
 interface SidebarLink {
   to: string;
   label: string;
+  badge?: string;
 }
 
 const investorLinks: SidebarLink[] = [
   { to: "/investor-marketplace", label: "Marketplace" },
   { to: "/investor-dashboard", label: "Dashboard" },
+  { to: "/profile", label: "Profile" },
 ];
 
 const smeLinks: SidebarLink[] = [
   { to: "/sme-dashboard", label: "Dashboard" },
+  { to: "/invoices", label: "Invoices" },
+  { to: "/profile", label: "Profile" },
 ];
 
 const adminLinks: SidebarLink[] = [
   { to: "/admin-dashboard", label: "Overview" },
+  { to: "/profile", label: "Profile" },
+];
+
+const auditorLinks: SidebarLink[] = [
+  { to: "/auditor-kyc", label: "KYC Review" },
+  { to: "/profile", label: "Profile" },
 ];
 
 function getLinksForRole(role: string | undefined): SidebarLink[] {
   if (role === "Investor") return investorLinks;
   if (role === "SME") return smeLinks;
-  if (role === "Admin" || role === "SuperAdmin") return adminLinks;
+  if (role === "Auditor") return auditorLinks;
+  if (role === "Admin" || role === "SuperAdmin" || role === "CreditAnalyst") return adminLinks;
   return [];
 }
 
@@ -53,6 +64,7 @@ export default function Sidebar() {
             {link.label}
           </NavLink>
         ))}
+
       </nav>
 
       <div className={styles.footer}>

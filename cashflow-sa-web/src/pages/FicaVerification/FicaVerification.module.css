@@ -1,0 +1,280 @@
+.page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent-deep);
+  margin-bottom: 6px;
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.subhead {
+  margin-top: 8px;
+  color: var(--color-text-muted);
+  max-width: 56ch;
+}
+
+.status {
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: var(--space-xl) 0;
+}
+
+.banner {
+  border-radius: var(--radius-lg);
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-lg);
+  border: 1px solid var(--color-border);
+}
+
+.bannerPending {
+  background: rgba(184, 144, 46, 0.08);
+  border-color: rgba(184, 144, 46, 0.3);
+  color: #8A6A1F;
+}
+
+.bannerRejected {
+  background: rgba(180, 35, 24, 0.06);
+  border-color: rgba(180, 35, 24, 0.25);
+  color: #8A2A1F;
+}
+
+.bannerVerified {
+  background: rgba(14, 124, 94, 0.08);
+  border-color: rgba(14, 124, 94, 0.3);
+  color: var(--color-accent-deep);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.linkBtn {
+  border: 1px solid var(--color-accent-deep);
+  background: transparent;
+  color: var(--color-accent-deep);
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.linkBtn:hover {
+  background: rgba(14, 124, 94, 0.1);
+}
+
+.docList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  margin-bottom: var(--space-lg);
+}
+
+.docRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface);
+}
+
+.docInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.docLabel {
+  font-weight: 600;
+  color: var(--color-ink);
+  font-size: 15px;
+}
+
+.docHelp {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.docAction {
+  flex-shrink: 0;
+}
+
+.hiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.uploadBtn,
+.replaceBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 16px;
+
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-paper);
+  color: var(--color-ink);
+
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.uploadBtn:hover,
+.replaceBtn:hover {
+  background: var(--color-paper-deep);
+  border-color: var(--color-accent-deep);
+}
+
+.docStatusText {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.docUploaded {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.docFileName {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docError {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #B42318;
+}
+
+.submitError {
+  color: #B42318;
+  font-size: 14px;
+  margin-bottom: var(--space-sm);
+}
+
+.submitBtn {
+  height: 46px;
+  padding: 0 28px;
+
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-ink);
+  color: var(--color-white);
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.submitBtn:disabled {
+  background: var(--color-paper-deep);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .docRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .docAction {
+    width: 100%;
+  }
+
+  .uploadBtn,
+  .replaceBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.statusPending {
+  background: rgba(184, 144, 46, 0.12);
+  color: #8A6A1F;
+}
+
+.statusApproved {
+  background: rgba(14, 124, 94, 0.12);
+  color: var(--color-accent-deep);
+}
+
+.statusRejected {
+  background: rgba(180, 35, 24, 0.1);
+  color: #8A2A1F;
+}

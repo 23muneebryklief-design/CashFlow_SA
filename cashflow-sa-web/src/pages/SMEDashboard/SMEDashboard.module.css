@@ -1,57 +1,126 @@
-.container {
-  min-height: 100vh;
-  background: #f8fafc;
-  padding: 3rem;
+.page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
 
+.header {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
 }
 
-.card {
-  width: 100%;
-  max-width: 900px;
-
-  background: white;
-
-  border-radius: 16px;
-
-  padding: 2rem;
-
-  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent-deep);
+  margin-bottom: 6px;
 }
 
-.card h1 {
-  margin-bottom: .5rem;
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--color-ink);
 }
 
-.info {
-  margin: 2rem 0;
-  padding: 1.5rem;
-  border-radius: 12px;
-  background: #f1f5f9;
+.walletCard {
+  background: var(--color-ink);
+  color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
 }
 
-.info p {
-  margin-bottom: .75rem;
+.walletCard span {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.walletCard h2 {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  margin-top: 8px;
+}
+
+.walletCard h2 small {
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+.walletActions {
+  display: flex;
+  gap: 12px;
+
+  margin-top: var(--space-md);
+}
+
+.walletActionSecondary {
+  height: 42px;
+  padding: 0 20px;
+
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: var(--color-white);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.walletActionSecondary:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.walletActionSecondary:active {
+  transform: scale(0.98);
 }
 
 .placeholder {
-  padding: 2rem;
-  border-radius: 12px;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper-deep);
+  border: 1px solid var(--color-border);
 }
 
 .placeholder h2 {
-  margin-bottom: 1rem;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-ink);
+  margin-bottom: var(--space-sm);
 }
 
 .placeholder ul {
-  margin-top: 1rem;
-  padding-left: 1.5rem;
+  margin-top: var(--space-sm);
+  padding-left: 1.25rem;
+  color: var(--color-text-muted);
 }
 
 .placeholder li {
-  margin-bottom: .5rem;
+  margin-bottom: 6px;
 }
+
+.status {
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: var(--space-xl) 0;
+}
+
+.invoiceCard { display: flex; justify-content: space-between; gap: 24px; align-items: center; padding: var(--space-lg); border-radius: var(--radius-lg); background: var(--color-paper-deep); border: 1px solid var(--color-border); margin-bottom: var(--space-lg); }
+.invoiceEyebrow { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-accent-deep); margin-bottom: 6px; }
+.invoiceCard h2 { font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--color-ink); margin-bottom: 8px; }
+.invoiceCard p:not(.invoiceEyebrow) { color: var(--color-text-muted); max-width: 650px; }
+.invoiceCard button { flex: 0 0 auto; height: 42px; padding: 0 18px; border: 0; border-radius: var(--radius-sm); background: var(--color-ink); color: var(--color-white); font-weight: 600; cursor: pointer; }
+@media (max-width: 700px) { .invoiceCard { flex-direction: column; align-items: flex-start; } }

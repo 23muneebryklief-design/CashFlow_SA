@@ -65,6 +65,11 @@
 }
 
 .link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+
   padding: 11px var(--space-xs);
   border-radius: var(--radius-sm);
 
@@ -78,6 +83,28 @@
 .link:hover {
   background: rgba(255, 255, 255, 0.06);
   color: var(--color-white);
+}
+
+.navBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  padding: 3px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.navBadgePending {
+  color: var(--color-gold);
+  background: rgba(184, 144, 46, 0.16);
+}
+
+.navBadgeRejected {
+  color: #E36B6B;
+  background: rgba(227, 107, 107, 0.16);
 }
 
 .active {

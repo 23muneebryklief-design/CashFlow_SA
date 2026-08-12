@@ -11,6 +11,40 @@
   z-index: 0;
 
   pointer-events: none;
+
+  /* Animated brand-colour backdrop, painted behind the canvas so falling
+     notes render on top of it instead of a page-level layer covering
+     both this and the canvas (see MoneyRainBackground usage notes). */
+  background:
+    radial-gradient(circle at 20% 20%, rgba(14,124,94,.16), transparent 45%),
+    radial-gradient(circle at 80% 30%, rgba(184,144,46,.12), transparent 40%),
+    radial-gradient(circle at 50% 90%, rgba(11,27,43,.20), transparent 45%),
+    linear-gradient(
+      135deg,
+      #06121E,
+      #0B1B2B,
+      #0E2233
+    );
+
+  background-size: 220% 220%;
+
+  animation: backgroundFlow 22s ease infinite;
+}
+
+@keyframes backgroundFlow {
+
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+
 }
 
 /* Canvas */
@@ -21,6 +55,13 @@
   height: 100%;
 
   pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrapper {
+    animation: none;
+    background-position: 0% 50%;
+  }
 }
 
 /* Used later for the animated gradient */

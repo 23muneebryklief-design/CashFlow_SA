@@ -36,12 +36,15 @@ namespace CashFlowSA.Application.Features.Invoice.UploadInvoice
                 throw new ForbiddenException("SME must have a Verified KYC status before uploading an invoice.");
 
             // 3. Create the Invoice with placeholder values.
-            // OCR (not yet built) or manual correction will fill these in later.
+            // The invoice number is unique while the record is still a draft
+            // because the database enforces uniqueness on InvoiceNumber.
+            // OCR (not yet built) or manual correction will replace it later.
+            var invoiceId = Guid.NewGuid();
             var invoice = new Domain.Models.Invoice
             {
-                InvoiceId = Guid.NewGuid(),
+                InvoiceId = invoiceId,
                 SMEId = request.SMEId,
-                InvoiceNumber = string.Empty,
+                InvoiceNumber = $"DRAFT-{invoiceId:N}",
                 DebtorName = string.Empty,
                 DebtorContactDetails = string.Empty,
                 Amount = 0,

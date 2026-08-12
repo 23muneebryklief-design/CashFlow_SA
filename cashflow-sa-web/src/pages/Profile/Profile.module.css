@@ -1,0 +1,162 @@
+.page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.eyebrow,
+.cardEyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent-deep);
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--color-ink);
+  margin-top: 6px;
+}
+
+.subhead,
+.muted {
+  color: var(--color-text-muted);
+}
+
+.subhead {
+  margin-top: 8px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.card h2 {
+  margin-top: 6px;
+  color: var(--color-ink);
+  font-size: 20px;
+}
+
+.role {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.documentList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: var(--space-md) 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.documentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 13px 15px;
+  background: var(--color-paper);
+}
+
+.documentRow > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.documentRow strong {
+  color: var(--color-ink);
+  font-size: 14px;
+}
+
+.documentRow span {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.statusPill {
+  flex-shrink: 0;
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.statusApproved {
+  background: rgba(14, 124, 94, 0.12);
+  color: var(--color-accent-deep);
+}
+
+.statusPending {
+  background: rgba(184, 144, 46, 0.12);
+  color: #8A6A1F;
+}
+
+.statusRejected {
+  background: rgba(180, 35, 24, 0.1);
+  color: #8A2A1F;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  height: 42px;
+  padding: 0 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primaryBtn {
+  border: none;
+  background: var(--color-ink);
+  color: var(--color-white);
+}
+
+.secondaryBtn {
+  border: 1px solid var(--color-border);
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.error {
+  color: #B42318;
+}
+
+@media (max-width: 640px) {
+  .documentRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+  }
+}

@@ -11,20 +11,8 @@
 
   padding: var(--space-lg);
 
-  background:
-    radial-gradient(circle at 20% 20%, rgba(14,124,94,.16), transparent 45%),
-    radial-gradient(circle at 80% 30%, rgba(184,144,46,.12), transparent 40%),
-    radial-gradient(circle at 50% 90%, rgba(11,27,43,.20), transparent 45%),
-    linear-gradient(
-      135deg,
-      #06121E,
-      #0B1B2B,
-      #0E2233
-    );
-
-  background-size: 220% 220%;
-
-  animation: backgroundFlow 22s ease infinite;
+  /* Background now lives on MoneyRainBackground's wrapper so it sits
+     behind the falling notes instead of covering them. */
 }
 
 .cardWrapper {

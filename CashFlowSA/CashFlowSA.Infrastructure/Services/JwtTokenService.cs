@@ -18,7 +18,7 @@ namespace CashFlowSA.Infrastructure.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public string GenerateAccessToken(User user)
+        public string GenerateAccessToken(User user, Guid? profileId = null)
         {
             var claims = new List<Claim>
             {
@@ -27,6 +27,11 @@ namespace CashFlowSA.Infrastructure.Services
                 new(ClaimTypes.Role, user.Role.ToString()),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            if (profileId.HasValue)
+            {
+                claims.Add(new Claim("profileId", profileId.Value.ToString()));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

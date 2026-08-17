@@ -35,3 +35,5 @@
   text-align: center;
   padding: var(--space-xl) 0;
 }
+
+.description { max-width: 680px; margin-top: 8px; color: var(--color-text-muted); line-height: 1.5; }

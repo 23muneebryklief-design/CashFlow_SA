@@ -35,7 +35,8 @@ namespace CashFlowSA.Application.Features.Invoice.GetInvoice
                 IssueDate = invoice.IssueDate,
                 DueDate = invoice.DueDate,
                 Status = invoice.Status,
-                ProcessingComplete = invoice.ProcessingComplete
+                ProcessingComplete = invoice.ProcessingComplete,
+                ReviewNotes = invoice.ReviewNotes
             };
         }
     }

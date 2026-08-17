@@ -28,8 +28,8 @@ namespace CashFlowSA.Application.Features.Invoice.CorrectInvoiceFields
             // ASSUMPTION: fields can only be corrected while the invoice is still
             // Draft (i.e. before the SME has explicitly submitted it for review).
             // Adjust if the SRS intends corrections to be allowed at other stages too.
-            if (invoice.Status != InvoiceStatus.Draft)
-                throw new ConflictException("Only invoices in Draft status can have their fields corrected.");
+            if (invoice.Status != InvoiceStatus.Draft && invoice.Status != InvoiceStatus.Rejected)
+                throw new ConflictException("Only Draft or Rejected invoices can have their fields corrected.");
 
             invoice.InvoiceNumber = request.InvoiceNumber;
             invoice.DebtorName = request.DebtorName;

@@ -1,0 +1,9 @@
+.summary { padding: 4px 0 16px; border-bottom: 1px solid var(--color-border); display: grid; gap: 5px; }
+.summary span, .form label { font-size: 12px; color: var(--color-text-muted); }
+.summary strong { font-family: var(--font-mono); font-size: 25px; color: var(--color-ink); }
+.summary small { color: var(--color-text-muted); }
+.form { display: grid; gap: 12px; padding-top: 16px; }
+.form input { width: 100%; box-sizing: border-box; height: 44px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0 12px; background: var(--color-white); }
+.form button { height: 44px; border: 0; border-radius: var(--radius-sm); background: var(--color-ink); color: var(--color-white); font-weight: 700; cursor: pointer; }
+.form button:disabled { opacity: .6; cursor: wait; }
+.error { margin-top: 12px; padding: 10px 12px; border-radius: var(--radius-sm); background: rgba(184,46,46,.08); color: #b82e2e; font-size: 13px; }

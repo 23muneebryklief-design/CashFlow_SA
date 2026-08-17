@@ -118,10 +118,15 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 
 var app = builder.Build();
 
-// ---- Seed default Admin account (dev convenience -- there's no public
-// register/admin endpoint on purpose, so this is how the first admin
-// account gets created) ----
-await CashFlowSA.Infrastructure.Data.AdminSeeder.SeedAsync(app.Services);
+// ---- Seed development/demo accounts ----
+// Demo users are intentionally limited to Development so they can never be
+// created accidentally in a production deployment. AdminSeeder remains the
+// production-safe bootstrap for the first SuperAdmin.
+if (app.Environment.IsDevelopment())
+{
+    await CashFlowSA.Infrastructure.Data.AdminSeeder.SeedAsync(app.Services);
+    await CashFlowSA.Infrastructure.Data.DemoUserSeeder.SeedAsync(app.Services);
+}
 
 // ---- Development tools ----
 if (app.Environment.IsDevelopment())

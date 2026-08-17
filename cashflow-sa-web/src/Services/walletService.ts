@@ -104,3 +104,18 @@ export async function withdrawFromWallet(
   } satisfies WithdrawFundsRequest);
   return response.data;
 }
+export interface WalletTransaction {
+  transactionId: string;
+  walletId: string;
+  type: string;
+  amount: number;
+  referenceType: string;
+  referenceId: string | null;
+  description: string;
+  createdAt: string;
+}
+
+export async function getWalletTransactions(userId: string): Promise<WalletTransaction[]> {
+  const response = await api.get<WalletTransaction[]>(`/Wallet/${userId}/transactions`);
+  return response.data;
+}

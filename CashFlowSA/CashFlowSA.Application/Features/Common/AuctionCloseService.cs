@@ -54,7 +54,7 @@ namespace CashFlowSA.Application.Features.Funding.Common
                     bid.Status = bid.BidId == winningBid.BidId ? BidStatus.Winning : BidStatus.Outbid;
                 }
 
-                var investment = new Investment
+                var investment = new CashFlowSA.Domain.Models.Investment
                 {
                     InvestmentId = Guid.NewGuid(),
                     CampaignId = campaign.CampaignId,

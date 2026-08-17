@@ -1,6 +1,7 @@
 using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Application.Common.Exceptions;
 using CashFlowSA.Application.Features.Funding.Common;
+using CashFlowSA.Application.Features.Common;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using MediatR;
@@ -38,7 +39,9 @@ namespace CashFlowSA.Application.Features.Funding.CommitSingleInvestorFunding
             if (request.Amount != campaign.TargetAmount - campaign.FundedAmount)
                 throw new ConflictException("Amount must exactly cover the campaign's remaining target amount.");
 
-            var investment = new Investment
+            await InvestorWalletDebit.DebitAsync(_context, request.InvestorId, request.Amount, campaign.CampaignId, cancellationToken);
+
+            var investment = new CashFlowSA.Domain.Models.Investment
             {
                 InvestmentId = Guid.NewGuid(),
                 CampaignId = campaign.CampaignId,

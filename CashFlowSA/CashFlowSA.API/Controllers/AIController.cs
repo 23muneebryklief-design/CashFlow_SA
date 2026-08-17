@@ -7,7 +7,7 @@ namespace CashFlowSA.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class AIController : ControllerBase
     {
         private readonly IRiskScoringService _riskScoringService;

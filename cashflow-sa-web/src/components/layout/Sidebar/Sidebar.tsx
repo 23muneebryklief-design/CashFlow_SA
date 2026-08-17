@@ -17,6 +17,7 @@ const investorLinks: SidebarLink[] = [
 const smeLinks: SidebarLink[] = [
   { to: "/sme-dashboard", label: "Dashboard" },
   { to: "/invoices", label: "Invoices" },
+  { to: "/fica-verification", label: "FICA Verification" },
   { to: "/profile", label: "Profile" },
 ];
 

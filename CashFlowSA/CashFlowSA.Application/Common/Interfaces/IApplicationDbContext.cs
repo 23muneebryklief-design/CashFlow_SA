@@ -8,6 +8,7 @@ namespace CashFlowSA.Application.Common.Interfaces
         DbSet<User> Users { get; }
         DbSet<SME> SMEs { get; }
         DbSet<Investor> Investors { get; }
+        DbSet<InvestorPortfolio> InvestorPortfolios { get; }
         DbSet<UserSession>UserSessions{get;}
         DbSet<KYCApplication> KYCApplications { get; }
         DbSet<KYCDocuments> KYCDocuments { get; }
@@ -31,6 +32,7 @@ namespace CashFlowSA.Application.Common.Interfaces
 
         DbSet<AuditLog> AuditLogs { get; }
         DbSet<RiskAssessment> RiskAssessments { get; }
+        DbSet<AIExplanation> AIExplanations { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

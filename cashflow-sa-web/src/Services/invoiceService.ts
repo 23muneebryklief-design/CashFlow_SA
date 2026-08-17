@@ -22,6 +22,7 @@ export interface InvoiceDetails extends InvoiceSummary {
   debtorContactDetails: string;
   issueDate: string;
   processingComplete: boolean;
+  reviewNotes: string | null;
 }
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;

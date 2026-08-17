@@ -763,6 +763,16 @@ namespace CashFlowSA.Infrastructure.Migrations
                     b.Property<bool>("ProcessingComplete")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ReviewNotes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ReviewedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("SMEId")
                         .HasColumnType("uniqueidentifier");
 
@@ -781,6 +791,8 @@ namespace CashFlowSA.Infrastructure.Migrations
 
                     b.HasIndex("InvoiceNumber")
                         .IsUnique();
+
+                    b.HasIndex("ReviewedByUserId");
 
                     b.HasIndex("SMEId");
 

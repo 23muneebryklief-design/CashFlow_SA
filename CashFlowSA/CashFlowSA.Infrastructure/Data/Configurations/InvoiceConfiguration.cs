@@ -18,10 +18,12 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             .HasConversion<string>()
             .HasMaxLength(20);
             builder.Property(i => i.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            builder.Property(i => i.ReviewNotes).HasMaxLength(4000);
 
             builder.HasIndex(i => i.InvoiceNumber).IsUnique();
             builder.HasIndex(i => i.SMEId);
             builder.HasIndex(i => i.Status);
+            builder.HasIndex(i => i.ReviewedByUserId);
 
             builder.HasOne<SME>()
                 .WithMany()

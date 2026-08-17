@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Hooks/useAuth";
 import { useKycStatus } from "../../Hooks/useKycStatus";
 import { getInvoicesBySme, uploadInvoice, validateInvoiceFile, type InvoiceSummary } from "../../Services/invoiceService";
@@ -11,6 +12,7 @@ function statusLabel(status: InvoiceSummary["status"]) {
 
 export default function Invoices() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { status: kycStatus, isLoading: isKycLoading } = useKycStatus();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [invoices, setInvoices] = useState<InvoiceSummary[]>([]);
@@ -148,18 +150,33 @@ export default function Invoices() {
           </div>
         ) : (
           <div className={styles.invoiceList}>
-            {invoices.map((invoice) => (
-              <article className={styles.invoiceRow} key={invoice.invoiceId}>
-                <div className={styles.invoiceMain}>
-                  <strong>{invoice.invoiceNumber.startsWith("DRAFT-") ? "New invoice" : invoice.invoiceNumber}</strong>
-                  <span>Due {new Date(invoice.dueDate).toLocaleDateString("en-ZA")}</span>
-                </div>
-                <div className={styles.invoiceAmount}>
-                  {invoice.amount > 0 ? `R ${invoice.amount.toLocaleString("en-ZA", { minimumFractionDigits: 2 })}` : "Details pending"}
-                </div>
-                <span className={styles.statusPill}>{statusLabel(invoice.status)}</span>
-              </article>
-            ))}
+            {invoices.map((invoice) => {
+              const needsAction = invoice.status === "Draft" || invoice.status === "Rejected";
+              return (
+                <article
+                  className={styles.invoiceRow}
+                  key={invoice.invoiceId}
+                  onClick={() => navigate(`/invoices/${invoice.invoiceId}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") navigate(`/invoices/${invoice.invoiceId}`);
+                  }}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <div className={styles.invoiceMain}>
+                    <strong>{invoice.invoiceNumber.startsWith("DRAFT-") ? "New invoice" : invoice.invoiceNumber}</strong>
+                    <span>Due {new Date(invoice.dueDate).toLocaleDateString("en-ZA")}</span>
+                  </div>
+                  <div className={styles.invoiceAmount}>
+                    {invoice.amount > 0 ? `R ${invoice.amount.toLocaleString("en-ZA", { minimumFractionDigits: 2 })}` : "Details pending"}
+                  </div>
+                  <span className={styles.statusPill}>
+                    {statusLabel(invoice.status)}
+                    {needsAction && <span className={styles.actionDot} aria-hidden="true" />}
+                  </span>
+                </article>
+              );
+            })}
           </div>
         )}
       </section>

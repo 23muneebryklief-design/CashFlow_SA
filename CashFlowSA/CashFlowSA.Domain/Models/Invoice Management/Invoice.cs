@@ -24,6 +24,13 @@ namespace CashFlowSA.Domain.Models
 
         // True once OCR + risk scoring + AI explanation have all completed for this invoice
         public bool ProcessingComplete { get; set; } = false;
+
+        // Set when a Credit Analyst/Admin reviews the invoice (Submitted -> Approved/Rejected).
+        // Cleared on resubmission so a fresh review doesn't show stale notes from the
+        // previous, rejected attempt.
+        public Guid? ReviewedByUserId { get; set; }
+        public DateTime? ReviewedAt { get; set; }
+        public string? ReviewNotes { get; set; }
     }
 }
 

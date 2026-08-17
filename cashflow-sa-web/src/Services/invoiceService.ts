@@ -22,6 +22,7 @@ export interface InvoiceDetails extends InvoiceSummary {
   debtorContactDetails: string;
   issueDate: string;
   processingComplete: boolean;
+  reviewNotes: string | null;
 }
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
@@ -69,4 +70,53 @@ export async function correctInvoiceFields(
 
 export async function submitInvoice(invoiceId: string): Promise<void> {
   await api.post(`/Invoice/${invoiceId}/submit`);
+}
+
+// --- Ops review (CreditAnalyst/Admin) --------------------------------------
+
+export type InvoiceReviewStatus =
+  | "Draft"
+  | "Submitted"
+  | "UnderReview"
+  | "Approved"
+  | "Rejected"
+  | "Listed";
+
+export interface InvoiceForReview {
+  invoiceId: string;
+  smeId: string;
+  companyName: string;
+  invoiceNumber: string;
+  debtorName: string;
+  amount: number;
+  issueDate: string;
+  dueDate: string;
+  status: InvoiceReviewStatus;
+  submittedAt: string | null;
+  reviewNotes: string | null;
+}
+
+export async function getInvoicesForReview(
+  statusFilter?: InvoiceReviewStatus
+): Promise<InvoiceForReview[]> {
+  const response = await api.get<InvoiceForReview[]>("/invoice-review", {
+    params: statusFilter ? { status: statusFilter } : undefined,
+  });
+  return response.data;
+}
+
+export async function approveInvoiceReview(
+  invoiceId: string,
+  reviewerId: string,
+  notes?: string
+): Promise<void> {
+  await api.post(`/invoice-review/${invoiceId}/approve`, { reviewerId, notes });
+}
+
+export async function rejectInvoiceReview(
+  invoiceId: string,
+  reviewerId: string,
+  notes: string
+): Promise<void> {
+  await api.post(`/invoice-review/${invoiceId}/reject`, { reviewerId, notes });
 }

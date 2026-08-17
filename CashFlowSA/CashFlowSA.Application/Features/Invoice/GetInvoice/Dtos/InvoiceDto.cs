@@ -14,5 +14,6 @@ namespace CashFlowSA.Application.Features.Invoice.GetInvoice
         public DateTime DueDate { get; set; }
         public InvoiceStatus Status { get; set; }
         public bool ProcessingComplete { get; set; }
+        public string? ReviewNotes { get; set; }
     }
 }

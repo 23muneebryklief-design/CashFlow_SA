@@ -25,11 +25,13 @@ namespace CashFlowSA.Application.Features.Invoice.CorrectInvoiceFields
             if (invoice is null)
                 throw new NotFoundException("Invoice not found.");
 
-            // ASSUMPTION: fields can only be corrected while the invoice is still
-            // Draft (i.e. before the SME has explicitly submitted it for review).
-            // Adjust if the SRS intends corrections to be allowed at other stages too.
-            if (invoice.Status != InvoiceStatus.Draft)
-                throw new ConflictException("Only invoices in Draft status can have their fields corrected.");
+            // ASSUMPTION: fields can only be corrected while the invoice is Draft
+            // or Rejected -- Rejected is included so an SME can fix what a Credit
+            // Analyst flagged and resubmit, matching the KYC resubmission pattern
+            // (SRS 5.2). Once Submitted/UnderReview/Approved/Listed, the SME can no
+            // longer edit -- it's in someone else's hands.
+            if (invoice.Status != InvoiceStatus.Draft && invoice.Status != InvoiceStatus.Rejected)
+                throw new ConflictException("Only Draft or Rejected invoices can have their fields corrected.");
 
             invoice.InvoiceNumber = request.InvoiceNumber;
             invoice.DebtorName = request.DebtorName;

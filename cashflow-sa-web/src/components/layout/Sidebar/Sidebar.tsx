@@ -22,6 +22,7 @@ const smeLinks: SidebarLink[] = [
 
 const adminLinks: SidebarLink[] = [
   { to: "/admin-dashboard", label: "Overview" },
+  { to: "/invoice-review", label: "Invoice Review" },
   { to: "/profile", label: "Profile" },
 ];
 

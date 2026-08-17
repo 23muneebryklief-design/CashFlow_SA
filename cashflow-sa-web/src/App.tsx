@@ -10,10 +10,12 @@ import SMEDashboard from "./pages/SMEDashboard/SMEDashboard";
 import FicaVerification from "./pages/FicaVerification/FicaVerification";
 import Profile from "./pages/Profile/Profile";
 import Invoices from "./pages/Invoices/Invoices";
+import InvoiceDetail from "./pages/InvoiceDetail/InvoiceDetail";
 
 import AdminLogin from "./pages/AdminLogin/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AuditorDashboard from "./pages/AuditorDashboard/AuditorDashboard";
+import InvoiceReviewDashboard from "./pages/InvoiceReviewDashboard/InvoiceReviewDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import AppShell from "./components/layout/AppShell/AppShell";
@@ -76,6 +78,16 @@ function App() {
           }
         />
         <Route
+          path="/invoices/:invoiceId"
+          element={
+            <ProtectedRoute requiredRole="SME">
+              <AppShell>
+                <InvoiceDetail />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/fica-verification"
           element={
             <ProtectedRoute requiredRole="SME">
@@ -117,6 +129,17 @@ function App() {
             <ProtectedRoute requiredRole={["Auditor", "Admin", "SuperAdmin"]}>
               <AppShell>
                 <AuditorDashboard />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/invoice-review"
+          element={
+            <ProtectedRoute requiredRole={["CreditAnalyst", "Admin", "SuperAdmin"]}>
+              <AppShell>
+                <InvoiceReviewDashboard />
               </AppShell>
             </ProtectedRoute>
           }

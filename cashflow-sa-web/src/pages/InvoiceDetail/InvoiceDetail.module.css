@@ -1,0 +1,150 @@
+.page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.backLink {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: var(--space-md);
+}
+
+.backLink:hover {
+  color: var(--color-ink);
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.subhead {
+  color: var(--color-text-muted);
+  margin-top: 8px;
+}
+
+.statusBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.statusDraft { background: rgba(0, 0, 0, 0.06); color: var(--color-text-muted); }
+.statusSubmitted { background: rgba(184, 144, 46, 0.12); color: #8A6A1F; }
+.statusUnderReview { background: rgba(184, 144, 46, 0.12); color: #8A6A1F; }
+.statusApproved { background: rgba(14, 124, 94, 0.12); color: var(--color-accent-deep); }
+.statusRejected { background: rgba(180, 35, 24, 0.1); color: #8A2A1F; }
+.statusListed { background: rgba(14, 124, 94, 0.12); color: var(--color-accent-deep); }
+
+.rejectedBanner {
+  background: rgba(180, 35, 24, 0.06);
+  border: 1px solid rgba(180, 35, 24, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin: var(--space-lg) 0;
+  color: #8A2A1F;
+}
+
+.rejectedBanner p {
+  margin-top: 4px;
+}
+
+.form {
+  background: var(--color-paper-deep);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.field input {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 14px;
+  background: var(--color-surface);
+}
+
+.field input:disabled {
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--color-text-muted);
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.error { color: #8A2A1F; font-size: 14px; }
+.success { color: #286b42; font-size: 14px; }
+.status { color: var(--color-text-muted); text-align: center; padding: var(--space-xl) 0; }
+
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.saveBtn,
+.submitBtn {
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.saveBtn:disabled,
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.saveBtn {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-ink);
+}
+
+.submitBtn {
+  background: var(--color-ink);
+  color: var(--color-white);
+}
+
+@media (max-width: 600px) {
+  .fieldRow { grid-template-columns: 1fr; }
+}

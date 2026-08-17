@@ -1,0 +1,226 @@
+.page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent-deep);
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--color-ink);
+  margin-top: 4px;
+}
+
+.subhead {
+  color: var(--color-text-muted);
+  margin-top: 6px;
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
+}
+
+.tab {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab:hover {
+  border-color: var(--color-accent);
+}
+
+.tabActive {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.status {
+  color: var(--color-text-muted);
+  padding: var(--space-lg) 0;
+}
+
+.error {
+  color: #8A2A1F;
+  margin-bottom: var(--space-md);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-md) var(--space-lg);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.company {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.invoiceNumber {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.meta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.notes {
+  font-size: 12px;
+  color: #8A2A1F;
+  margin-top: 2px;
+}
+
+.amount {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--color-ink);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.statusDraft { background: rgba(0, 0, 0, 0.06); color: var(--color-text-muted); }
+.statusSubmitted { background: rgba(184, 144, 46, 0.12); color: #8A6A1F; }
+.statusUnderReview { background: rgba(184, 144, 46, 0.12); color: #8A6A1F; }
+.statusApproved { background: rgba(14, 124, 94, 0.12); color: var(--color-accent-deep); }
+.statusRejected { background: rgba(180, 35, 24, 0.1); color: #8A2A1F; }
+.statusListed { background: rgba(14, 124, 94, 0.12); color: var(--color-accent-deep); }
+
+.approveBtn,
+.rejectBtn,
+.cancelBtn {
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: opacity 0.15s ease;
+}
+
+.approveBtn:disabled,
+.rejectBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.approveBtn {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.approveBtn:hover:not(:disabled) {
+  background: var(--color-accent-deep);
+}
+
+.rejectBtn {
+  background: #8A2A1F;
+  color: var(--color-white);
+}
+
+.rejectBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.cancelBtn {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.modalLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.modalTextarea {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: 14px;
+  resize: vertical;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+
+@media (max-width: 700px) {
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

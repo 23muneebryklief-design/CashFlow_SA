@@ -25,8 +25,13 @@ namespace CashFlowSA.Application.Features.Invoice.SubmitInvoice
             if (invoice is null)
                 throw new NotFoundException("Invoice not found.");
 
-            if (invoice.Status != InvoiceStatus.Draft)
-                throw new ConflictException("Only Draft invoices can be submitted.");
+            // ASSUMPTION: Draft covers the normal first-time path. Rejected is
+            // included so an SME can resubmit after fixing what a Credit Analyst
+            // flagged -- same resubmission-after-rejection principle as KYC (SRS 5.2),
+            // just applied to a single mutable Invoice row instead of creating a new
+            // application record each time.
+            if (invoice.Status != InvoiceStatus.Draft && invoice.Status != InvoiceStatus.Rejected)
+                throw new ConflictException("Only Draft or Rejected invoices can be submitted.");
 
             // ASSUMPTION: required fields must be filled in (via CorrectInvoiceFields
             // or OCR, once built) before submission is allowed. Basic guard for now.
@@ -34,6 +39,12 @@ namespace CashFlowSA.Application.Features.Invoice.SubmitInvoice
                 throw new ConflictException("Invoice fields must be completed before submission.");
 
             invoice.Status = InvoiceStatus.Submitted;
+
+            // Clear any previous review so the ops queue doesn't show a stale
+            // rejection note against what is now a fresh submission.
+            invoice.ReviewedByUserId = null;
+            invoice.ReviewedAt = null;
+            invoice.ReviewNotes = null;
 
             await _context.SaveChangesAsync(cancellationToken);
 

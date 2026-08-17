@@ -30,3 +30,19 @@ C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Applicat
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\bin\Debug\net10.0\CashFlowSA.Domain.pdb
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlow.0D229AC8.Up2Date
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\ref\CashFlowSA.Application.dll
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\bin\Debug\net10.0\CashFlowSA.Application.deps.json
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\bin\Debug\net10.0\CashFlowSA.Application.dll
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\bin\Debug\net10.0\CashFlowSA.Application.pdb
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\bin\Debug\net10.0\CashFlowSA.Domain.dll
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\bin\Debug\net10.0\CashFlowSA.Domain.pdb
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlowSA.Application.csproj.AssemblyReference.cache
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlowSA.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlowSA.Application.AssemblyInfoInputs.cache
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlowSA.Application.AssemblyInfo.cs
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlowSA.Application.csproj.CoreCompileInputs.cache
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlowSA.Application.sourcelink.json
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlow.0D229AC8.Up2Date
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlowSA.Application.dll
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\refint\CashFlowSA.Application.dll
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\CashFlowSA.Application.pdb
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Application\obj\Debug\net10.0\ref\CashFlowSA.Application.dll

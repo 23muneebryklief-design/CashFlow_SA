@@ -22,3 +22,15 @@ C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\o
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\refint\CashFlowSA.Domain.dll
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\CashFlowSA.Domain.pdb
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\ref\CashFlowSA.Domain.dll
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\bin\Debug\net10.0\CashFlowSA.Domain.deps.json
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\bin\Debug\net10.0\CashFlowSA.Domain.dll
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\bin\Debug\net10.0\CashFlowSA.Domain.pdb
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\CashFlowSA.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\CashFlowSA.Domain.AssemblyInfoInputs.cache
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\CashFlowSA.Domain.AssemblyInfo.cs
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\CashFlowSA.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\CashFlowSA.Domain.sourcelink.json
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\CashFlowSA.Domain.dll
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\refint\CashFlowSA.Domain.dll
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\CashFlowSA.Domain.pdb
+C:\Users\Muneeb\OneDrive - redAcademy (Pty) Ltd\Documents\phase2\New folder (3)\CashFlow_SA\CashFlowSA\CashFlowSA.Domain\obj\Debug\net10.0\ref\CashFlowSA.Domain.dll

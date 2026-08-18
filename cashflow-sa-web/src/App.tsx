@@ -14,6 +14,7 @@ import Invoices from "./pages/Invoices/Invoices";
 import AdminLogin from "./pages/AdminLogin/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AuditorDashboard from "./pages/AuditorDashboard/AuditorDashboard";
+import CreditAnalystDashboard from "./pages/CreditAnalystDashboard/CreditAnalystDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import AppShell from "./components/layout/AppShell/AppShell";
@@ -105,6 +106,18 @@ function App() {
             <ProtectedRoute requiredRole={["Admin", "SuperAdmin", "CreditAnalyst"]}>
               <AppShell>
                 <AdminDashboard />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Credit Analyst Routes */}
+        <Route
+          path="/credit-review"
+          element={
+            <ProtectedRoute requiredRole={["CreditAnalyst", "Admin"]}>
+              <AppShell>
+                <CreditAnalystDashboard />
               </AppShell>
             </ProtectedRoute>
           }

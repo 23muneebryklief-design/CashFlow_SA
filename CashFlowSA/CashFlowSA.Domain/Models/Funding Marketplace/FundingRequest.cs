@@ -19,6 +19,11 @@ namespace CashFlowSA.Domain.Models
         public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? DecisionAt { get; set; }
+
+        // Set when a Credit Analyst/Admin approves or rejects this request --
+        // mirrors Invoice.ReviewedByUserId / Invoice.ReviewNotes.
+        public Guid? ReviewerId { get; set; }
+        public string? ReviewNotes { get; set; }
     }
 }
 

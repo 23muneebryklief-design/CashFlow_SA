@@ -49,3 +49,14 @@
   padding-left: 20px;
   line-height: 1.8;
 }
+
+.subhead {
+  color: var(--color-text-muted);
+  margin-top: var(--space-sm);
+  margin-bottom: 0;
+}
+
+.subhead a {
+  color: var(--color-accent-deep);
+  font-weight: 600;
+}

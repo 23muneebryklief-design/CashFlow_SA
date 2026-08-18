@@ -13,6 +13,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(r => r.FundingModel).HasConversion<string>().HasMaxLength(20);
             builder.Property(r => r.Status).HasConversion<string>().HasMaxLength(20);
             builder.Property(r => r.SubmittedAt).HasDefaultValueSql("GETUTCDATE()");
+            builder.Property(r => r.ReviewNotes).HasMaxLength(4000);
 
             builder.HasIndex(r => r.InvoiceId);
             builder.HasIndex(r => r.SMEId);

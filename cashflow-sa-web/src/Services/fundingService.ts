@@ -31,7 +31,7 @@ export async function createFundingRequest(
   request: CreateFundingRequest
 ) {
   const response = await api.post(
-    "/FundingRequests",
+    "/Funding/request",
     request
   );
 

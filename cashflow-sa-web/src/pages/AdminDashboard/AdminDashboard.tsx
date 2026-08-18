@@ -16,11 +16,14 @@ export default function AdminDashboard() {
         <h2>Coming soon</h2>
         <p>This portal will let admins:</p>
         <ul>
-          <li>Review and approve KYC submissions</li>
           <li>Moderate marketplace listings</li>
           <li>View platform-wide audit logs</li>
           <li>Manage users and roles</li>
         </ul>
+        <p className={styles.subhead}>
+          Invoice, funding request, and KYC application review now live under{" "}
+          <a href="/credit-review">Review Queues</a>.
+        </p>
       </section>
 
       {user?.role === "SuperAdmin" && <CreateAdminForm />}

@@ -401,6 +401,13 @@ namespace CashFlowSA.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("ReviewNotes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<Guid?>("ReviewerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("SMEId")
                         .HasColumnType("uniqueidentifier");
 

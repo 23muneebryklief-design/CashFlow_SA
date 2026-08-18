@@ -23,6 +23,12 @@ const smeLinks: SidebarLink[] = [
 
 const adminLinks: SidebarLink[] = [
   { to: "/admin-dashboard", label: "Overview" },
+  { to: "/credit-review", label: "Review Queues" },
+  { to: "/profile", label: "Profile" },
+];
+
+const creditAnalystLinks: SidebarLink[] = [
+  { to: "/credit-review", label: "Review Queues" },
   { to: "/profile", label: "Profile" },
 ];
 
@@ -35,7 +41,8 @@ function getLinksForRole(role: string | undefined): SidebarLink[] {
   if (role === "Investor") return investorLinks;
   if (role === "SME") return smeLinks;
   if (role === "Auditor") return auditorLinks;
-  if (role === "Admin" || role === "SuperAdmin" || role === "CreditAnalyst") return adminLinks;
+  if (role === "CreditAnalyst") return creditAnalystLinks;
+  if (role === "Admin" || role === "SuperAdmin") return adminLinks;
   return [];
 }
 

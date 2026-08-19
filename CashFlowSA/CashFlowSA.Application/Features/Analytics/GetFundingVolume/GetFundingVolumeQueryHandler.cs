@@ -16,41 +16,67 @@ namespace CashFlowSA.Application.Features.Analytics.GetFundingVolume
 
         public async Task<FundingVolumeDto> Handle(GetFundingVolumeQuery request, CancellationToken cancellationToken)
         {
-            var campaignsQuery = _context.FundingCampaigns.AsQueryable();
+            // Funding-volume analytics should represent campaigns that reached
+            // the marketplace lifecycle, not draft campaigns that were never listed.
+            var campaignsQuery = _context.FundingCampaigns
+                .AsNoTracking()
+                .Where(c => c.Status != CashFlowSA.Domain.Models.Enums.CampaignStatus.Draft);
 
             if (request.FromDate.HasValue)
-                campaignsQuery = campaignsQuery.Where(c => c.CreatedAt >= request.FromDate.Value);
+            {
+                var fromDate = request.FromDate.Value.Date;
+                campaignsQuery = campaignsQuery.Where(c => c.CreatedAt >= fromDate);
+            }
 
             if (request.ToDate.HasValue)
-                campaignsQuery = campaignsQuery.Where(c => c.CreatedAt <= request.ToDate.Value);
+            {
+                // Treat toDate as an inclusive calendar date.
+                var toDateExclusive = request.ToDate.Value.Date.AddDays(1);
+                campaignsQuery = campaignsQuery.Where(c => c.CreatedAt < toDateExclusive);
+            }
 
-            var campaigns = await campaignsQuery.ToListAsync(cancellationToken);
+            var totalCampaigns = await campaignsQuery.CountAsync(cancellationToken);
+            var totalTargetAmount = await campaignsQuery
+                .Select(c => (decimal?)c.TargetAmount)
+                .SumAsync(cancellationToken) ?? 0m;
+            var totalFundedAmount = await campaignsQuery
+                .Select(c => (decimal?)c.FundedAmount)
+                .SumAsync(cancellationToken) ?? 0m;
 
-            var settlementsQuery = _context.Settlements.AsQueryable();
+            var averageFundingPercentage = await campaignsQuery
+                .Where(c => c.TargetAmount > 0)
+                .Select(c => (decimal?)((c.FundedAmount / c.TargetAmount) * 100m))
+                .AverageAsync(cancellationToken) ?? 0m;
+
+            // Only completed settlements count toward delivered funding/settlement
+            // analytics. Pending and failed records must not inflate the metric.
+            var settlementsQuery = _context.Settlements
+                .AsNoTracking()
+                .Where(s => s.Status == CashFlowSA.Domain.Models.Enums.SettlementStatus.Completed);
 
             if (request.FromDate.HasValue)
-                settlementsQuery = settlementsQuery.Where(s => s.SettlementDate >= request.FromDate.Value);
+            {
+                var fromDate = request.FromDate.Value.Date;
+                settlementsQuery = settlementsQuery.Where(s => s.SettlementDate >= fromDate);
+            }
 
             if (request.ToDate.HasValue)
-                settlementsQuery = settlementsQuery.Where(s => s.SettlementDate <= request.ToDate.Value);
+            {
+                var toDateExclusive = request.ToDate.Value.Date.AddDays(1);
+                settlementsQuery = settlementsQuery.Where(s => s.SettlementDate < toDateExclusive);
+            }
 
-            var totalSettled = await settlementsQuery.SumAsync(s => s.SettledAmount, cancellationToken);
-
-            var averagePercentage = campaigns.Count > 0
-                ? campaigns
-                    .Where(c => c.TargetAmount > 0)
-                    .Select(c => c.FundedAmount / c.TargetAmount * 100)
-                    .DefaultIfEmpty(0)
-                    .Average()
-                : 0;
+            var totalSettledAmount = await settlementsQuery
+                .Select(s => (decimal?)s.SettledAmount)
+                .SumAsync(cancellationToken) ?? 0m;
 
             return new FundingVolumeDto
             {
-                TotalCampaigns = campaigns.Count,
-                TotalTargetAmount = campaigns.Sum(c => c.TargetAmount),
-                TotalFundedAmount = campaigns.Sum(c => c.FundedAmount),
-                TotalSettledAmount = totalSettled,
-                AverageFundingPercentage = averagePercentage
+                TotalCampaigns = totalCampaigns,
+                TotalTargetAmount = totalTargetAmount,
+                TotalFundedAmount = totalFundedAmount,
+                TotalSettledAmount = totalSettledAmount,
+                AverageFundingPercentage = averageFundingPercentage
             };
         }
     }

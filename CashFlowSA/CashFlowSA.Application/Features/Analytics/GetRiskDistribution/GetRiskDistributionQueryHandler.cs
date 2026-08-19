@@ -16,6 +16,7 @@ namespace CashFlowSA.Application.Features.Analytics.GetRiskDistribution
         public async Task<List<RiskGradeCountDto>> Handle(GetRiskDistributionQuery request, CancellationToken cancellationToken)
         {
             return await _context.RiskAssessments
+                .AsNoTracking()
                 .GroupBy(r => r.RiskGrade)
                 .Select(g => new RiskGradeCountDto
                 {

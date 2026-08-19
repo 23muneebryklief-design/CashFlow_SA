@@ -1,0 +1,458 @@
+.page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent-deep);
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--color-ink);
+  margin-top: 4px;
+}
+
+.subhead {
+  color: var(--color-text-muted);
+  margin-top: 6px;
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
+}
+
+.tab {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab:hover {
+  border-color: var(--color-accent);
+}
+
+.tabActive {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.status {
+  color: var(--color-text-muted);
+  padding: var(--space-lg) 0;
+}
+
+.error {
+  color: #8A2A1F;
+  margin-bottom: var(--space-md);
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-paper);
+}
+
+.sectionHeader h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.contact {
+  display: block;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.appBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.appPending {
+  background: rgba(184, 144, 46, 0.12);
+  color: #8A6A1F;
+}
+
+.appVerified {
+  background: rgba(14, 124, 94, 0.12);
+  color: var(--color-accent-deep);
+}
+
+.appRejected {
+  background: rgba(180, 35, 24, 0.1);
+  color: #8A2A1F;
+}
+
+.docList {
+  display: flex;
+  flex-direction: column;
+}
+
+.docRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.docRow:last-child {
+  border-bottom: none;
+}
+
+.docInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.docType {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.docFileName {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docMeta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.docNotes {
+  font-size: 12px;
+  color: #8A2A1F;
+  margin-top: 2px;
+}
+
+.docActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.statusPending {
+  background: rgba(184, 144, 46, 0.12);
+  color: #8A6A1F;
+}
+
+.statusApproved {
+  background: rgba(14, 124, 94, 0.12);
+  color: var(--color-accent-deep);
+}
+
+.statusRejected {
+  background: rgba(180, 35, 24, 0.1);
+  color: #8A2A1F;
+}
+
+.viewBtn,
+.approveBtn,
+.rejectBtn,
+.cancelBtn {
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: opacity 0.15s ease;
+}
+
+.viewBtn:disabled,
+.approveBtn:disabled,
+.rejectBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.viewBtn {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-ink);
+}
+
+.viewBtn:hover:not(:disabled) {
+  border-color: var(--color-accent);
+}
+
+.approveBtn {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.approveBtn:hover:not(:disabled) {
+  background: var(--color-accent-deep);
+}
+
+.rejectBtn {
+  background: #8A2A1F;
+  color: var(--color-white);
+}
+
+.rejectBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.cancelBtn {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.modalLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.modalTextarea {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: 14px;
+  resize: vertical;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+
+/* --- Generic queue row styles, shared by Invoices / Funding / KYC tabs --- */
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.rowInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rowTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.rowSub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.rowMeta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.rowNotes {
+  font-size: 12px;
+  color: #8A2A1F;
+  margin-top: 2px;
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.amount {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.riskBadgeButton {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(184, 144, 46, 0.25);
+  background: rgba(184, 144, 46, 0.12);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.riskBadgeButton:hover:not(:disabled) {
+  border-color: var(--color-accent);
+}
+
+.riskBadgeButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.riskBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(184, 144, 46, 0.12);
+  color: #8A6A1F;
+  white-space: nowrap;
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: var(--space-xs);
+}
+
+.modalInput {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px var(--space-xs);
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+
+.riskPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.riskMetric {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-paper);
+}
+
+.riskMetricLabel {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.riskMetric strong {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--color-ink);
+}
+
+.riskContext {
+  display: grid;
+  gap: 5px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.riskContext p {
+  margin: 0;
+}
+
+.riskContext strong {
+  color: var(--color-ink);
+}
+
+.riskNotice {
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(184, 144, 46, 0.08);
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}

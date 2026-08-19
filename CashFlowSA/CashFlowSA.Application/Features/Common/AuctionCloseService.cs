@@ -2,6 +2,8 @@ using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using CashFlowSA.Application.Common.Exceptions;
+using CashFlowSA.Application.Features.Common;
 
 namespace CashFlowSA.Application.Features.Funding.Common
 {
@@ -24,6 +26,9 @@ namespace CashFlowSA.Application.Features.Funding.Common
             IApplicationDbContext context,
             CancellationToken cancellationToken)
         {
+            await using var transaction = await context.Database
+                .BeginTransactionAsync(System.Data.IsolationLevel.Serializable, cancellationToken);
+
             var now = DateTime.UtcNow;
 
             var expiredCampaigns = await context.FundingCampaigns
@@ -31,6 +36,7 @@ namespace CashFlowSA.Application.Features.Funding.Common
                     && (c.Status == CampaignStatus.Listed || c.Status == CampaignStatus.Funding)
                     && c.FundingDeadline.HasValue
                     && c.FundingDeadline.Value <= now)
+                .OrderBy(c => c.CampaignId)
                 .ToListAsync(cancellationToken);
 
             foreach (var campaign in expiredCampaigns)
@@ -54,7 +60,17 @@ namespace CashFlowSA.Application.Features.Funding.Common
                     bid.Status = bid.BidId == winningBid.BidId ? BidStatus.Winning : BidStatus.Outbid;
                 }
 
-                var investment = new Investment
+                // The winning bid becomes a real investment only after its investor
+                // wallet is successfully debited. This keeps the wallet ledger and
+                // campaign funding atomic.
+                await InvestorWalletDebit.DebitAsync(
+                    context,
+                    winningBid.InvestorId,
+                    winningBid.BidAmount,
+                    campaign.CampaignId,
+                    cancellationToken);
+
+                var investment = new CashFlowSA.Domain.Models.Investment
                 {
                     InvestmentId = Guid.NewGuid(),
                     CampaignId = campaign.CampaignId,
@@ -75,7 +91,22 @@ namespace CashFlowSA.Application.Features.Funding.Common
             }
 
             if (expiredCampaigns.Count > 0)
-                await context.SaveChangesAsync(cancellationToken);
+            {
+                try
+                {
+                    await context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw new ConflictException(
+                        "An auction campaign or investor wallet changed during auction close. The operation was rolled back.");
+                }
+            }
+            else
+            {
+                await transaction.CommitAsync(cancellationToken);
+            }
         }
     }
 }

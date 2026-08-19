@@ -278,3 +278,46 @@
   background: rgba(180, 35, 24, 0.1);
   color: #8A2A1F;
 }
+
+.statusOverview {
+  margin: 1.25rem 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+}
+.statusOverviewHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+.overviewLabel {
+  display: block;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  opacity: .65;
+  margin-bottom: .25rem;
+}
+.overviewHelp {
+  margin: .65rem 0 0;
+  font-size: .9rem;
+  opacity: .72;
+}
+.progressTrack {
+  height: 8px;
+  margin-top: .85rem;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+.progressBar {
+  height: 100%;
+  border-radius: inherit;
+  background: currentColor;
+  transition: width .2s ease;
+}
+@media (max-width: 640px) {
+  .statusOverviewHeader { align-items: flex-start; flex-direction: column; }
+}

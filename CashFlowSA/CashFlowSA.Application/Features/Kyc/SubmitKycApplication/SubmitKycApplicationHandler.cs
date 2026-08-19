@@ -18,15 +18,18 @@ namespace CashFlowSA.Application.Features.Kyc.SubmitKycApplication
 
         public async Task<Guid> Handle(SubmitKycApplicationCommand request, CancellationToken cancellationToken)
         {
-            // Confirm the SME actually exists before we do anything else.
+            if (request.UserId == Guid.Empty)
+                throw new UnauthorizedAccessException("Authenticated user could not be determined.");
+
             var sme = await _context.SMEs
-                .FirstOrDefaultAsync(s => s.SMEId == request.SMEId, cancellationToken);
+                .FirstOrDefaultAsync(s => s.SMEId == request.SMEId && s.UserId == request.UserId, cancellationToken);
 
             if (sme is null)
-                throw new NotFoundException("SME not found.");
+                throw new ForbiddenException("You may only submit KYC documents for your own SME profile.");
 
-            // Business rule (SRS 5.2): a resubmission is only allowed if the
-            // most recent application was Rejected. Pending or Verified blocks a new one.
+            if (request.Documents.Count == 0)
+                throw new ConflictException("At least one KYC document is required.");
+
             var existingApplication = await _context.KYCApplications
                 .Where(k => k.SMEId == request.SMEId)
                 .OrderByDescending(k => k.ApplicationDate)
@@ -35,7 +38,24 @@ namespace CashFlowSA.Application.Features.Kyc.SubmitKycApplication
             if (existingApplication is not null && existingApplication.Status != KycStatus.Rejected)
                 throw new ConflictException("An active KYC application already exists for this SME.");
 
-            // Create the application record.
+            var requestedPaths = request.Documents
+                .Select(d => d.FilePath)
+                .Where(p => !string.IsNullOrWhiteSpace(p))
+                .Distinct(StringComparer.Ordinal)
+                .ToList();
+
+            if (requestedPaths.Count != request.Documents.Count)
+                throw new ConflictException("Each KYC document must reference a valid uploaded file.");
+
+            var ownedDocuments = await _context.KYCDocuments
+                .Where(d => d.UserId == request.UserId
+                    && d.KYCApplicationId == null
+                    && requestedPaths.Contains(d.FilePath))
+                .ToListAsync(cancellationToken);
+
+            if (ownedDocuments.Count != requestedPaths.Count)
+                throw new ForbiddenException("One or more KYC files were not uploaded by the authenticated user.");
+
             var application = new KYCApplication
             {
                 ApplicationId = Guid.NewGuid(),
@@ -46,26 +66,20 @@ namespace CashFlowSA.Application.Features.Kyc.SubmitKycApplication
 
             _context.KYCApplications.Add(application);
 
-            // Create one document record per uploaded document.
-            // KYCDocuments links to UserId, not SMEId, so we resolve it via the SME we already loaded.
-            foreach (var doc in request.Documents)
+            foreach (var submittedDocument in request.Documents)
             {
-                _context.KYCDocuments.Add(new KYCDocuments
-                {
-                    DocumentId = Guid.NewGuid(),
-                    UserId = sme.UserId,
-                    KYCApplicationId = application.ApplicationId,
-                    DocumentType = doc.DocumentType,
-                    FileName = doc.FileName,
-                    FilePath = doc.FilePath,
-                    FileSize = doc.FileSize,
-                    UploadedAt = DateTime.UtcNow,
-                    Status = DocumentStatus.Pending
-                });
+                var document = ownedDocuments.First(d => d.FilePath == submittedDocument.FilePath);
+                document.KYCApplicationId = application.ApplicationId;
+                document.DocumentType = submittedDocument.DocumentType;
+                document.FileName = submittedDocument.FileName;
+                document.FileSize = submittedDocument.FileSize;
+                document.Status = DocumentStatus.Pending;
+                document.ReviewedByUserId = null;
+                document.ReviewedAt = null;
+                document.ReviewNotes = null;
             }
 
             await _context.SaveChangesAsync(cancellationToken);
-
             return application.ApplicationId;
         }
     }

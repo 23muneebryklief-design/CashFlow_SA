@@ -13,6 +13,11 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(r => r.FundingModel).HasConversion<string>().HasMaxLength(20);
             builder.Property(r => r.Status).HasConversion<string>().HasMaxLength(20);
             builder.Property(r => r.SubmittedAt).HasDefaultValueSql("GETUTCDATE()");
+            builder.Property(r => r.ReviewNotes).HasMaxLength(4000);
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_FundingRequest_RequestedAmount_Positive",
+                "[RequestedAmount] > 0"));
 
             builder.HasIndex(r => r.InvoiceId);
             builder.HasIndex(r => r.SMEId);
@@ -41,6 +46,14 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(c => c.FundedAmount).HasPrecision(18, 2);
             builder.Property(c => c.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(c => c.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_FundingCampaign_Amounts_Valid",
+                "[TargetAmount] > 0 AND [FundedAmount] >= 0 AND [FundedAmount] <= [TargetAmount]"));
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_FundingCampaign_ReturnRate_Valid",
+                "[ExpectedReturnRate] IS NULL OR ([ExpectedReturnRate] >= 0 AND [ExpectedReturnRate] <= 100)"));
 
             builder.HasIndex(c => c.FundingRequestId);
             builder.HasIndex(c => c.InvoiceId);
@@ -94,6 +107,14 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(b => b.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(b => b.SubmittedAt).HasDefaultValueSql("GETUTCDATE()");
 
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_AuctionBid_Amount_Positive",
+                "[BidAmount] > 0"));
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_AuctionBid_ReturnRate_Valid",
+                "[ProposedReturnRate] >= 0 AND [ProposedReturnRate] <= 100"));
+
             builder.HasIndex(b => b.CampaignId);
             builder.HasIndex(b => b.InvestorId);
 
@@ -118,6 +139,14 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(i => i.Status).HasConversion<string>().HasMaxLength(15);
             builder.Property(i => i.ReturnAmount).HasPrecision(18, 2);
             builder.Property(i => i.InvestedAt).HasDefaultValueSql("GETUTCDATE()");
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_Investment_Amount_Positive",
+                "[Amount] > 0"));
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_Investment_ReturnAmount_NonNegative",
+                "[ReturnAmount] IS NULL OR [ReturnAmount] >= 0"));
 
             builder.HasIndex(i => i.CampaignId);
             builder.HasIndex(i => i.InvestorId);

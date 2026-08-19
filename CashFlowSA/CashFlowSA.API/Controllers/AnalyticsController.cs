@@ -9,7 +9,7 @@ namespace CashFlowSA.API.Controllers
     // SRS 5.12: funding volume, ROI, risk distribution -- aggregates data from other modules.
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin,CreditAnalyst,Auditor")]
+    [Authorize(Roles = "Admin,CreditAnalyst,Auditor,SuperAdmin")]
     public class AnalyticsController : ControllerBase
     {
         private readonly IMediator _mediator;

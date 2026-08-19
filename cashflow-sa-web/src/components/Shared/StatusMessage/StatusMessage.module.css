@@ -1,0 +1,4 @@
+.card{margin:24px 0;padding:24px;border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--color-white);text-align:center;box-shadow:var(--shadow-sm)}
+.card h2{font-family:var(--font-display);font-size:20px;margin-bottom:6px;color:var(--color-ink)}
+.card p{color:var(--color-text-muted);font-size:14px;margin-bottom:14px}.error{border-color:rgba(179,38,30,.25)}.success{border-color:rgba(46,125,50,.25)}
+.button{border:0;border-radius:var(--radius-sm);padding:10px 18px;background:var(--color-ink);color:var(--color-white);font-weight:600;cursor:pointer}

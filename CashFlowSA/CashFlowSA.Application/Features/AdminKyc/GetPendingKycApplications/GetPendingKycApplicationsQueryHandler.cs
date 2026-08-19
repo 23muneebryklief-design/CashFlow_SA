@@ -18,16 +18,27 @@ namespace CashFlowSA.Application.Features.AdminKyc.GetPendingKycApplications
         {
             // Oldest-first: a review queue should work through the longest-waiting
             // applications first, not the most recently submitted.
-            return await _context.KYCApplications
+            var applications = await _context.KYCApplications
                 .Where(a => a.Status == KycStatus.Pending)
                 .OrderBy(a => a.ApplicationDate)
+                .ToListAsync(cancellationToken);
+
+            var smeIds = applications.Select(a => a.SMEId).Distinct().ToList();
+
+            var smes = await _context.SMEs
+                .Where(s => smeIds.Contains(s.SMEId))
+                .Select(s => new { s.SMEId, s.CompanyName })
+                .ToListAsync(cancellationToken);
+
+            return applications
                 .Select(a => new PendingKycApplicationDto
                 {
                     ApplicationId = a.ApplicationId,
                     SMEId = a.SMEId,
+                    CompanyName = smes.FirstOrDefault(s => s.SMEId == a.SMEId)?.CompanyName ?? "Unknown",
                     ApplicationDate = a.ApplicationDate
                 })
-                .ToListAsync(cancellationToken);
+                .ToList();
         }
     }
 }

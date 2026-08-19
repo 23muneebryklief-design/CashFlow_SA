@@ -25,11 +25,18 @@ namespace CashFlowSA.Application.Features.Invoice.CorrectInvoiceFields
             if (invoice is null)
                 throw new NotFoundException("Invoice not found.");
 
-            // ASSUMPTION: fields can only be corrected while the invoice is Draft
-            // or Rejected -- Rejected is included so an SME can fix what a Credit
-            // Analyst flagged and resubmit, matching the KYC resubmission pattern
-            // (SRS 5.2). Once Submitted/UnderReview/Approved/Listed, the SME can no
-            // longer edit -- it's in someone else's hands.
+            var kycStatus = await _context.KYCApplications
+                .Where(k => k.SMEId == invoice.SMEId)
+                .OrderByDescending(k => k.ApplicationDate)
+                .Select(k => (KycStatus?)k.Status)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (kycStatus != KycStatus.Verified)
+                throw new ForbiddenException("SME must have a Verified KYC status before correcting invoice fields.");
+
+            // Fields can only be corrected while the invoice is Draft
+            // or Rejected. Rejected allows an SME to fix issues flagged
+            // during review and resubmit the invoice.
             if (invoice.Status != InvoiceStatus.Draft && invoice.Status != InvoiceStatus.Rejected)
                 throw new ConflictException("Only Draft or Rejected invoices can have their fields corrected.");
 

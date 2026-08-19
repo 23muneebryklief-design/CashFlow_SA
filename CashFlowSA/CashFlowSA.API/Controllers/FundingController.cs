@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Funding.CommitSingleInvestorFunding;
@@ -5,6 +6,7 @@ using CashFlowSA.Application.Features.Funding.CommitFractionalFunding;
 using CashFlowSA.Application.Features.Funding.PlaceAuctionBid;
 using CashFlowSA.Application.Features.Funding.GetCampaignStatus;
 using CashFlowSA.Application.Features.Funding.CreateFundingRequest;
+using CashFlowSA.Application.Features.Funding.GetMyFundingRequests;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
@@ -61,8 +63,24 @@ namespace CashFlowSA.API.Controllers
             [FromBody] CreateFundingRequestCommand command,
             CancellationToken cancellationToken)
         {
+            if (!TryGetSmeId(out var smeId))
+                return Unauthorized("SME profile could not be determined from the authenticated user.");
+
+            command.SMEId = smeId;
             var fundingRequestId = await _mediator.Send(command, cancellationToken);
             return Ok(new { FundingRequestId = fundingRequestId });
+        }
+
+        [HttpGet("my")]
+        [Authorize(Roles = "SME")]
+        public async Task<IActionResult> GetMyFundingRequests(CancellationToken cancellationToken)
+        {
+            if (!TryGetSmeId(out var smeId))
+                return Unauthorized("SME profile could not be determined from the authenticated user.");
+
+            var query = new GetMyFundingRequestsQuery { SMEId = smeId };
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
 
         [HttpGet("campaign/{campaignId}/status")]
@@ -74,5 +92,11 @@ namespace CashFlowSA.API.Controllers
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
         }
+    private bool TryGetSmeId(out Guid smeId)
+    {
+        var claim = User.FindFirst("profileId")?.Value;
+        return Guid.TryParse(claim, out smeId);
+    }
     }
 }
+

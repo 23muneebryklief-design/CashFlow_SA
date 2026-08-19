@@ -1,8 +1,11 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.Kyc.SubmitKycApplication;
 using CashFlowSA.Application.Features.Kyc;
 using CashFlowSA.Application.Features.Kyc.UploadKycDocument;
+using CashFlowSA.Application.Features.Kyc.GetKycDocumentDownloadUrl;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CashFlowSA.API.Controllers
@@ -14,13 +17,11 @@ namespace CashFlowSA.API.Controllers
     {
         private readonly IMediator _mediator;
 
-        // Deliberately conservative for KYC documents -- these are official
-        // paperwork, not arbitrary uploads.
         private static readonly string[] AllowedContentTypes =
         {
             "application/pdf", "image/jpeg", "image/png"
         };
-        private const long MaxFileSizeBytes = 10 * 1024 * 1024; // 10 MB
+        private const long MaxFileSizeBytes = 10 * 1024 * 1024;
 
         public KycController(IMediator mediator)
         {
@@ -32,13 +33,16 @@ namespace CashFlowSA.API.Controllers
         [RequestSizeLimit(MaxFileSizeBytes)]
         public async Task<IActionResult> UploadDocument(IFormFile file, CancellationToken cancellationToken)
         {
+            if (!TryGetUserId(out var userId))
+                return Unauthorized();
+
             if (file is null || file.Length == 0)
                 return BadRequest("No file was uploaded.");
 
             if (file.Length > MaxFileSizeBytes)
                 return BadRequest("File exceeds the 10MB size limit.");
 
-            if (!AllowedContentTypes.Contains(file.ContentType))
+            if (!AllowedContentTypes.Contains(file.ContentType, StringComparer.OrdinalIgnoreCase))
                 return BadRequest("Only PDF, JPEG, and PNG files are accepted.");
 
             await using var stream = file.OpenReadStream();
@@ -47,10 +51,29 @@ namespace CashFlowSA.API.Controllers
             {
                 FileStream = stream,
                 FileName = file.FileName,
-                ContentType = file.ContentType
+                ContentType = file.ContentType,
+                UserId = userId
             };
 
             var result = await _mediator.Send(command, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet("documents/{documentId}/download-url")]
+        public async Task<IActionResult> GetDocumentDownloadUrl(
+            Guid documentId,
+            CancellationToken cancellationToken)
+        {
+            if (!TryGetUserId(out var userId))
+                return Unauthorized();
+
+            var query = new GetKycDocumentDownloadUrlQuery
+            {
+                DocumentId = documentId,
+                UserId = userId
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
         }
 
@@ -59,6 +82,10 @@ namespace CashFlowSA.API.Controllers
             [FromBody] SubmitKycApplicationCommand command,
             CancellationToken cancellationToken)
         {
+            if (!TryGetUserId(out var userId))
+                return Unauthorized();
+
+            command.UserId = userId;
             var applicationId = await _mediator.Send(command, cancellationToken);
             return Ok(new { ApplicationId = applicationId });
         }
@@ -68,9 +95,25 @@ namespace CashFlowSA.API.Controllers
             Guid smeId,
             CancellationToken cancellationToken)
         {
+            if (!TryGetSmeId(out var authenticatedSmeId) || authenticatedSmeId != smeId)
+                return Forbid();
+
             var query = new GetKycStatusQuery { SMEId = smeId };
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
+        }
+
+        private bool TryGetSmeId(out Guid smeId)
+        {
+            var claim = User.FindFirst("profileId")?.Value;
+            return Guid.TryParse(claim, out smeId);
+        }
+
+        private bool TryGetUserId(out Guid userId)
+        {
+            var raw = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                      ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return Guid.TryParse(raw, out userId);
         }
     }
 }

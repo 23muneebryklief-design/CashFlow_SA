@@ -18,7 +18,7 @@ function statusClass(status: KycDocumentStatus["status"]) {
 }
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { status, application, isLoading, error } = useKycStatus();
 
@@ -38,6 +38,35 @@ export default function Profile() {
           </div>
           <span className={styles.role}>{user?.role ?? "—"}</span>
         </div>
+      </section>
+
+      <section className={styles.card}>
+        <div className={styles.cardHeader}>
+          <div>
+            <p className={styles.cardEyebrow}>Account information</p>
+            <h2>Account & security</h2>
+          </div>
+        </div>
+        <div className={styles.infoGrid}>
+          <InfoItem label="User ID" value={user?.userId ?? "—"} mono />
+          <InfoItem label="Profile ID" value={user?.profileId ?? "Not applicable"} mono />
+          <InfoItem label="Email" value={user?.email ?? "—"} />
+          <InfoItem label="Role" value={user?.role ?? "—"} />
+        </div>
+        <div className={styles.securityNote}>
+          <strong>Profile editing</strong>
+          <span>Your account details are currently managed by the platform. The backend does not yet expose a secure profile-update or password-change endpoint, so no changes are simulated in this page.</span>
+        </div>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          onClick={() => {
+            logout();
+            navigate("/login", { replace: true });
+          }}
+        >
+          Sign out
+        </button>
       </section>
 
       {user?.role === "SME" && (
@@ -101,6 +130,15 @@ export default function Profile() {
         </section>
       )}
     </main>
+  );
+}
+
+function InfoItem({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
+  return (
+    <div className={styles.infoItem}>
+      <span>{label}</span>
+      <strong className={mono ? styles.mono : undefined}>{value}</strong>
+    </div>
   );
 }
 

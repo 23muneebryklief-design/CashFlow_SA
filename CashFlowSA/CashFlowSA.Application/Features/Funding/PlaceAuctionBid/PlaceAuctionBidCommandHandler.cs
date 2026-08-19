@@ -41,6 +41,9 @@ namespace CashFlowSA.Application.Features.Funding.PlaceAuctionBid
             if (campaign.Status != CampaignStatus.Listed && campaign.Status != CampaignStatus.Funding)
                 throw new ConflictException("This campaign is not open for bidding.");
 
+            if (request.BidAmount > campaign.TargetAmount)
+                throw new ConflictException("Auction bid cannot exceed the campaign target amount.");
+
             var bid = new AuctionBid
             {
                 BidId = Guid.NewGuid(),

@@ -122,6 +122,12 @@ export default function FicaVerification() {
     }
   }
 
+  const requiredCompleted = REQUIRED_DOCS.filter((doc) => {
+    const slot = slots[doc.type];
+    return slot.state === "uploaded" || slot.state === "server";
+  }).length;
+  const progressPercent = Math.round((requiredCompleted / REQUIRED_DOCS.length) * 100);
+
   const allRequiredUploaded = REQUIRED_DOCS.every((doc) =>
     slots[doc.type].state === "uploaded"
   );
@@ -242,6 +248,24 @@ export default function FicaVerification() {
             : "Upload the documents below to unlock invoice uploads and funding requests."}
         </p>
       </header>
+
+      <section className={styles.statusOverview}>
+        <div className={styles.statusOverviewHeader}>
+          <div>
+            <span className={styles.overviewLabel}>FICA application status</span>
+            <strong>{isRejected ? "Action required" : "Not yet submitted"}</strong>
+          </div>
+          <span className={styles.statusBadge}>{requiredCompleted}/{REQUIRED_DOCS.length} documents</span>
+        </div>
+        <div className={styles.progressTrack} aria-label={`Document progress ${progressPercent}%`}>
+          <div className={styles.progressBar} style={{ width: `${progressPercent}%` }} />
+        </div>
+        <p className={styles.overviewHelp}>
+          {isRejected
+            ? "Replace rejected documents, then resubmit the complete application."
+            : "Upload every required document. You can replace a document before submitting."}
+        </p>
+      </section>
 
       {isRejected && (
         <section className={styles.banner + " " + styles.bannerRejected}>

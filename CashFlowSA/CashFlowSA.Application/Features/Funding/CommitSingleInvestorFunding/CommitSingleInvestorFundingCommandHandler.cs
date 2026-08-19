@@ -1,10 +1,12 @@
 using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Application.Common.Exceptions;
 using CashFlowSA.Application.Features.Funding.Common;
+using CashFlowSA.Application.Features.Common;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace CashFlowSA.Application.Features.Funding.CommitSingleInvestorFunding
 {
@@ -20,6 +22,9 @@ namespace CashFlowSA.Application.Features.Funding.CommitSingleInvestorFunding
 
         public async Task<Guid> Handle(CommitSingleInvestorFundingCommand request, CancellationToken cancellationToken)
         {
+            await using var transaction = await _context.Database
+                .BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
+
             var campaign = await _context.FundingCampaigns
                 .FirstOrDefaultAsync(c => c.CampaignId == request.CampaignId, cancellationToken);
 
@@ -38,7 +43,9 @@ namespace CashFlowSA.Application.Features.Funding.CommitSingleInvestorFunding
             if (request.Amount != campaign.TargetAmount - campaign.FundedAmount)
                 throw new ConflictException("Amount must exactly cover the campaign's remaining target amount.");
 
-            var investment = new Investment
+            await InvestorWalletDebit.DebitAsync(_context, request.InvestorId, request.Amount, campaign.CampaignId, cancellationToken);
+
+            var investment = new CashFlowSA.Domain.Models.Investment
             {
                 InvestmentId = Guid.NewGuid(),
                 CampaignId = campaign.CampaignId,
@@ -57,7 +64,16 @@ namespace CashFlowSA.Application.Features.Funding.CommitSingleInvestorFunding
             // so the SME can be credited immediately.
             await SmeFundingCredit.CreditSmeWalletAsync(_context, campaign, cancellationToken);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new ConflictException(
+                    "This campaign or wallet was updated by another transaction at the same time. Please retry.");
+            }
 
             return investment.InvestmentId;
         }

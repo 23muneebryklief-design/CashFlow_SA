@@ -10,7 +10,7 @@ namespace CashFlowSA.API.Controllers
     // Ops-portal side: Credit Analyst / Admin reviews KYC submissions.
     [ApiController]
     [Route("api/admin/kyc")]
-    [Authorize(Roles = "Admin,CreditAnalyst")]
+    [Authorize(Roles = "Admin,CreditAnalyst,SuperAdmin")]
     public class AdminKycController : ControllerBase
     {
         private readonly IMediator _mediator;

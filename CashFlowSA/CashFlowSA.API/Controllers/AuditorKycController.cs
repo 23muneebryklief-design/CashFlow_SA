@@ -14,7 +14,7 @@ namespace CashFlowSA.API.Controllers
     // document, grouped by SME, rather than approving a whole application.
     [ApiController]
     [Route("api/auditor/kyc")]
-    [Authorize(Roles = "Auditor,Admin")]
+    [Authorize(Roles = "Auditor,Admin,SuperAdmin")]
     public class AuditorKycController : ControllerBase
     {
         private readonly IMediator _mediator;

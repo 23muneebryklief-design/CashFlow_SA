@@ -13,6 +13,10 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(w => w.Currency).IsRequired().HasMaxLength(10);
             builder.Property(w => w.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
 
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_Wallet_Balance_NonNegative",
+                "[Balance] >= 0"));
+
             builder.HasIndex(w => w.UserId).IsUnique();
 
             builder.HasOne<User>()
@@ -32,6 +36,10 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(t => t.ReferenceType).HasMaxLength(100);
             builder.Property(t => t.Description).HasMaxLength(500);
             builder.Property(t => t.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_WalletTransaction_Amount_Positive",
+                "[Amount] > 0"));
 
             builder.HasIndex(t => t.WalletId);
 
@@ -53,6 +61,10 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(s => s.ReferenceNumber).HasMaxLength(100);
             builder.Property(s => s.SettlementDate).HasDefaultValueSql("GETUTCDATE()");
 
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_Settlement_SettledAmount_Positive",
+                "[SettledAmount] > 0"));
+
             builder.HasIndex(s => s.CampaignId).IsUnique();
 
             builder.HasOne<FundingCampaign>()
@@ -70,6 +82,10 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(r => r.PrincipalAmount).HasPrecision(18, 2);
             builder.Property(r => r.ReturnAmount).HasPrecision(18, 2);
             builder.Property(r => r.DistributedAt).HasDefaultValueSql("GETUTCDATE()");
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_ReturnDistribution_Amounts_NonNegative",
+                "[PrincipalAmount] >= 0 AND [ReturnAmount] >= 0"));
 
             builder.HasIndex(r => r.SettlementId);
             builder.HasIndex(r => r.InvestmentId);

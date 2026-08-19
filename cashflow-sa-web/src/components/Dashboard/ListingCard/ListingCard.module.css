@@ -91,3 +91,25 @@
   font-size: 14px;
   color: var(--color-ink);
 }
+.cardButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cardButton:focus-visible .card {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.openHint {
+  display: block;
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-accent-deep);
+}

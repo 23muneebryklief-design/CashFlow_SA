@@ -4,6 +4,7 @@ using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
 {
@@ -33,6 +34,9 @@ namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
 
         public async Task<Guid> Handle(TriggerSettlementCommand request, CancellationToken cancellationToken)
         {
+            await using var transaction = await _context.Database
+                .BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
+
             var campaign = await _context.FundingCampaigns
                 .FirstOrDefaultAsync(c => c.CampaignId == request.CampaignId, cancellationToken);
 
@@ -41,6 +45,15 @@ namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
 
             if (campaign.Status != CampaignStatus.Funded)
                 throw new ConflictException("Only fully Funded campaigns can be settled.");
+
+            if (request.SettledAmount < campaign.FundedAmount)
+                throw new ConflictException("Settlement amount cannot be less than the campaign's funded amount.");
+
+            var existingSettlement = await _context.Settlements
+                .AnyAsync(s => s.CampaignId == campaign.CampaignId, cancellationToken);
+
+            if (existingSettlement)
+                throw new ConflictException("This campaign has already been settled.");
 
             var settlement = new Domain.Models.Settlement
             {
@@ -57,6 +70,8 @@ namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
 
             var investments = await _context.Investments
                 .Where(i => i.CampaignId == campaign.CampaignId && i.Status == InvestmentStatus.Committed)
+                .OrderBy(i => i.InvestorId)
+                .ThenBy(i => i.InvestmentId)
                 .ToListAsync(cancellationToken);
 
             // See ASSUMPTION 1 above.
@@ -92,7 +107,9 @@ namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
                     var wallet = await _context.Wallets
                         .FirstOrDefaultAsync(w => w.UserId == investor.UserId, cancellationToken);
 
-                    if (wallet is not null)
+                    if (wallet is null)
+                        throw new ConflictException("Investor wallet not found; settlement cannot be completed safely.");
+
                     {
                         var totalCredit = investment.Amount + returnAmount;
                         wallet.Balance += totalCredit;
@@ -108,16 +125,21 @@ namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
                             Description = $"Principal + return for campaign {campaign.CampaignId}"
                         });
                     }
-                    // NOTE: if the investor has no wallet yet, the credit is silently
-                    // skipped here rather than throwing -- worth deciding whether that
-                    // should instead be a hard failure once wallets are guaranteed
-                    // to exist for every investor at registration time.
                 }
             }
 
             campaign.Status = CampaignStatus.Settled;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new ConflictException(
+                    "The campaign or an investor wallet changed during settlement. Please retry.");
+            }
 
             return settlement.SettlementId;
         }

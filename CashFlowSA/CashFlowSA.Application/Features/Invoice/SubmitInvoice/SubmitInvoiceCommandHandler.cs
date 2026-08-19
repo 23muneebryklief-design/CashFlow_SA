@@ -25,23 +25,32 @@ namespace CashFlowSA.Application.Features.Invoice.SubmitInvoice
             if (invoice is null)
                 throw new NotFoundException("Invoice not found.");
 
-            // ASSUMPTION: Draft covers the normal first-time path. Rejected is
-            // included so an SME can resubmit after fixing what a Credit Analyst
-            // flagged -- same resubmission-after-rejection principle as KYC (SRS 5.2),
-            // just applied to a single mutable Invoice row instead of creating a new
-            // application record each time.
+            // KYC must still be Verified at the moment the invoice enters the
+            // review workflow. Do not rely on the fact that the invoice was
+            // originally uploaded while KYC was verified.
+            var kycStatus = await _context.KYCApplications
+                .Where(k => k.SMEId == invoice.SMEId)
+                .OrderByDescending(k => k.ApplicationDate)
+                .Select(k => (KycStatus?)k.Status)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (kycStatus != KycStatus.Verified)
+                throw new ForbiddenException("SME must have a Verified KYC status before submitting an invoice.");
+
+            // Draft covers the normal first-time submission path.
+            // Rejected is included so an SME can resubmit after fixing
+            // issues flagged during review.
             if (invoice.Status != InvoiceStatus.Draft && invoice.Status != InvoiceStatus.Rejected)
                 throw new ConflictException("Only Draft or Rejected invoices can be submitted.");
 
-            // ASSUMPTION: required fields must be filled in (via CorrectInvoiceFields
-            // or OCR, once built) before submission is allowed. Basic guard for now.
+            // Required fields must be completed before submission.
             if (string.IsNullOrWhiteSpace(invoice.InvoiceNumber) || invoice.Amount <= 0)
                 throw new ConflictException("Invoice fields must be completed before submission.");
 
             invoice.Status = InvoiceStatus.Submitted;
 
-            // Clear any previous review so the ops queue doesn't show a stale
-            // rejection note against what is now a fresh submission.
+            // Clear any previous review so the operations queue does not
+            // show a stale rejection note against the new submission.
             invoice.ReviewedByUserId = null;
             invoice.ReviewedAt = null;
             invoice.ReviewNotes = null;

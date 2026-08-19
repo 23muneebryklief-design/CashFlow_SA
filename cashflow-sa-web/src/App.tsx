@@ -16,6 +16,9 @@ import AdminLogin from "./pages/AdminLogin/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AuditorDashboard from "./pages/AuditorDashboard/AuditorDashboard";
 import InvoiceReviewDashboard from "./pages/InvoiceReviewDashboard/InvoiceReviewDashboard";
+import Notifications from "./pages/Notifications/Notifications";
+import CreditAnalystDashboard from "./pages/CreditAnalystDashboard/CreditAnalystDashboard";
+import Settlements from "./pages/Settlements/Settlements";
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import AppShell from "./components/layout/AppShell/AppShell";
@@ -99,6 +102,17 @@ function App() {
         />
 
         <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute requiredRole={["SME", "Investor", "Admin", "SuperAdmin", "CreditAnalyst", "Auditor"]}>
+              <AppShell>
+                <Notifications />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/profile"
           element={
             <ProtectedRoute requiredRole={["SME", "Investor", "Admin", "SuperAdmin", "CreditAnalyst", "Auditor"]}>
@@ -117,6 +131,30 @@ function App() {
             <ProtectedRoute requiredRole={["Admin", "SuperAdmin", "CreditAnalyst"]}>
               <AppShell>
                 <AdminDashboard />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Settlement Routes */}
+        <Route
+          path="/settlements"
+          element={
+            <ProtectedRoute requiredRole={["Admin", "SuperAdmin", "CreditAnalyst"]}>
+              <AppShell>
+                <Settlements />
+              </AppShell>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Credit Analyst Routes */}
+        <Route
+          path="/credit-review"
+          element={
+            <ProtectedRoute requiredRole={["CreditAnalyst", "Admin"]}>
+              <AppShell>
+                <CreditAnalystDashboard />
               </AppShell>
             </ProtectedRoute>
           }

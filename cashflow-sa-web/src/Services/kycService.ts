@@ -145,3 +145,42 @@ export async function rejectKycDocument(
     notes,
   });
 }
+
+// --- Credit Analyst / Admin application-level review -----------------------
+// Everything below talks to AdminKycController. This is a separate, higher
+// level step from the Auditor's per-document review above: it approves or
+// rejects the whole KYC application (SRS 5.2), not an individual document.
+
+export interface PendingKycApplication {
+  applicationId: string;
+  smeId: string;
+  companyName: string;
+  applicationDate: string;
+}
+
+export async function getPendingKycApplications(): Promise<PendingKycApplication[]> {
+  const response = await api.get<PendingKycApplication[]>("/admin/kyc/pending");
+  return response.data;
+}
+
+export async function approveKycApplication(
+  applicationId: string,
+  reviewerId: string,
+  notes?: string
+): Promise<void> {
+  await api.post(`/admin/kyc/${applicationId}/approve`, {
+    reviewerId,
+    notes,
+  });
+}
+
+export async function rejectKycApplication(
+  applicationId: string,
+  reviewerId: string,
+  notes: string
+): Promise<void> {
+  await api.post(`/admin/kyc/${applicationId}/reject`, {
+    reviewerId,
+    notes,
+  });
+}

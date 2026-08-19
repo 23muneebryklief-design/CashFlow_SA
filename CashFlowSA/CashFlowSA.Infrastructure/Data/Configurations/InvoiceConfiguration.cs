@@ -20,6 +20,14 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(i => i.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
             builder.Property(i => i.ReviewNotes).HasMaxLength(4000);
 
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_Invoice_Amount_Positive",
+                "[Amount] > 0"));
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_Invoice_DueDate_NotBeforeIssueDate",
+                "[DueDate] >= [IssueDate]"));
+
             builder.HasIndex(i => i.InvoiceNumber).IsUnique();
             builder.HasIndex(i => i.SMEId);
             builder.HasIndex(i => i.Status);
@@ -61,6 +69,14 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
             builder.Property(o => o.ExtractedAmount).HasPrecision(18, 2);
             builder.Property(o => o.ConfidenceScore).HasPrecision(5, 2);
             builder.Property(o => o.ProcessedAt).HasDefaultValueSql("GETUTCDATE()");
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_OCRResult_ConfidenceScore_Valid",
+                "[ConfidenceScore] >= 0 AND [ConfidenceScore] <= 100"));
+
+            builder.ToTable(t => t.HasCheckConstraint(
+                "CK_OCRResult_ExtractedAmount_NonNegative",
+                "[ExtractedAmount] IS NULL OR [ExtractedAmount] >= 0"));
 
             builder.HasIndex(o => o.InvoiceId).IsUnique();
 

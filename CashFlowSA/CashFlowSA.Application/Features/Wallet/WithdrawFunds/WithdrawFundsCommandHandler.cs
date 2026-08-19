@@ -4,6 +4,7 @@ using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace CashFlowSA.Application.Features.Wallet.WithdrawFunds
 {
@@ -19,6 +20,17 @@ namespace CashFlowSA.Application.Features.Wallet.WithdrawFunds
         public async Task<WithdrawResultDto> Handle(WithdrawFundsCommand request, CancellationToken cancellationToken)
         {
             var wallet = await _context.Wallets
+                .FirstOrDefaultAsync(w => w.UserId == request.UserId, cancellationToken);
+
+            if (wallet is null)
+                throw new NotFoundException("Wallet not found for this user.");
+
+            await using var dbTransaction = await _context.Database
+                .BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
+
+            // Re-read inside the serializable transaction. This prevents two
+            // simultaneous withdrawals from both observing the same balance.
+            wallet = await _context.Wallets
                 .FirstOrDefaultAsync(w => w.UserId == request.UserId, cancellationToken);
 
             if (wallet is null)
@@ -74,6 +86,7 @@ namespace CashFlowSA.Application.Features.Wallet.WithdrawFunds
 
             _context.WalletTransactions.Add(transaction);
             await _context.SaveChangesAsync(cancellationToken);
+            await dbTransaction.CommitAsync(cancellationToken);
 
             return new WithdrawResultDto
             {

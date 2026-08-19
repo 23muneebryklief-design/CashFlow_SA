@@ -10,12 +10,17 @@ using FluentValidation;
 using CashFlowSA.Application.Common.Behaviors;
 using MediatR;
 using Scalar.AspNetCore;
+using CashFlowSA.API.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ---- Configuration binding ----
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 builder.Services.Configure<SupabaseStorageSettings>(builder.Configuration.GetSection("SupabaseStorage"));
+//ollama
+builder.Services.Configure<OllamaSettings>(
+    builder.Configuration.GetSection("Ollama"));
+
 
 // ---- Database ----
 builder.Services.AddDbContext<CashFlowDbContext>(options =>
@@ -31,6 +36,26 @@ builder.Services.AddAutoMapper(cfg => { }, typeof(ITokenService).Assembly);
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 builder.Services.AddScoped<IFileStorage, SupabaseFileStorage>();
 
+builder.Services.AddHttpClient<IRiskExplanationService, OllamaRiskExplanationService>(
+    (provider, client) =>
+    {
+        var settings = provider
+            .GetRequiredService<Microsoft.Extensions.Options.IOptions<OllamaSettings>>()
+            .Value;
+
+        client.BaseAddress = new Uri(settings.BaseUrl);
+        client.Timeout = TimeSpan.FromMinutes(5);
+    });
+builder.Services.AddHttpClient<IRiskScoringService, OllamaRiskScoringService>(
+    (provider, client) =>
+    {
+        var settings = provider
+            .GetRequiredService<Microsoft.Extensions.Options.IOptions<OllamaSettings>>()
+            .Value;
+
+        client.BaseAddress = new Uri(settings.BaseUrl);
+        client.Timeout = TimeSpan.FromMinutes(5);
+    });
 // ---- Background services ----
 builder.Services.AddHostedService<CashFlowSA.API.Services.AuctionCloseBackgroundService>();
 
@@ -71,7 +96,10 @@ builder.Services.AddAuthentication(options =>
 });
 
 // ---- Controllers & Authorization ----
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiErrorResultFilter>();
+});
 builder.Services.AddAuthorization();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -94,10 +122,15 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 
 var app = builder.Build();
 
-// ---- Seed default Admin account (dev convenience -- there's no public
-// register/admin endpoint on purpose, so this is how the first admin
-// account gets created) ----
-await CashFlowSA.Infrastructure.Data.AdminSeeder.SeedAsync(app.Services);
+// ---- Seed development/demo accounts ----
+// Demo users are intentionally limited to Development so they can never be
+// created accidentally in a production deployment. AdminSeeder remains the
+// production-safe bootstrap for the first SuperAdmin.
+if (app.Environment.IsDevelopment())
+{
+    await CashFlowSA.Infrastructure.Data.AdminSeeder.SeedAsync(app.Services);
+    await CashFlowSA.Infrastructure.Data.DemoUserSeeder.SeedAsync(app.Services);
+}
 
 // ---- Development tools ----
 if (app.Environment.IsDevelopment())

@@ -1,6 +1,7 @@
 using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
+using CashFlowSA.Application.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CashFlowSA.Application.Features.Funding.Common
@@ -26,21 +27,14 @@ namespace CashFlowSA.Application.Features.Funding.Common
             var sme = await context.SMEs
                 .FirstOrDefaultAsync(s => s.SMEId == campaign.SMEId, cancellationToken);
 
-            // Shouldn't happen given the FK, but a funding disbursement is not
-            // the place to throw on a data anomaly -- skip silently, same as
-            // the missing-wallet case below.
             if (sme is null)
-                return;
+                throw new ConflictException("SME profile not found; funding cannot be disbursed safely.");
 
             var wallet = await context.Wallets
                 .FirstOrDefaultAsync(w => w.UserId == sme.UserId, cancellationToken);
 
-            // NOTE: same gap as Settlement's investor crediting -- if the SME
-            // has no wallet yet, the credit is silently skipped rather than
-            // treated as an error. Worth a hard failure instead once wallets
-            // are guaranteed to exist for every SME at registration time.
             if (wallet is null)
-                return;
+                throw new ConflictException("SME wallet not found; funding cannot be disbursed safely.");
 
             wallet.Balance += campaign.FundedAmount;
 

@@ -1,4 +1,5 @@
 import { api } from "./api";
+import { clearAuthTokens } from "../utils/storage";
 
 // ---- Request/response shapes, matching the real backend exactly ----
 
@@ -57,6 +58,5 @@ export async function registerInvestor(data: RegisterInvestorRequest): Promise<{
 }
 
 export function logout(): void {
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
+  clearAuthTokens();
 }

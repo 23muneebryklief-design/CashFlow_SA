@@ -11,11 +11,16 @@ interface ProtectedRouteProps {
 // anyone could type /dashboard directly into the address bar and see it,
 // logged in or not.
 export default function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, isInitializing } = useAuth();
+
+  if (isInitializing) return null;
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
+
+  const normalizeRole = (role: string | undefined) =>
+    role?.trim().toLowerCase() ?? "";
 
   const allowedRoles = Array.isArray(requiredRole)
     ? requiredRole
@@ -23,11 +28,19 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
     ? [requiredRole]
     : null;
 
-  if (allowedRoles && (!user || !allowedRoles.includes(user.role))) {
-    // Logged in, but the wrong role for this specific page (e.g. an SME
-    // trying to view the Investor dashboard) -- send them home rather than
-    // showing a page meant for someone else.
-    return <Navigate to="/" replace />;
+  if (allowedRoles && (!user || !allowedRoles.some((role) => normalizeRole(role) === normalizeRole(user.role)))) {
+    // Keep authenticated users inside the application. If a role mismatch
+    // occurs, send them to the dashboard that matches their actual role
+    // instead of the public homepage.
+    const role = normalizeRole(user?.role);
+    const fallback =
+      role === "investor" ? "/investor-dashboard" :
+      role === "sme" ? "/sme-dashboard" :
+      role === "auditor" ? "/auditor-kyc" :
+      role === "creditanalyst" ? "/credit-review" :
+      role === "admin" || role === "superadmin" ? "/admin-dashboard" :
+      "/login";
+    return <Navigate to={fallback} replace />;
   }
 
   return <>{children}</>;

@@ -1,4 +1,6 @@
 using CashFlowSA.Application.Common.Interfaces;
+using CashFlowSA.Application.Common.Payments;
+using CashFlowSA.Application.Common.Notifications;
 using CashFlowSA.Application.Common.Exceptions;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
@@ -11,10 +13,17 @@ namespace CashFlowSA.Application.Features.Wallet.WithdrawFunds
     public class WithdrawFundsCommandHandler : IRequestHandler<WithdrawFundsCommand, WithdrawResultDto>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ISandboxPaymentGateway _paymentGateway;
+        private readonly INotificationDispatcher _notifications;
 
-        public WithdrawFundsCommandHandler(IApplicationDbContext context)
+        public WithdrawFundsCommandHandler(
+            IApplicationDbContext context,
+            ISandboxPaymentGateway paymentGateway,
+            INotificationDispatcher notifications)
         {
             _context = context;
+            _paymentGateway = paymentGateway;
+            _notifications = notifications;
         }
 
         public async Task<WithdrawResultDto> Handle(WithdrawFundsCommand request, CancellationToken cancellationToken)
@@ -52,18 +61,24 @@ namespace CashFlowSA.Application.Features.Wallet.WithdrawFunds
                 };
             }
 
-            // Sandbox payout simulation (SRS 5.6 -- no real payment rail).
-            // Same test-account convention as DepositFunds' test-card decline:
-            // an account number ending in 0002 always simulates a rejection,
-            // so the flow can be tested end-to-end without a real bank.
-            if (request.AccountNumber.EndsWith("0002"))
+            var payment = await _paymentGateway.ProcessWithdrawalAsync(
+                request.Amount,
+                request.AccountNumber,
+                request.BankName,
+                request.BranchCode,
+                cancellationToken);
+
+            if (!payment.Approved)
             {
                 return new WithdrawResultDto
                 {
                     Success = false,
-                    Message = "Withdrawal rejected by sandbox payout gateway (test decline account).",
+                    Message = payment.Message,
                     NewBalance = wallet.Balance,
-                    TransactionId = null
+                    TransactionId = null,
+                    ProviderTransactionId = payment.ProviderTransactionId,
+                    Provider = payment.Provider,
+                    PaymentStatus = payment.Status
                 };
             }
 
@@ -80,20 +95,31 @@ namespace CashFlowSA.Application.Features.Wallet.WithdrawFunds
                 Type = WalletTransactionType.Debit,
                 Amount = request.Amount,
                 ReferenceType = "SandboxWithdrawal",
-                ReferenceId = null,
-                Description = $"Sandbox withdrawal to {request.BankName} account ending {last4}"
+                ReferenceId = payment.ProviderTransactionId,
+                Description = $"Sandbox withdrawal via {payment.Provider} to {request.BankName} account ending {last4}"
             };
 
             _context.WalletTransactions.Add(transaction);
             await _context.SaveChangesAsync(cancellationToken);
             await dbTransaction.CommitAsync(cancellationToken);
 
+            await _notifications.DispatchAsync(
+                request.UserId,
+                NotificationEvent.SystemAnnouncement,
+                "Wallet withdrawal successful",
+                $"Your sandbox wallet withdrawal of R {request.Amount:N2} was approved. New balance: R {wallet.Balance:N2}.",
+                new[] { NotificationChannel.InApp },
+                cancellationToken);
+
             return new WithdrawResultDto
             {
                 Success = true,
                 Message = "Withdrawal successful.",
                 NewBalance = wallet.Balance,
-                TransactionId = transaction.TransactionId
+                TransactionId = transaction.TransactionId,
+                ProviderTransactionId = payment.ProviderTransactionId,
+                Provider = payment.Provider,
+                PaymentStatus = payment.Status
             };
         }
     }

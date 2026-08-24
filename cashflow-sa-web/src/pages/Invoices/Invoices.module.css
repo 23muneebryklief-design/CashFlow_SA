@@ -59,3 +59,19 @@
 .rejectedAction p { margin-top: 5px; font-size: 13px; }
 @media (max-width: 900px) { .pipelineSummary { grid-template-columns: repeat(3, 1fr); } .filters { grid-template-columns: 1fr 1fr; } .filters input { grid-column: 1 / -1; } .timeline { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { .pipelineSummary { grid-template-columns: repeat(2, 1fr); } .filters { grid-template-columns: 1fr; } .filters input { grid-column: auto; } }
+
+.ocrPanel { margin-top: 18px; padding: 16px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-paper-deep); }
+.ocrHeader { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; }
+.ocrHeader strong { color: var(--color-ink); }
+.ocrHeader p { margin: 4px 0 0; color: var(--color-text-muted); font-size: 13px; line-height: 1.45; }
+.ocrBadge { padding: 6px 9px; border-radius: 999px; border: 1px solid var(--color-border); font-size: 11px; white-space: nowrap; }
+.ocrComplete { color: var(--color-accent-deep); }
+.ocrManual { color: #a33; }
+.ocrGrid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.ocrGrid div { padding: 10px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-paper); min-width: 0; }
+.ocrGrid span { display: block; font-size: 11px; color: var(--color-text-muted); margin-bottom: 4px; }
+.ocrGrid strong { display: block; font-size: 13px; overflow-wrap: anywhere; }
+.ocrWarning { margin: 12px 0 0; color: #8a2f2f; font-size: 13px; line-height: 1.45; }
+.ocrPending { margin: 12px 0 0; color: var(--color-text-muted); font-size: 13px; }
+@media (max-width: 900px) { .ocrGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .ocrGrid { grid-template-columns: 1fr; } .ocrHeader { flex-direction: column; } }

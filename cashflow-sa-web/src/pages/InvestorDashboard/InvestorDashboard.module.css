@@ -143,11 +143,14 @@
 .sectionHint { color: var(--color-text-muted); font-size: 13px; margin: 0; }
 .refreshButton { border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-ink); border-radius: var(--radius-sm); padding: 9px 14px; cursor: pointer; font-weight: 600; }
 .refreshButton:hover { border-color: var(--color-accent); }
-.transactionFilters { display: grid; grid-template-columns: 1fr 180px; gap: 10px; margin-bottom: 12px; }
+.transactionFilters { display: grid; grid-template-columns: minmax(180px, 1fr) 150px 150px auto; gap: 10px; margin-bottom: 12px; }
 .transactionFilters input, .transactionFilters select { width: 100%; min-height: 42px; padding: 0 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); color: var(--color-ink); }
+.clearTransactionFilters { min-height: 42px; padding: 0 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); color: var(--color-ink); cursor: pointer; font-weight: 600; }
+.clearTransactionFilters:hover { border-color: var(--color-accent); }
 .rowButton span { color: var(--color-text-muted); }
 @media (max-width: 700px) {
   .sectionHeader { flex-direction: column; }
   .transactionFilters { grid-template-columns: 1fr; }
+  .clearTransactionFilters { width: 100%; }
   .refreshButton { width: 100%; }
 }

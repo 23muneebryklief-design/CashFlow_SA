@@ -81,40 +81,36 @@ namespace CashFlowSA.Infrastructure.Data
         private void PrepareAuditEntries()
         {
             var auditEntries = ChangeTracker.Entries()
-                .Where(entry => entry.Entity is BaseEntity && entry.Entity is not AuditLog)
+                .Where(entry => entry.Entity is not AuditLog)
                 .Where(entry => entry.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
                 .ToList();
 
-            var userId = _currentUserService.UserId;
+            var currentUserId = _currentUserService.UserId;
             var ipAddress = _currentUserService.IpAddress ?? string.Empty;
-
-            // Do not create audit rows for unauthenticated/system persistence because AuditLog.UserId
-            // is a required FK to User. Authentication actions should be audited explicitly by their handlers.
-            if (!userId.HasValue)
-                return;
-
             var now = DateTime.UtcNow;
             var logs = new List<AuditLog>();
 
             foreach (var entry in auditEntries)
             {
-                var entity = (BaseEntity)entry.Entity;
-                var action = entry.State switch
-                {
-                    EntityState.Added => AuditAction.Created,
-                    EntityState.Deleted => AuditAction.Deleted,
-                    _ => AuditAction.Updated
-                };
+                var userId = ResolveAuditUserId(entry, currentUserId);
+                // AuditLog.UserId is a required FK. If a true system/background operation has
+                // no user context, there is no safe actor to attribute it to, so leave it out
+                // rather than inventing an audit identity.
+                if (!userId.HasValue)
+                    continue;
 
-                if (entry.State == EntityState.Added)
+                if (entry.Entity is BaseEntity entity)
                 {
-                    entity.CreatedAt = now;
-                    entity.CreatedByUserId = userId;
-                }
-                else if (entry.State == EntityState.Modified)
-                {
-                    entity.UpdatedAt = now;
-                    entity.UpdatedByUserId = userId;
+                    if (entry.State == EntityState.Added)
+                    {
+                        entity.CreatedAt = now;
+                        entity.CreatedByUserId = userId;
+                    }
+                    else if (entry.State == EntityState.Modified)
+                    {
+                        entity.UpdatedAt = now;
+                        entity.UpdatedByUserId = userId;
+                    }
                 }
 
                 var entityId = GetEntityId(entry);
@@ -125,7 +121,7 @@ namespace CashFlowSA.Infrastructure.Data
                 {
                     AuditLogId = Guid.NewGuid(),
                     UserId = userId.Value,
-                    Action = action,
+                    Action = ResolveAuditAction(entry),
                     EntityType = entry.Metadata.ClrType.Name,
                     EntityId = entityId.Value,
                     OldValue = entry.State == EntityState.Added ? null : SerializeValues(entry, useOriginalValues: true),
@@ -137,6 +133,124 @@ namespace CashFlowSA.Infrastructure.Data
 
             if (logs.Count > 0)
                 AuditLogs.AddRange(logs);
+        }
+
+        private static Guid? ResolveAuditUserId(
+            Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry entry,
+            Guid? currentUserId)
+        {
+            if (currentUserId.HasValue)
+                return currentUserId;
+
+            // Login/registration happen before an authenticated principal exists.
+            // Use the affected user's own UserId so those security events remain attributable.
+            var userIdProperty = entry.Properties.FirstOrDefault(p =>
+                string.Equals(p.Metadata.Name, "UserId", StringComparison.OrdinalIgnoreCase));
+
+            if (userIdProperty?.CurrentValue is Guid userId && userId != Guid.Empty)
+                return userId;
+
+            if (entry.Entity is User user && user.UserId != Guid.Empty)
+                return user.UserId;
+
+            return null;
+        }
+
+        private static AuditAction ResolveAuditAction(
+            Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry entry)
+        {
+            var entityName = entry.Metadata.ClrType.Name;
+
+            if (entry.Entity is UserSession)
+            {
+                if (entry.State == EntityState.Added)
+                    return AuditAction.LoggedIn;
+
+                if (entry.State == EntityState.Modified)
+                {
+                    var oldLogout = entry.Property(nameof(UserSession.LogoutTimestamp)).OriginalValue;
+                    var newLogout = entry.Property(nameof(UserSession.LogoutTimestamp)).CurrentValue;
+                    if (oldLogout is null && newLogout is DateTime)
+                        return AuditAction.LoggedOut;
+                }
+            }
+
+            if (entry.Entity is RiskScoreHistory && entry.State == EntityState.Added)
+                return AuditAction.RiskOverridden;
+
+            if (entry.Entity is GeneratedReport && entry.State == EntityState.Added)
+            {
+                var reportType = entry.Property(nameof(GeneratedReport.ReportType)).CurrentValue?.ToString();
+                if (string.Equals(reportType, ReportType.Audit.ToString(), StringComparison.Ordinal))
+                    return AuditAction.AuditReportGenerated;
+            }
+
+            if (entry.Entity is User && entry.State == EntityState.Modified)
+            {
+                var oldStatus = entry.Property(nameof(User.Status)).OriginalValue?.ToString();
+                var newStatus = entry.Property(nameof(User.Status)).CurrentValue?.ToString();
+
+                if (!string.Equals(oldStatus, newStatus, StringComparison.Ordinal))
+                {
+                    if (string.Equals(newStatus, AccountStatus.Suspended.ToString(), StringComparison.Ordinal))
+                        return AuditAction.UserSuspended;
+
+                    if (string.Equals(oldStatus, AccountStatus.Suspended.ToString(), StringComparison.Ordinal) &&
+                        string.Equals(newStatus, AccountStatus.Active.ToString(), StringComparison.Ordinal))
+                        return AuditAction.UserReinstated;
+                }
+            }
+
+            if (entry.State == EntityState.Added)
+            {
+                return entityName switch
+                {
+                    nameof(KYCApplication) => AuditAction.Submitted,
+                    nameof(KYCDocuments) => AuditAction.UploadedDocument,
+                    nameof(InvoiceDocument) => AuditAction.UploadedDocument,
+                    nameof(Document) => AuditAction.UploadedDocument,
+                    nameof(FundingRequest) => AuditAction.Submitted,
+                    nameof(Investment) => AuditAction.Invested,
+                    nameof(Settlement) => AuditAction.Settled,
+                    nameof(Invoice) when HasStatus(entry, InvoiceStatus.Submitted) => AuditAction.UploadedInvoice,
+                    nameof(FundingCampaign) when HasStatus(entry, CampaignStatus.Funded) => AuditAction.Funded,
+                    nameof(FundingCampaign) when HasStatus(entry, CampaignStatus.Settled) => AuditAction.Settled,
+                    _ => AuditAction.Created
+                };
+            }
+
+            if (entry.State == EntityState.Modified && entry.Metadata.FindProperty("Status") is not null)
+            {
+                var currentStatus = entry.Property("Status").CurrentValue?.ToString();
+
+                return currentStatus switch
+                {
+                    "Verified" => AuditAction.Approved,
+                    "Approved" => AuditAction.Approved,
+                    "Rejected" => AuditAction.Rejected,
+                    "Pending" => AuditAction.Submitted,
+                    "Funded" => AuditAction.Funded,
+                    "Settled" => AuditAction.Settled,
+                    "Completed" => AuditAction.Settled,
+
+                    _ => AuditAction.Updated
+                };
+            }
+
+            return entry.State switch
+            {
+                EntityState.Deleted => AuditAction.Deleted,
+                _ => AuditAction.Updated
+            };
+        }
+
+        private static bool HasStatus(
+            Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry entry,
+            object expected)
+        {
+            var property = entry.Metadata.FindProperty("Status");
+            return property is not null
+                && string.Equals(entry.Property(property.Name).CurrentValue?.ToString(), expected.ToString(), StringComparison.Ordinal);
         }
 
         private static Guid? GetEntityId(Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry entry)

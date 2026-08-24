@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CashFlowSA.Application.Features.AdminKyc.ApproveKycApplication;
@@ -26,6 +28,13 @@ namespace CashFlowSA.API.Controllers
             CancellationToken cancellationToken)
         {
             command.ApplicationId = applicationId;
+
+            if (!TryGetAuthenticatedUserId(out var reviewerId))
+                return Unauthorized();
+
+            // Reviewer identity must come from the authenticated token, never
+            // from a client-supplied ReviewerId.
+            command.ReviewerId = reviewerId;
             await _mediator.Send(command, cancellationToken);
             return NoContent();
         }
@@ -37,6 +46,13 @@ namespace CashFlowSA.API.Controllers
             CancellationToken cancellationToken)
         {
             command.ApplicationId = applicationId;
+
+            if (!TryGetAuthenticatedUserId(out var reviewerId))
+                return Unauthorized();
+
+            // Reviewer identity must come from the authenticated token, never
+            // from a client-supplied ReviewerId.
+            command.ReviewerId = reviewerId;
             await _mediator.Send(command, cancellationToken);
             return NoContent();
         }
@@ -46,6 +62,15 @@ namespace CashFlowSA.API.Controllers
         {
             var result = await _mediator.Send(new GetPendingKycApplicationsQuery(), cancellationToken);
             return Ok(result);
+        }
+
+        private bool TryGetAuthenticatedUserId(out Guid userId)
+        {
+            var rawUserId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                            ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                            ?? User.FindFirst("userId")?.Value;
+
+            return Guid.TryParse(rawUserId, out userId);
         }
     }
 }

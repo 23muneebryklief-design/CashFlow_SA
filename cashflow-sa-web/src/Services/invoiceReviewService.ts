@@ -1,15 +1,12 @@
 import { api } from "./api";
 
-// Talks to InvoiceReviewController. This is the Credit Analyst's approve/reject
-// step on a Submitted invoice -- approving here is what kicks off the Ollama
-// risk scoring pipeline on the backend before the invoice can be financed.
-
 export type ReviewInvoiceStatus =
   | "Draft"
   | "Submitted"
   | "UnderReview"
   | "Approved"
-  | "Rejected";
+  | "Rejected"
+  | "Listed";
 
 export interface InvoiceForReview {
   invoiceId: string;
@@ -25,32 +22,53 @@ export interface InvoiceForReview {
   reviewNotes: string | null;
 }
 
+/**
+ * Get invoices available to the Credit Analyst/Admin review queue.
+ *
+ * Backend:
+ * GET /api/InvoiceReview?status=Submitted
+ */
 export async function getInvoicesForReview(
   statusFilter?: ReviewInvoiceStatus
 ): Promise<InvoiceForReview[]> {
-  const response = await api.get<InvoiceForReview[]>("/invoice-review", {
-    params: statusFilter ? { status: statusFilter } : undefined,
+  const response = await api.get<InvoiceForReview[]>("/InvoiceReview", {
+    params: statusFilter
+      ? { status: statusFilter }
+      : undefined,
   });
+
   return response.data;
 }
 
+/**
+ * Approve an invoice.
+ *
+ * Backend:
+ * POST /api/InvoiceReview/{invoiceId}/approve
+ */
 export async function approveInvoiceReview(
   invoiceId: string,
   reviewerId: string,
   notes?: string
 ): Promise<void> {
-  await api.post(`/invoice-review/${invoiceId}/approve`, {
+  await api.post(`/InvoiceReview/${invoiceId}/approve`, {
     reviewerId,
     notes,
   });
 }
 
+/**
+ * Reject an invoice.
+ *
+ * Backend:
+ * POST /api/InvoiceReview/{invoiceId}/reject
+ */
 export async function rejectInvoiceReview(
   invoiceId: string,
   reviewerId: string,
   notes: string
 ): Promise<void> {
-  await api.post(`/invoice-review/${invoiceId}/reject`, {
+  await api.post(`/InvoiceReview/${invoiceId}/reject`, {
     reviewerId,
     notes,
   });

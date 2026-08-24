@@ -15,3 +15,7 @@ export async function getNotifications(userId: string): Promise<NotificationItem
   const response = await api.get<NotificationItem[]>(`/Notification/${userId}`);
   return response.data;
 }
+
+export async function markNotificationAsRead(notificationId: string): Promise<void> {
+  await api.put(`/Notification/${notificationId}/read`);
+}

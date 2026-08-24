@@ -36,6 +36,12 @@ namespace CashFlowSA.Application.Features.Marketplace.GetListings
             if (request.MaxAmount.HasValue)
                 query = query.Where(x => x.Campaign.TargetAmount <= request.MaxAmount.Value);
 
+            if (request.MinTenorDays.HasValue)
+                query = query.Where(x => x.Campaign.TenorDays >= request.MinTenorDays.Value);
+
+            if (request.MaxTenorDays.HasValue)
+                query = query.Where(x => x.Campaign.TenorDays <= request.MaxTenorDays.Value);
+
             return await query
                 .OrderByDescending(x => x.Listing.PublishedAt)
                 .Select(x => new ListingSummaryDto

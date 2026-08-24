@@ -22,6 +22,7 @@ export default function InvestorDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [activeModal, setActiveModal] = useState<"deposit" | "withdraw" | null>(null);
   const [transactionType, setTransactionType] = useState<"All" | "Credit" | "Debit">("All");
+  const [transactionDate, setTransactionDate] = useState("");
   const [transactionSearch, setTransactionSearch] = useState("");
   const [selectedTransaction, setSelectedTransaction] = useState<WalletTransaction | null>(null);
 
@@ -110,12 +111,32 @@ export default function InvestorDashboard() {
                 <option value="Credit">Credits</option>
                 <option value="Debit">Debits</option>
               </select>
+              <input
+                type="date"
+                value={transactionDate}
+                onChange={(event) => setTransactionDate(event.target.value)}
+                aria-label="Filter transactions by date"
+              />
+              {(transactionSearch || transactionType !== "All" || transactionDate) && (
+                <button
+                  type="button"
+                  className={styles.clearTransactionFilters}
+                  onClick={() => {
+                    setTransactionSearch("");
+                    setTransactionType("All");
+                    setTransactionDate("");
+                  }}
+                >
+                  Clear filters
+                </button>
+              )}
             </div>
             {(() => {
               const filtered = transactions.filter((t) => {
                 const matchesType = transactionType === "All" || t.type === transactionType;
+                const matchesDate = !transactionDate || t.createdAt.startsWith(transactionDate);
                 const haystack = `${t.description} ${t.referenceType} ${t.referenceId ?? ""}`.toLowerCase();
-                return matchesType && haystack.includes(transactionSearch.toLowerCase().trim());
+                return matchesType && matchesDate && haystack.includes(transactionSearch.toLowerCase().trim());
               });
               return filtered.length === 0
                 ? <p className={styles.empty}>No transactions match your filters.</p>

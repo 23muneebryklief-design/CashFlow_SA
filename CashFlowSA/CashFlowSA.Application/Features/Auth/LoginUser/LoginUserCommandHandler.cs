@@ -42,6 +42,12 @@ namespace CashFlowSA.Application.Features.Auth.LoginUser
             if (verificationResult == PasswordVerificationResult.Failed)
                 throw new AuthenticationFailedException("Invalid email or password.");
 
+            if (user.Status == AccountStatus.Suspended)
+                throw new AuthenticationFailedException("This account has been suspended. Contact an administrator.");
+
+            if (user.Status == AccountStatus.Deactivated)
+                throw new AuthenticationFailedException("This account has been deactivated.");
+
             // The JWT's "sub" claim is the User id, but SME/Investor-scoped
             // endpoints (e.g. KYC status, invoice listing) key off the SME/
             // Investor id instead. Resolve it once here so the frontend gets

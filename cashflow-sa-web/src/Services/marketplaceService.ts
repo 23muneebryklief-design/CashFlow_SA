@@ -1,8 +1,5 @@
 import { api } from "./api";
 
-// Matches ListingSummaryDto exactly -- RiskGrade and Industry come back as
-// strings ("A".."E", "Agriculture", etc.), since the backend stores every
-// enum as a string, not an int.
 export interface Listing {
   listingId: string;
   campaignId: string;
@@ -15,7 +12,19 @@ export interface Listing {
   publishedAt: string;
 }
 
-export async function getListings(): Promise<Listing[]> {
-  const response = await api.get<Listing[]>("/Marketplace/listings");
+export interface MarketplaceFilters {
+  riskGrade?: string;
+  industry?: string;
+  minAmount?: number;
+  maxAmount?: number;
+  minTenorDays?: number;
+  maxTenorDays?: number;
+}
+
+export async function getListings(filters: MarketplaceFilters = {}): Promise<Listing[]> {
+  const params = Object.fromEntries(
+    Object.entries(filters).filter(([, value]) => value !== undefined && value !== ""),
+  );
+  const response = await api.get<Listing[]>("/Marketplace/listings", { params });
   return response.data;
 }

@@ -22,7 +22,7 @@ namespace CashFlowSA.Infrastructure.Data.Configurations
 
             builder.ToTable(t => t.HasCheckConstraint(
                 "CK_Invoice_Amount_Positive",
-                "[Amount] > 0"));
+                "[Status] = 'Draft' OR [Amount] > 0"));
 
             builder.ToTable(t => t.HasCheckConstraint(
                 "CK_Invoice_DueDate_NotBeforeIssueDate",

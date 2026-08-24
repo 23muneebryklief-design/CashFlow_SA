@@ -22,6 +22,7 @@ const STATUS_ORDER: Record<DocumentStatus, number> = { Pending: 0, Rejected: 1, 
 
 export default function AuditorDashboard() {
   const { user } = useAuth();
+  const canReviewDocuments = ["Admin", "SuperAdmin", "CreditAnalyst"].includes(user?.role ?? "");
 
   const [sections, setSections] = useState<SmeKycReviewSection[]>([]);
   const [tab, setTab] = useState<FilterTab>("Pending");
@@ -289,7 +290,7 @@ export default function AuditorDashboard() {
                         <button type="button" className={styles.detailsBtn} disabled={!!busy} onClick={() => openDetails(doc, section.companyName)}>
                           Details
                         </button>
-                        {doc.status === "Pending" && (
+                        {canReviewDocuments && doc.status === "Pending" && (
                           <>
                             <button type="button" className={styles.approveBtn} disabled={!!busy} onClick={() => handleApprove(doc)}>
                               {busy === "approve" ? "Approving..." : "Approve"}

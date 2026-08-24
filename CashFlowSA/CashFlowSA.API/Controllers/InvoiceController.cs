@@ -8,6 +8,7 @@ using CashFlowSA.Application.Features.Invoice.CorrectInvoiceFields;
 using CashFlowSA.Application.Features.Invoice.SubmitInvoice;
 using CashFlowSA.Application.Features.Invoice.GetInvoice;
 using CashFlowSA.Application.Features.Invoice.GetInvoicesBySme;
+using CashFlowSA.Application.Features.Invoice.GetOcrResult;
 
 namespace CashFlowSA.API.Controllers
 {
@@ -97,6 +98,24 @@ namespace CashFlowSA.API.Controllers
                 return Forbid();
 
             var query = new GetInvoicesBySmeQuery { SMEId = smeId };
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet("{invoiceId}/ocr")]
+        public async Task<IActionResult> GetOcrResult(
+            Guid invoiceId,
+            CancellationToken cancellationToken)
+        {
+            if (!TryGetSmeId(out var smeId))
+                return Unauthorized();
+
+            var query = new GetOcrResultQuery
+            {
+                InvoiceId = invoiceId,
+                SMEId = smeId
+            };
+
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
         }

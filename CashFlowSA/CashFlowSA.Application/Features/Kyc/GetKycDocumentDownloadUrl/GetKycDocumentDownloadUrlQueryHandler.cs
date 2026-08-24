@@ -1,3 +1,6 @@
+using CashFlowSA.Domain.Models;
+using CashFlowSA.Domain.Models.Enums;
+using CashFlowSA.Application.Common.Auditing;
 using CashFlowSA.Application.Common.Exceptions;
 using CashFlowSA.Application.Common.Interfaces;
 using MediatR;
@@ -12,11 +15,13 @@ namespace CashFlowSA.Application.Features.Kyc.GetKycDocumentDownloadUrl
 
         private readonly IApplicationDbContext _context;
         private readonly IFileStorage _fileStorage;
+        private readonly IAuditService _auditService;
 
-        public GetKycDocumentDownloadUrlQueryHandler(IApplicationDbContext context, IFileStorage fileStorage)
+        public GetKycDocumentDownloadUrlQueryHandler(IApplicationDbContext context, IFileStorage fileStorage, IAuditService auditService)
         {
             _context = context;
             _fileStorage = fileStorage;
+            _auditService = auditService;
         }
 
         public async Task<KycDocumentDownloadUrlDto> Handle(
@@ -37,6 +42,13 @@ namespace CashFlowSA.Application.Features.Kyc.GetKycDocumentDownloadUrl
                 document.FilePath,
                 LinkLifetime,
                 cancellationToken);
+
+            await _auditService.RecordAsync(
+                AuditAction.DownloadedDocument,
+                "KYCDocuments",
+                document.DocumentId,
+                newValue: new { document.FileName, document.KYCApplicationId },
+                cancellationToken: cancellationToken);
 
             return new KycDocumentDownloadUrlDto
             {

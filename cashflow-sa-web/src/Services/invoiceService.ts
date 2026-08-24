@@ -72,6 +72,28 @@ export async function submitInvoice(invoiceId: string): Promise<void> {
   await api.post(`/Invoice/${invoiceId}/submit`);
 }
 
+export interface OcrResult {
+  invoiceId: string;
+  invoiceNumber: string | null;
+  amount: number | null;
+  dueDate: string | null;
+  debtorName: string | null;
+  confidenceScore: number;
+  requiresManualReview: boolean;
+  processedAt: string;
+}
+
+export async function getOcrResult(invoiceId: string): Promise<OcrResult | null> {
+  try {
+    const response = await api.get<OcrResult>(`/Invoice/${invoiceId}/ocr`);
+    return response.data;
+  } catch (error: unknown) {
+    const status = (error as { response?: { status?: number } })?.response?.status;
+    if (status === 404) return null;
+    throw error;
+  }
+}
+
 // --- Ops review (CreditAnalyst/Admin) --------------------------------------
 
 export type InvoiceReviewStatus =

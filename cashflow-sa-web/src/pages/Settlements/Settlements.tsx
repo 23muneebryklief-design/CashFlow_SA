@@ -1,4 +1,5 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import type { FormEvent } from "react";
 import { getSettlement, triggerSettlement, type Settlement } from "../../Services/settlementService";
 import styles from "./Settlements.module.css";
 

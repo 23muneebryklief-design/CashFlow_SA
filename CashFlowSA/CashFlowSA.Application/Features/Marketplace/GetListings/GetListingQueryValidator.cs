@@ -6,8 +6,6 @@ namespace CashFlowSA.Application.Features.Marketplace.GetListings
     {
         public GetListingsQueryValidator()
         {
-            // RiskGrade and Industry are enums -- IsInEnum() guards against an
-            // out-of-range value being sent (e.g. someone passing riskGrade=99).
             RuleFor(x => x.RiskGrade)
                 .IsInEnum()
                 .When(x => x.RiskGrade.HasValue);
@@ -26,11 +24,25 @@ namespace CashFlowSA.Application.Features.Marketplace.GetListings
                 .When(x => x.MaxAmount.HasValue)
                 .WithMessage("Maximum amount cannot be negative.");
 
-            // Cross-field rule: only meaningful when both are supplied.
+            RuleFor(x => x.MinTenorDays)
+                .GreaterThanOrEqualTo(0)
+                .When(x => x.MinTenorDays.HasValue)
+                .WithMessage("Minimum tenor cannot be negative.");
+
+            RuleFor(x => x.MaxTenorDays)
+                .GreaterThanOrEqualTo(0)
+                .When(x => x.MaxTenorDays.HasValue)
+                .WithMessage("Maximum tenor cannot be negative.");
+
             RuleFor(x => x)
                 .Must(x => !x.MinAmount.HasValue || !x.MaxAmount.HasValue || x.MinAmount <= x.MaxAmount)
                 .WithMessage("Minimum amount must not be greater than maximum amount.")
                 .WithName("AmountRange");
+
+            RuleFor(x => x)
+                .Must(x => !x.MinTenorDays.HasValue || !x.MaxTenorDays.HasValue || x.MinTenorDays <= x.MaxTenorDays)
+                .WithMessage("Minimum tenor must not be greater than maximum tenor.")
+                .WithName("TenorRange");
         }
     }
 }

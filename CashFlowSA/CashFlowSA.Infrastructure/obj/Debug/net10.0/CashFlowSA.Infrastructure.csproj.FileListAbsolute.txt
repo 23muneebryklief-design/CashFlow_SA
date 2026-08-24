@@ -18,9 +18,6 @@ C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructu
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlowSA.Infrastructure.pdb
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlowSA.Infrastructure.genruntimeconfig.cache
 C:\Users\laeeq\Desktop\CashFlowSA\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\ref\CashFlowSA.Infrastructure.dll
-C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlowSA.Infrastructure.dll
-C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\refint\CashFlowSA.Infrastructure.dll
-C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlowSA.Infrastructure.pdb
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\bin\Debug\net10.0\CashFlowSA.Infrastructure.deps.json
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\bin\Debug\net10.0\CashFlowSA.Infrastructure.runtimeconfig.json
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\bin\Debug\net10.0\CashFlowSA.Infrastructure.dll
@@ -36,5 +33,8 @@ C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastr
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlowSA.Infrastructure.csproj.CoreCompileInputs.cache
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlowSA.Infrastructure.sourcelink.json
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlow.37A8D697.Up2Date
+C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlowSA.Infrastructure.dll
+C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\refint\CashFlowSA.Infrastructure.dll
+C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlowSA.Infrastructure.pdb
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\CashFlowSA.Infrastructure.genruntimeconfig.cache
 C:\Users\laeeq\Desktop\New folder (2)\CashFlow_SA\CashFlowSA\CashFlowSA.Infrastructure\obj\Debug\net10.0\ref\CashFlowSA.Infrastructure.dll

@@ -1,5 +1,6 @@
 using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Application.Common.Exceptions;
+using CashFlowSA.Application.Common.Notifications;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using MediatR;
@@ -26,10 +27,14 @@ namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
     public class TriggerSettlementCommandHandler : IRequestHandler<TriggerSettlementCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
+        private readonly INotificationDispatcher _notifications;
 
-        public TriggerSettlementCommandHandler(IApplicationDbContext context)
+        public TriggerSettlementCommandHandler(
+            IApplicationDbContext context,
+            INotificationDispatcher notifications)
         {
             _context = context;
+            _notifications = notifications;
         }
 
         public async Task<Guid> Handle(TriggerSettlementCommand request, CancellationToken cancellationToken)
@@ -67,6 +72,8 @@ namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
             };
 
             _context.Settlements.Add(settlement);
+
+            var notificationRecipients = new List<(Guid UserId, decimal TotalCredit, decimal ReturnAmount)>();
 
             var investments = await _context.Investments
                 .Where(i => i.CampaignId == campaign.CampaignId && i.Status == InvestmentStatus.Committed)
@@ -124,6 +131,8 @@ namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
                             ReferenceId = settlement.SettlementId,
                             Description = $"Principal + return for campaign {campaign.CampaignId}"
                         });
+
+                        notificationRecipients.Add((investor.UserId, totalCredit, returnAmount));
                     }
                 }
             }
@@ -139,6 +148,17 @@ namespace CashFlowSA.Application.Features.Settlement.TriggerSettlement
             {
                 throw new ConflictException(
                     "The campaign or an investor wallet changed during settlement. Please retry.");
+            }
+
+            foreach (var recipient in notificationRecipients)
+            {
+                await _notifications.DispatchAsync(
+                    recipient.UserId,
+                    NotificationEvent.SettlementCompleted,
+                    "Settlement completed",
+                    $"Settlement for campaign {campaign.CampaignId} credited R {recipient.TotalCredit:N2} to your wallet, including R {recipient.ReturnAmount:N2} in return.",
+                    new[] { NotificationChannel.InApp },
+                    cancellationToken);
             }
 
             return settlement.SettlementId;

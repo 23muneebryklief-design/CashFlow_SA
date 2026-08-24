@@ -86,6 +86,7 @@ export default function WalletActionModal({
   const [branchCode, setBranchCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [providerMessage, setProviderMessage] = useState<string | null>(null);
 
   const copy = COPY[mode];
 
@@ -100,6 +101,7 @@ export default function WalletActionModal({
     setAccountNumber("");
     setBranchCode("");
     setError(null);
+    setProviderMessage(null);
   }
 
   function handleClose() {
@@ -170,6 +172,7 @@ export default function WalletActionModal({
 
     setLoading(true);
     setError(null);
+    setProviderMessage(null);
 
     try {
       const result =
@@ -192,9 +195,9 @@ export default function WalletActionModal({
         return;
       }
 
+      setProviderMessage(`${result.message}${result.transactionId ? ` Reference: ${result.transactionId}` : ""}`);
       onSuccess();
-      resetForm();
-      onClose();
+      window.setTimeout(() => { resetForm(); onClose(); }, 900);
     } catch {
       setError(
         mode === "deposit"
@@ -209,6 +212,7 @@ export default function WalletActionModal({
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title={copy.title}>
       <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.sandboxNotice}><strong>Sandbox mode</strong><span>No real money or live payment provider is used. Test instruments only.</span></div>
         <p className={styles.balanceHint}>
           Current balance: {currentBalance.toLocaleString("en-ZA", { maximumFractionDigits: 2 })}{" "}
           {currency}
@@ -248,11 +252,16 @@ export default function WalletActionModal({
               autoComplete="cc-number"
               placeholder="4111 1111 1111 1111"
               maxLength={24}
+              aria-describedby="sandbox-card-hint"
               value={cardNumber}
               disabled={loading}
               onChange={(event) => setCardNumber(event.target.value)}
               className={styles.plainInput}
             />
+
+            <p id="sandbox-card-hint" className={styles.testHint}>Use any valid test card format. A card ending in <strong>0002</strong> simulates a decline.</p>
+
+            <p className={styles.testHint}>A bank account ending in <strong>0002</strong> simulates a sandbox payout decline.</p>
 
             <div className={styles.cardRow}>
               <div className={styles.cardField}>
@@ -394,6 +403,7 @@ export default function WalletActionModal({
         )}
 
         {error && <p className={styles.error}>{error}</p>}
+        {providerMessage && <p className={styles.success}>{providerMessage}</p>}
 
         <button
           type="submit"

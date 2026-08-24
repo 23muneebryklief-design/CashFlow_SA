@@ -1,3 +1,5 @@
+using CashFlowSA.Domain.Models;
+using CashFlowSA.Application.Common.Auditing;
 using CashFlowSA.Application.Common.Exceptions;
 using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Domain.Models.Enums;
@@ -12,11 +14,13 @@ namespace CashFlowSA.Application.Features.Invoice.GetInvoiceDocumentDownloadUrl
         private static readonly TimeSpan LinkLifetime = TimeSpan.FromMinutes(10);
         private readonly IApplicationDbContext _context;
         private readonly IFileStorage _fileStorage;
+        private readonly IAuditService _auditService;
 
-        public GetInvoiceDocumentDownloadUrlQueryHandler(IApplicationDbContext context, IFileStorage fileStorage)
+        public GetInvoiceDocumentDownloadUrlQueryHandler(IApplicationDbContext context, IFileStorage fileStorage, IAuditService auditService)
         {
             _context = context;
             _fileStorage = fileStorage;
+            _auditService = auditService;
         }
 
         public async Task<InvoiceDocumentDownloadUrlDto> Handle(
@@ -61,6 +65,13 @@ namespace CashFlowSA.Application.Features.Invoice.GetInvoiceDocumentDownloadUrl
                 document.FilePath,
                 LinkLifetime,
                 cancellationToken);
+
+            await _auditService.RecordAsync(
+                AuditAction.DownloadedDocument,
+                nameof(CashFlowSA.Domain.Models.InvoiceDocument),
+                document.InvoiceDocumentId,
+                newValue: new { document.FileName, document.InvoiceId },
+                cancellationToken: cancellationToken);
 
             return new InvoiceDocumentDownloadUrlDto
             {

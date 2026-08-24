@@ -24,6 +24,8 @@ namespace CashFlowSA.API.Controllers
             [FromQuery] IndustryType? industry,
             [FromQuery] decimal? minAmount,
             [FromQuery] decimal? maxAmount,
+            [FromQuery] int? minTenorDays,
+            [FromQuery] int? maxTenorDays,
             CancellationToken cancellationToken)
         {
             var query = new GetListingsQuery
@@ -31,7 +33,9 @@ namespace CashFlowSA.API.Controllers
                 RiskGrade = riskGrade,
                 Industry = industry,
                 MinAmount = minAmount,
-                MaxAmount = maxAmount
+                MaxAmount = maxAmount,
+                MinTenorDays = minTenorDays,
+                MaxTenorDays = maxTenorDays
             };
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);

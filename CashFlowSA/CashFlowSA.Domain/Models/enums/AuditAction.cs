@@ -21,5 +21,9 @@ namespace CashFlowSA.Domain.Models.Enums
 
         LoggedIn=12,
         LoggedOut=13,
+        RiskOverridden=14,
+        UserSuspended=15,
+        UserReinstated=16,
+        AuditReportGenerated=17,
     }
 }

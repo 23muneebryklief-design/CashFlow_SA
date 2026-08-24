@@ -1,5 +1,6 @@
 using CashFlowSA.Application.Common.Interfaces;
 using CashFlowSA.Application.Common.Exceptions;
+using CashFlowSA.Application.Common.Ocr;
 using CashFlowSA.Domain.Models;
 using CashFlowSA.Domain.Models.Enums;
 using MediatR;
@@ -10,10 +11,12 @@ namespace CashFlowSA.Application.Features.Invoice.UploadInvoice
     public class UploadInvoiceCommandHandler : IRequestHandler<UploadInvoiceCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IInvoiceOcrQueue _ocrQueue;
 
-        public UploadInvoiceCommandHandler(IApplicationDbContext context)
+        public UploadInvoiceCommandHandler(IApplicationDbContext context, IInvoiceOcrQueue ocrQueue)
         {
             _context = context;
+            _ocrQueue = ocrQueue;
         }
 
         public async Task<Guid> Handle(UploadInvoiceCommand request, CancellationToken cancellationToken)
@@ -72,6 +75,9 @@ namespace CashFlowSA.Application.Features.Invoice.UploadInvoice
 
             // 5. Save and return the new invoice's ID.
             await _context.SaveChangesAsync(cancellationToken);
+
+            // Publish only after the invoice/document transaction has committed.
+            await _ocrQueue.EnqueueAsync(invoice.InvoiceId, cancellationToken);
 
             return invoice.InvoiceId;
         }

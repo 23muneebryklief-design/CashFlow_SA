@@ -108,3 +108,17 @@
   .search { grid-column: auto; }
   .toolbarMeta { align-items: flex-start; flex-direction: column; }
 }
+
+.rangeRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(130px, 1fr)) auto;
+  gap: 10px;
+  margin-top: 10px;
+}
+.rangeRow input {
+  min-height: 42px; box-sizing: border-box; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0 11px; background: var(--color-paper); color: var(--color-ink); font: inherit;
+}
+.applyButton { border: 0; border-radius: var(--radius-sm); padding: 0 14px; background: var(--color-accent); color: var(--color-white); cursor: pointer; font: inherit; min-height: 42px; }
+.applyButton:disabled { opacity: .6; cursor: not-allowed; }
+@media (max-width: 900px) { .rangeRow { grid-template-columns: 1fr 1fr; } .applyButton { min-height: 42px; } }
+@media (max-width: 520px) { .rangeRow { grid-template-columns: 1fr; } }

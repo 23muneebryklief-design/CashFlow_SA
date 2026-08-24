@@ -6,6 +6,7 @@ import {
   submitInvoice,
   type InvoiceDetails,
 } from "../../Services/invoiceService";
+import { getInvoiceDocumentDownloadUrl } from "../../Services/invoiceDocumentService";
 import styles from "./InvoiceDetail.module.css";
 
 // yyyy-MM-dd, what <input type="date"> expects
@@ -33,6 +34,7 @@ export default function InvoiceDetail() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [documentLoading, setDocumentLoading] = useState(false);
 
   const load = useCallback(async () => {
     if (!invoiceId) return;
@@ -97,6 +99,20 @@ export default function InvoiceDetail() {
     }
   }
 
+  async function handleViewDocument() {
+    if (!invoiceId) return;
+    setDocumentLoading(true);
+    setError(null);
+    try {
+      const { url } = await getInvoiceDocumentDownloadUrl(invoiceId);
+      window.open(url, "_blank", "noopener,noreferrer");
+    } catch {
+      setError("Could not open the invoice document. Your account may not have access to this document.");
+    } finally {
+      setDocumentLoading(false);
+    }
+  }
+
   async function handleSubmit() {
     if (!invoiceId || !isFormComplete) return;
     setError(null);
@@ -152,6 +168,13 @@ export default function InvoiceDetail() {
           <p>{invoice.reviewNotes}</p>
         </section>
       )}
+
+      <section className={styles.documentCard}>
+        <div><strong>Original invoice document</strong><p>The API issues a short-lived download URL only after authorizing your role and invoice ownership.</p></div>
+        <button type="button" className={styles.saveBtn} onClick={() => void handleViewDocument()} disabled={documentLoading}>
+          {documentLoading ? "Opening..." : "View original PDF"}
+        </button>
+      </section>
 
       <section className={styles.form}>
         <div className={styles.field}>

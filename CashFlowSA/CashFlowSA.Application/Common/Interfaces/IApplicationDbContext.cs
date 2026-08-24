@@ -16,6 +16,7 @@ namespace CashFlowSA.Application.Common.Interfaces
         
         DbSet<Invoice> Invoices {get;}
         DbSet<InvoiceDocument>InvoiceDocuments {get;}
+        DbSet<OCRResult> OCRResults { get; }
 
         DbSet<MarketplaceListing> MarketplaceListings { get; }
         DbSet<FundingCampaign> FundingCampaigns { get; }
@@ -33,6 +34,8 @@ namespace CashFlowSA.Application.Common.Interfaces
         DbSet<AuditLog> AuditLogs { get; }
         DbSet<RiskAssessment> RiskAssessments { get; }
         DbSet<AIExplanation> AIExplanations { get; }
+        DbSet<RiskScoreHistory> RiskScoreHistories { get; }
+        DbSet<GeneratedReport> GeneratedReports { get; }
 
         Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade Database { get; }
 

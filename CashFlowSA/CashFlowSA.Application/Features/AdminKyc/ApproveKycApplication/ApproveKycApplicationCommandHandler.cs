@@ -33,15 +33,18 @@ namespace CashFlowSA.Application.Features.AdminKyc.ApproveKycApplication
             application.Status = KycStatus.Verified;
             application.ReviewedAt = DateTime.UtcNow;
 
+            var applicationDocuments = await _context.KYCDocuments
+                .Where(d => d.KYCApplicationId == application.ApplicationId)
+                .ToListAsync(cancellationToken);
+
+            if (applicationDocuments.Count == 0)
+                throw new ConflictException("A KYC application cannot be approved without submitted documents.");
+
             var sme = await _context.SMEs
                 .FirstOrDefaultAsync(s => s.SMEId == application.SMEId, cancellationToken);
 
             if (sme is null)
                 throw new NotFoundException("SME not found.");
-
-            var applicationDocuments = await _context.KYCDocuments
-                .Where(d => d.KYCApplicationId == application.ApplicationId)
-                .ToListAsync(cancellationToken);
 
             foreach (var document in applicationDocuments)
                 document.Status = DocumentStatus.Approved;

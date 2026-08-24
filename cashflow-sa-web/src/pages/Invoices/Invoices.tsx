@@ -4,12 +4,14 @@ import { useKycStatus } from "../../Hooks/useKycStatus";
 import {
   correctInvoiceFields,
   getInvoice,
+  getOcrResult,
   getInvoicesBySme,
   submitInvoice,
   uploadInvoice,
   validateInvoiceFile,
   type InvoiceDetails,
   type InvoiceSummary,
+  type OcrResult,
 } from "../../Services/invoiceService";
 import { createFundingRequest, type FundingModel } from "../../Services/fundingService";
 import styles from "./Invoices.module.css";
@@ -35,6 +37,8 @@ export default function Invoices() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [invoices, setInvoices] = useState<InvoiceSummary[]>([]);
   const [selected, setSelected] = useState<InvoiceDetails | null>(null);
+  const [ocr, setOcr] = useState<OcrResult | null>(null);
+  const [ocrLoading, setOcrLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isBusy, setIsBusy] = useState(false);
   const [isFunding, setIsFunding] = useState(false);
@@ -63,6 +67,35 @@ export default function Invoices() {
     if (user?.profileId && kycStatus === "Verified") void loadInvoices();
     else if (!isKycLoading) setIsLoading(false);
   }, [user?.profileId, kycStatus, isKycLoading, loadInvoices]);
+
+  useEffect(() => {
+    if (!selected || selected.processingComplete || ocr) return;
+
+    let active = true;
+    const timer = window.setInterval(async () => {
+      try {
+        const result = await getOcrResult(selected.invoiceId);
+        if (!active || !result) return;
+        setOcr(result);
+        const refreshed = await getInvoice(selected.invoiceId);
+        if (active) {
+          setSelected(refreshed);
+          setForm((current) => ({
+            ...current,
+            invoiceNumber: refreshed.invoiceNumber.startsWith("DRAFT-") ? current.invoiceNumber : refreshed.invoiceNumber,
+            debtorName: refreshed.debtorName || current.debtorName,
+            amount: refreshed.amount ? String(refreshed.amount) : current.amount,
+            dueDate: refreshed.dueDate ? toDateInput(refreshed.dueDate) : current.dueDate,
+          }));
+        }
+        if (!result.requiresManualReview) window.clearInterval(timer);
+      } catch {
+        // Keep polling while the OCR worker is still processing.
+      }
+    }, 2500);
+
+    return () => { active = false; window.clearInterval(timer); };
+  }, [selected?.invoiceId, selected?.processingComplete, ocr]);
 
   const visibleInvoices = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -94,6 +127,7 @@ export default function Invoices() {
     try {
       const details = await getInvoice(invoiceId);
       setSelected(details);
+      setOcr(null);
       setForm({
         invoiceNumber: details.invoiceNumber.startsWith("DRAFT-") ? "" : details.invoiceNumber,
         debtorName: details.debtorName,
@@ -103,6 +137,15 @@ export default function Invoices() {
         dueDate: toDateInput(details.dueDate),
       });
       setRequestedAmount(details.amount ? String(details.amount) : "");
+      try {
+        setOcrLoading(true);
+        const ocrResult = await getOcrResult(invoiceId);
+        setOcr(ocrResult);
+      } catch {
+        // A missing OCR result simply means background processing has not completed yet.
+      } finally {
+        setOcrLoading(false);
+      }
     } catch {
       setError("Could not open this invoice.");
     }
@@ -255,6 +298,31 @@ export default function Invoices() {
           <label>Issue date<input type="date" value={form.issueDate} onChange={(e) => setForm({ ...form, issueDate: e.target.value })} disabled={isBusy} /></label>
           <label>Due date<input type="date" value={form.dueDate} onChange={(e) => setForm({ ...form, dueDate: e.target.value })} disabled={isBusy} /></label>
         </div>
+        <div className={styles.ocrPanel}>
+          <div className={styles.ocrHeader}>
+            <div><strong>Invoice OCR</strong><p>Background extraction reads the invoice number, amount, due date and debtor name.</p></div>
+            {ocrLoading && <span className={styles.ocrBadge}>Processing…</span>}
+            {!ocrLoading && ocr && <span className={`${styles.ocrBadge} ${ocr.requiresManualReview ? styles.ocrManual : styles.ocrComplete}`}>{ocr.requiresManualReview ? "Manual review" : "Extracted"}</span>}
+          </div>
+          {ocr ? (
+            <>
+              <div className={styles.ocrGrid}>
+                <div><span>Confidence</span><strong>{ocr.confidenceScore.toFixed(0)}%</strong></div>
+                <div><span>Invoice number</span><strong>{ocr.invoiceNumber || "Not found"}</strong></div>
+                <div><span>Amount</span><strong>{ocr.amount != null ? `R ${ocr.amount.toLocaleString("en-ZA", { minimumFractionDigits: 2 })}` : "Not found"}</strong></div>
+                <div><span>Due date</span><strong>{ocr.dueDate ? new Date(ocr.dueDate).toLocaleDateString("en-ZA") : "Not found"}</strong></div>
+                <div><span>Debtor</span><strong>{ocr.debtorName || "Not found"}</strong></div>
+              </div>
+              {ocr.requiresManualReview && <p className={styles.ocrWarning}>The extraction confidence is below the automatic-acceptance threshold. Review and correct the fields below before submitting.</p>}
+              {ocr.requiresManualReview && (ocr.invoiceNumber || ocr.amount != null || ocr.dueDate || ocr.debtorName) && (
+                <button type="button" className={styles.secondaryButton} onClick={() => setForm((current) => ({ ...current, invoiceNumber: ocr.invoiceNumber || current.invoiceNumber, debtorName: ocr.debtorName || current.debtorName, amount: ocr.amount != null ? String(ocr.amount) : current.amount, dueDate: ocr.dueDate ? toDateInput(ocr.dueDate) : current.dueDate }))} disabled={isBusy}>Apply extracted values</button>
+              )}
+            </>
+          ) : (
+            <p className={styles.ocrPending}>OCR is still processing. You can continue once the result appears, or complete the fields manually.</p>
+          )}
+        </div>
+
         {selected.reviewNotes && <div className={styles.reviewNote}><strong>Review note</strong><p>{selected.reviewNotes}</p></div>}
         <div className={styles.timeline} aria-label="Invoice status timeline">
           {["Draft", "Submitted", "UnderReview", "Approved", "Listed"].map((step, index) => {

@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +16,7 @@ namespace CashFlowSA.API.Controllers
     // document, grouped by SME, rather than approving a whole application.
     [ApiController]
     [Route("api/auditor/kyc")]
-    [Authorize(Roles = "Auditor,Admin,SuperAdmin")]
+    [Authorize(Roles = "Auditor,CreditAnalyst,Admin,SuperAdmin")]
     public class AuditorKycController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -43,25 +45,46 @@ namespace CashFlowSA.API.Controllers
         }
 
         [HttpPost("documents/{documentId}/approve")]
+        [Authorize(Roles = "CreditAnalyst,Admin,SuperAdmin")]
         public async Task<IActionResult> ApproveDocument(
             Guid documentId,
             [FromBody] ApproveKycDocumentCommand command,
             CancellationToken cancellationToken)
         {
             command.DocumentId = documentId;
+
+            if (!TryGetAuthenticatedUserId(out var reviewerId))
+                return Unauthorized();
+
+            command.ReviewerId = reviewerId;
             await _mediator.Send(command, cancellationToken);
             return NoContent();
         }
 
         [HttpPost("documents/{documentId}/reject")]
+        [Authorize(Roles = "CreditAnalyst,Admin,SuperAdmin")]
         public async Task<IActionResult> RejectDocument(
             Guid documentId,
             [FromBody] RejectKycDocumentCommand command,
             CancellationToken cancellationToken)
         {
             command.DocumentId = documentId;
+
+            if (!TryGetAuthenticatedUserId(out var reviewerId))
+                return Unauthorized();
+
+            command.ReviewerId = reviewerId;
             await _mediator.Send(command, cancellationToken);
             return NoContent();
+        }
+
+        private bool TryGetAuthenticatedUserId(out Guid userId)
+        {
+            var rawUserId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                            ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                            ?? User.FindFirst("userId")?.Value;
+
+            return Guid.TryParse(rawUserId, out userId);
         }
     }
 }

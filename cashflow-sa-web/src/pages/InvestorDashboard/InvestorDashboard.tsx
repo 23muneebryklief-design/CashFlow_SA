@@ -3,6 +3,7 @@ import { useAuth } from "../../Hooks/useAuth";
 import { getWalletBalance, getWalletTransactions, type WalletBalance, type WalletTransaction } from "../../Services/walletService";
 import { getInvestorInvestments, type Investment } from "../../Services/investmentService";
 import { getCampaignStatus, type CampaignStatus } from "../../Services/fundingService";
+import { subscribeToFundingUpdates } from "../../Services/notificationHubService";
 import WalletActionModal from "../../components/Dashboard/WalletActionModal/WalletActionModal";
 import Modal from "../../components/Shared/Modal/Modal";
 import styles from "./InvestorDashboard.module.css";
@@ -51,6 +52,25 @@ export default function InvestorDashboard() {
     setIsLoading(true);
     setError(null);
     refresh().catch(() => setError("Could not load your investor dashboard. Please try again.")).finally(() => setIsLoading(false));
+  }, [user]);
+
+  useEffect(() => {
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+
+    void subscribeToFundingUpdates(() => {
+      if (active) void refresh().catch(() => undefined);
+    }).then((remove) => {
+      if (active) unsubscribe = remove;
+      else remove();
+    }).catch(() => {
+      // Realtime is optional; manual refresh and normal page loading still work.
+    });
+
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
   }, [user]);
 
   if (isLoading) return <main className={styles.page}><p className={styles.status}>Loading your dashboard...</p></main>;

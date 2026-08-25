@@ -5,6 +5,7 @@ import { useKycStatus } from "../../Hooks/useKycStatus";
 import { getWalletBalance, type WalletBalance } from "../../Services/walletService";
 import { getInvoicesBySme, type InvoiceSummary } from "../../Services/invoiceService";
 import WalletActionModal from "../../components/Dashboard/WalletActionModal/WalletActionModal";
+import { subscribeToFundingUpdates } from "../../Services/notificationHubService";
 import styles from "./SMEDashboard.module.css";
 
 const statusLabel: Record<string, string> = {
@@ -48,6 +49,25 @@ export default function SMEDashboard() {
   useEffect(() => {
     if (!isKycLoading) void loadDashboard();
   }, [isKycLoading, loadDashboard]);
+
+  useEffect(() => {
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+
+    void subscribeToFundingUpdates(() => {
+      if (active) void loadDashboard();
+    }).then((remove) => {
+      if (active) unsubscribe = remove;
+      else remove();
+    }).catch(() => {
+      // Realtime is optional; the dashboard still works through normal API loads.
+    });
+
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
+  }, [loadDashboard]);
 
   async function refreshWallet() {
     if (!user) return;

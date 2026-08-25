@@ -85,9 +85,14 @@ namespace CashFlowSA.Application.Features.Funding.Common
                 campaign.FundedAmount = winningBid.BidAmount;
                 campaign.Status = CampaignStatus.Funded;
 
-                // Same "campaign became Funded" moment as the commit handlers --
-                // reuse the exact same SME-crediting logic, not a copy of it.
-                await SmeFundingCredit.CreditSmeWalletAsync(context, campaign, cancellationToken);
+                // Credit the SME with the actual winning bid amount.
+                // Do not pass campaign.FundedAmount implicitly because the shared
+                // helper now requires the amount being credited explicitly.
+                await SmeFundingCredit.CreditSmeWalletAsync(
+                    context,
+                    campaign,
+                    winningBid.BidAmount,
+                    cancellationToken);
             }
 
             if (expiredCampaigns.Count > 0)

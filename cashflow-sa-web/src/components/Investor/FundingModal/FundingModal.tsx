@@ -56,6 +56,22 @@ export default function FundingModal({ listing, onClose, onSuccess }: Props) {
         <strong>{detail ? money(detail.targetAmount) : "Loading..."}</strong>
         {detail && <small>{detail.fundingModel} · {detail.tenorDays} days · {detail.riskGrade} risk</small>}
       </div>
+      {detail && (
+        <div className={styles.riskPanel}>
+          <div className={styles.riskHeader}>
+            <strong>Risk assessment</strong>
+            <span>{detail.riskGrade} · {detail.riskScore.toFixed(0)}/100</span>
+          </div>
+          {detail.explanationAvailable && detail.riskExplanationText ? (
+            <>
+              <p className={styles.riskExplanation}>{detail.riskExplanationText}</p>
+              {detail.investmentSummary && <p className={styles.riskSummary}>{detail.investmentSummary}</p>}
+            </>
+          ) : (
+            <p className={styles.riskUnavailable}>An AI-generated explanation is not available for this listing. The risk grade and score above come from the underlying rules-based assessment.</p>
+          )}
+        </div>
+      )}
       {detail && fundingUnavailable && !error && <p className={styles.error}>{deadlinePassed ? "Funding deadline has passed." : remaining <= 0 ? "This campaign is fully funded." : `Campaign is ${detail.campaignStatus.toLowerCase()} and is not accepting funding.`}</p>}
       {error && <p className={styles.error}>{error}</p>}
       {detail && (

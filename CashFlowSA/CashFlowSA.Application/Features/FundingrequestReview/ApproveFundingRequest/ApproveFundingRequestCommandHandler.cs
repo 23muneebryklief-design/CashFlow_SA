@@ -102,6 +102,13 @@ namespace CashFlowSA.Application.Features.FundingRequestReview.ApproveFundingReq
             fundingRequest.DecisionAt = DateTime.UtcNow;
             fundingRequest.ReviewerId = request.ReviewerId;
 
+            // Without this, the invoice stays stuck on "Approved" forever, the SME's
+            // funding-request form keeps re-rendering as if no request exists yet,
+            // and the SME-facing timeline/status filters (which have a dedicated
+            // "Listed" state) never reflect that the invoice actually made it to
+            // the marketplace.
+            invoice.Status = InvoiceStatus.Listed;
+
             await _context.SaveChangesAsync(cancellationToken);
 
             return campaign.CampaignId;

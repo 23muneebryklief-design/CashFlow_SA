@@ -89,7 +89,7 @@ builder.Services.AddHttpClient<IRiskExplanationService, OllamaRiskExplanationSer
             .Value;
 
         client.BaseAddress = new Uri(settings.BaseUrl);
-        client.Timeout = TimeSpan.FromMinutes(5);
+        client.Timeout = TimeSpan.FromMinutes(10);
     });
 
 builder.Services.AddHttpClient<IRiskScoringService, OllamaRiskScoringService>(
@@ -101,7 +101,7 @@ builder.Services.AddHttpClient<IRiskScoringService, OllamaRiskScoringService>(
             .Value;
 
         client.BaseAddress = new Uri(settings.BaseUrl);
-        client.Timeout = TimeSpan.FromMinutes(5);
+        client.Timeout = TimeSpan.FromMinutes(10);
     });
 
 // ---- Background services ----

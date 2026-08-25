@@ -62,7 +62,11 @@ namespace CashFlowSA.Application.Features.Funding.CommitSingleInvestorFunding
 
             // Single-investor commits always fully fund the campaign in one step,
             // so the SME can be credited immediately.
-            await SmeFundingCredit.CreditSmeWalletAsync(_context, campaign, cancellationToken);
+            await SmeFundingCredit.CreditSmeWalletAsync(
+                _context,
+                campaign,
+                request.Amount,
+                cancellationToken);
 
             try
             {

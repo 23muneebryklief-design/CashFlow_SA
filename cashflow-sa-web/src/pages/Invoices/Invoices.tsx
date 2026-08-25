@@ -14,6 +14,7 @@ import {
   type OcrResult,
 } from "../../Services/invoiceService";
 import { createFundingRequest, type FundingModel } from "../../Services/fundingService";
+import { subscribeToFundingUpdates } from "../../Services/notificationHubService";
 import styles from "./Invoices.module.css";
 
 const fundingOptions: Array<{ value: FundingModel; label: string; description: string }> = [
@@ -67,6 +68,25 @@ export default function Invoices() {
     if (user?.profileId && kycStatus === "Verified") void loadInvoices();
     else if (!isKycLoading) setIsLoading(false);
   }, [user?.profileId, kycStatus, isKycLoading, loadInvoices]);
+
+  useEffect(() => {
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+
+    void subscribeToFundingUpdates(() => {
+      if (active) void loadInvoices();
+    }).then((remove) => {
+      if (active) unsubscribe = remove;
+      else remove();
+    }).catch(() => {
+      // Realtime is optional; normal invoice loading remains available.
+    });
+
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
+  }, [user?.profileId, loadInvoices]);
 
   useEffect(() => {
     if (!selected || selected.processingComplete || ocr) return;

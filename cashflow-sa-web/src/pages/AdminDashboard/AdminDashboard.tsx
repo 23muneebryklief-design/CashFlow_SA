@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../Hooks/useAuth";
 import CreateAdminForm from "../../components/Admin/CreateAdminForm/CreateAdminForm";
 import { getFundingVolume, getRiskDistribution, type FundingVolume, type RiskDistributionItem } from "../../Services/analyticsService";
+import { subscribeToFundingUpdates } from "../../Services/notificationHubService";
 import styles from "./AdminDashboard.module.css";
 
 const money = new Intl.NumberFormat("en-ZA", {
@@ -34,6 +35,27 @@ export default function AdminDashboard() {
 
     return () => {
       active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+
+    void subscribeToFundingUpdates(() => {
+      void getFundingVolume().then((data) => {
+        if (active) setFunding(data);
+      }).catch(() => undefined);
+    }).then((remove) => {
+      if (active) unsubscribe = remove;
+      else remove();
+    }).catch(() => {
+      // Realtime is optional; the dashboard keeps its existing API snapshot.
+    });
+
+    return () => {
+      active = false;
+      unsubscribe?.();
     };
   }, []);
 

@@ -33,6 +33,34 @@ public sealed class NotificationDispatcher : INotificationDispatcher
         _realtime = realtime;
     }
 
+    public async Task BroadcastFundingUpdateAsync(
+        Guid campaignId,
+        Guid invoiceId,
+        decimal targetAmount,
+        decimal fundedAmount,
+        CampaignStatus status,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            await _realtime.BroadcastFundingUpdateAsync(
+                campaignId,
+                invoiceId,
+                targetAmount,
+                fundedAmount,
+                status,
+                cancellationToken);
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            // Funding has already committed successfully. A temporary realtime
+            // delivery failure must not roll back or fail the financial action.
+            _logger.LogWarning(ex,
+                "Funding update for campaign {CampaignId} could not be broadcast in real time.",
+                campaignId);
+        }
+    }
+
     public async Task<Guid> DispatchAsync(
         Guid userId,
         NotificationEvent notificationEvent,

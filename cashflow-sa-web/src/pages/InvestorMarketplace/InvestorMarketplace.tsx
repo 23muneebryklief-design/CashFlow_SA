@@ -3,6 +3,7 @@ import { getListings, type Listing, type MarketplaceFilters } from "../../Servic
 import ListingCard from "../../components/Dashboard/ListingCard/ListingCard";
 import FundingModal from "../../components/Investor/FundingModal/FundingModal";
 import styles from "./InvestorMarketplace.module.css";
+import { subscribeToFundingUpdates } from "../../Services/notificationHubService";
 
 type SortOption = "newest" | "funding" | "riskLow" | "targetLow" | "tenorShort";
 
@@ -44,6 +45,35 @@ export default function InvestorMarketplace() {
   }
 
   useEffect(() => { void loadListings(); }, []);
+
+  useEffect(() => {
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+
+    void subscribeToFundingUpdates((update) => {
+      if (!active) return;
+      setListings((current) => current.map((listing) =>
+        listing.campaignId === update.campaignId
+          ? { ...listing, fundedAmount: update.fundedAmount }
+          : listing
+      ));
+
+      // Fully funded campaigns are no longer active marketplace opportunities.
+      if (update.status === "Funded") {
+        void loadListings();
+      }
+    }).then((remove) => {
+      if (active) unsubscribe = remove;
+      else remove();
+    }).catch(() => {
+      // Realtime is optional; marketplace loading remains available.
+    });
+
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
+  }, []);
 
   const visibleListings = useMemo(() => {
     const query = search.trim().toLowerCase();

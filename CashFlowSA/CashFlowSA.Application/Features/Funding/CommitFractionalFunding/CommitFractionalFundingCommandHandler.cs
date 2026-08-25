@@ -59,13 +59,14 @@ namespace CashFlowSA.Application.Features.Funding.CommitFractionalFunding
             campaign.Status = campaign.FundedAmount >= campaign.TargetAmount
                 ? CampaignStatus.Funded
                 : CampaignStatus.Funding;
-
-            // Only credit the SME on the commit that actually completes funding --
-            // a campaign can only transition to Funded once in its lifecycle (the
-            // status check earlier in this handler already blocks commits against
-            // an already-Funded campaign), so this fires exactly once per campaign.
-            if (campaign.Status == CampaignStatus.Funded)
-                await SmeFundingCredit.CreditSmeWalletAsync(_context, campaign, cancellationToken);
+            // Fractional funding disburses each successful commitment to the SME.
+            // Pass only this request's amount so cumulative FundedAmount is not
+            // credited repeatedly across multiple investors.
+            await SmeFundingCredit.CreditSmeWalletAsync(
+                _context,
+                campaign,
+                request.Amount,
+                cancellationToken);
 
             try
             {

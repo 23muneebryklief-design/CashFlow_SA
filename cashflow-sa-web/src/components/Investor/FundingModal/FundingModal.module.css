@@ -7,3 +7,10 @@
 .form button { height: 44px; border: 0; border-radius: var(--radius-sm); background: var(--color-ink); color: var(--color-white); font-weight: 700; cursor: pointer; }
 .form button:disabled { opacity: .6; cursor: wait; }
 .error { margin-top: 12px; padding: 10px 12px; border-radius: var(--radius-sm); background: rgba(184,46,46,.08); color: #b82e2e; font-size: 13px; }
+.riskPanel { margin-top: 16px; padding: 12px 14px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface, #fafafa); display: grid; gap: 8px; }
+.riskHeader { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; }
+.riskHeader strong { color: var(--color-ink); }
+.riskHeader span { font-family: var(--font-mono); color: var(--color-text-muted); }
+.riskExplanation { margin: 0; font-size: 13px; line-height: 1.5; color: var(--color-ink); }
+.riskSummary { margin: 0; font-size: 12px; line-height: 1.5; color: var(--color-text-muted); }
+.riskUnavailable { margin: 0; font-size: 12px; line-height: 1.5; color: var(--color-text-muted); font-style: italic; }

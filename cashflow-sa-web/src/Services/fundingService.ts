@@ -21,6 +21,9 @@ export interface ListingDetail {
   campaignStatus: string;
   fundingDeadline: string | null;
   publishedAt: string;
+  riskExplanationText: string | null;
+  investmentSummary: string | null;
+  explanationAvailable: boolean;
 }
 
 /**

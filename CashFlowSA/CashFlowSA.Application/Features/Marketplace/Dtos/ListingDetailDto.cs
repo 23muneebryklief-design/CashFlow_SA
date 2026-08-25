@@ -16,5 +16,12 @@ namespace CashFlowSA.Application.Features.Marketplace.GetListingDetail
         public CampaignStatus CampaignStatus { get; set; }
         public DateTime? FundingDeadline { get; set; }
         public DateTime PublishedAt { get; set; }
+
+        // AI-generated plain-language explanation of the risk assessment (SRS 5.11).
+        // Null/empty when no AIExplanation record exists yet; ExplanationAvailable
+        // false when Ollama failed at approval time and a fallback was stored.
+        public string? RiskExplanationText { get; set; }
+        public string? InvestmentSummary { get; set; }
+        public bool ExplanationAvailable { get; set; }
     }
 }

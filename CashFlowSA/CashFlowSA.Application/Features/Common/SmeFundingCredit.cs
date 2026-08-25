@@ -22,6 +22,7 @@ namespace CashFlowSA.Application.Features.Funding.Common
         public static async Task CreditSmeWalletAsync(
             IApplicationDbContext context,
             FundingCampaign campaign,
+            decimal fundingAmount,
             CancellationToken cancellationToken)
         {
             var sme = await context.SMEs
@@ -36,17 +37,17 @@ namespace CashFlowSA.Application.Features.Funding.Common
             if (wallet is null)
                 throw new ConflictException("SME wallet not found; funding cannot be disbursed safely.");
 
-            wallet.Balance += campaign.FundedAmount;
+            wallet.Balance += fundingAmount;
 
             context.WalletTransactions.Add(new WalletTransaction
             {
                 TransactionId = Guid.NewGuid(),
                 WalletId = wallet.WalletId,
                 Type = WalletTransactionType.Credit,
-                Amount = campaign.FundedAmount,
+                Amount = fundingAmount,
                 ReferenceType = "FundingCampaign",
                 ReferenceId = campaign.CampaignId,
-                Description = $"Funds disbursed for campaign {campaign.CampaignId}"
+                Description = $"Funds received from funding commitment for campaign {campaign.CampaignId}"
             });
         }
     }
